@@ -25,9 +25,8 @@ pip install -r requirements.txt
 ```
 
 
-```python
+```python manage.py runserver
 #运行服务器
-python manage.py runserver
 ```
 
 本地地址：

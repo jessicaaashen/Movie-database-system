@@ -30,8 +30,22 @@
                             <p><strong>Director:</strong> {{ movie.director }}</p>
                         </div>
                     </div>
+
+                    <!-- 以下是我新加的部分 -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Language:</strong> {{ movie.language }}</p>
+                        </div>
+                    </div>
+                    <p><strong>State:</strong>{{ movie.state }}</p>
+                    <p><strong>Company:</strong>{{ movie.company.name }}</p>
+                    <!-- 以上是我新加的部分 -->
+
                     <p><strong>Actor:</strong> {{ movie.leader | slice:50 }}...
-                    <p><strong>Description: </strong>{{ movie.intro | slice:240 }}...</p>
+                    <p><strong>Description: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>Number of Favorites：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
                             <a class="button" style="padding-bottom: 10px; margin-left: 10px" href="{% url 'decollect' movie.id %}">Cancel Favorites</a>
@@ -58,6 +72,11 @@
                                             <option>3.0</option>
                                             <option>4.0</option>
                                             <option>5.0</option>
+                                            <option>6.0</option>
+                                            <option>7.0</option>
+                                            <option>8.0</option>
+                                            <option>9.0</option>
+                                            <option>10.0</option>
                                         </select>
                                     </strong>
                                     <button type="submit" class="btn-success">Submit</button>
@@ -69,6 +88,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="related-articals">
+
                     <h2>Item-based recommendations</h2>
                     <!-- related-albums -->
                     <div class="related-albums">
@@ -104,7 +124,7 @@
                         <form role="form" class="" action="{% url 'comment' movie.id %}" method="post">
                             <div class="gitment-editor-main">
                                 <div class="gitment-editor-header">
-                                    <h2>Post Comments：</h2>
+                                    <h2>您的影片评论：</h2>
                                     <br>
                                 </div>
                                 {% csrf_token %}
@@ -121,7 +141,7 @@
                     <div lang="en-US" class="gitment-container gitment-comments-container">
                         <p>----------------------------------------------------------------------------------------------------------</p>
                         <div class="gitment-editor-header">
-                            <h2>Comment：</h2>
+                            <h2>其他影片评论：</h2>
                             <br>
                         </div>
                         <div class="gitment-comments-list">

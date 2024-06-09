@@ -41,6 +41,24 @@ class UserTagPrefer(models.Model):
         return self.user.username + str(self.score)
 
 
+
+
+
+# 以下是我新加的表
+class Company(models.Model):
+    name = models.CharField(max_length=255)
+    city = models.CharField(max_length=64)
+    #create_id = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='created_companies')
+    #create_time = models.DateTimeField()
+    #edit_id = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='edited_companies')
+    #edit_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+# 以上是我新加的表
+
+
+
 class Movie(models.Model):
     tags = models.ManyToManyField(Tags, verbose_name='tag', blank=True)
     collect = models.ManyToManyField(User, verbose_name="Collector", blank=True)
@@ -58,6 +76,13 @@ class Movie(models.Model):
     imdb_link = models.URLField(null=True)
     douban_link = models.URLField(verbose_name='Douban Link')
     douban_id = models.CharField(verbose_name='Douban id',max_length=128,null=True)
+    # 下列字段是我加入的
+    duration = models.IntegerField(verbose_name='Duration',null=True)
+    state = models.CharField(verbose_name="State",max_length=20)
+    language = models.CharField(verbose_name="Language",max_length=20,default="英语")
+    company = models.ForeignKey(Company,verbose_name="Company name",on_delete=models.CASCADE,blank=True)
+
+
 
     @property
     def movie_rate(self):
