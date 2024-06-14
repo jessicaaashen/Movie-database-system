@@ -2,7 +2,7 @@
 <html lang="zh">
 {% load static %}
 <head>
-    <title>Movie Recommender System</title>
+    <title>电影数据库</title>
     <link href="{% static 'css/bootstrap.css' %} " rel='stylesheet' type='text/css'/>
     <link href="{% static 'css/owl.carousel.css' %} " rel='stylesheet' type='text/css'/>
     <link href="{% static 'css/style.css' %} " rel='stylesheet' type='text/css'/>
@@ -19,28 +19,30 @@
 <!-- container -->
 <div class="header">
     <div class="container">
-        <!-- header -->
-        <!-- top-nav -->
+        <!-- header 顶部 -->
+        <!-- top-nav 导航栏 -->
         <div class="top-nav">
             <span class="menu">
 </span>
             <ul>
-                <li class="active"><a href="{% url 'index' %}">Home Page</a></li>
-                <li><a href="{% url 'all_tags' %}">Tag</a></li>
-                <li><a href="/admin">Back Office Management</a></li>
+                <li class="active"><a href="{% url 'index' %}">首页</a></li>
+                <li><a href="{% url 'all_tags' %}">标签信息 </a></li>
+                <li><a href="{% url 'all_directors' %}">导演信息 </a></li>
+                <li><a href="{% url 'all_actors' %}">演员信息 </a></li>
+                <li><a href="/admin">后台管理</a></li>
                 {% if request.session.login_in == True %}
                     <li><a href="{% url 'personal' %}">{{ request.session.name }}</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'logout' %}">退出</a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}">登录</a></li>
+                    <li><a href="{% url 'register' %}">注册</a></li>
                 {% endif %}
                 <div class="clearfix">
                 </div>
             </ul>
         </div>
         <div class="clearfix">
-            <h2><a href="/">Movie Recommender System</a></h2>
+            <h2><a href="/">电影数据库</a></h2>
 
         </div>
         <!-- top-nav -->
@@ -57,7 +59,7 @@
     <!-- header -->
 </div>
 
-<!-- banner -->
+<!-- banner轮播的横幅部分 -->
 {#            <div class="banner">#}
 {#    <!-- slider -->#}
 {#    <!--- img-slider --->#}
@@ -128,7 +130,7 @@
 {% endblock %}
 <!-- categories -->
 
-<!-- content -->
+<!-- content用户偏好和最新的电影轮播图吧 -->
 <div class="content">
     <div class="container">
         {% block content %}
@@ -183,7 +185,7 @@
     </div>
 </div>
 <!-- content -->
-<!-- content-right -->
+<!-- content-right 下面的是js代码啊 还是用于用户推荐和最新电影的轮播 -->
 <script src="{% static '/js/vue.js' %}"></script>
 <script src="{% static '/js/axios.min.js' %}"></script>
     <script>

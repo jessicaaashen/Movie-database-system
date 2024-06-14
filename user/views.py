@@ -312,8 +312,20 @@ def delete_rate(request, rate_id):
 
 # 电影的标签页面
 def all_tags(request):
-    tags = Tags.objects.all()
-    return render(request, "user/tags.html", {"tags": tags})
+    tags = Tags.objects.all()      # 这里应该用到了user/models.py里面的Tags模板类
+    return render(request, "user/tags.html", {"tags": tags})    # 这里连接到了user/templates/user/tags.html
+
+
+# 新增导演浏览页面 cx 20240613
+def all_directors(request):
+    directors = Director.objects.all()  # 用到了user/models.py里面的Director模板类，directors在.html里面用了
+    return render(request, "user/directors.html", {"directors": directors})    # 连接到了user/templates/user/directors.html（新增文件）
+
+
+# 新增演员浏览页面 cx 20240613
+def all_actors(request):
+    actors = Actor.objects.all()        # 用到了user/models.py里面的Actor模板类，actors在.html里面用了
+    return render(request, "user/actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
 
 
 @login_in

@@ -20,4 +20,11 @@ urlpatterns = [
     path("all_tags/", views.all_tags, name="all_tags"),
     path("choose_tags/", views.choose_tags, name="choose_tags"),
     path("clear_cache/", views.clear_cache, name="clear_cache"),
+
+    # 以下为新增内容 cx 20240613
+    path("all_actors/", views.all_actors, name="all_actors"),
+    path("all_directors/", views.all_directors, name="all_directors"),
+    # 和user/base.html line 30 31 新增内容对应
+    # 具体定义在user/views.py中
+
 ]

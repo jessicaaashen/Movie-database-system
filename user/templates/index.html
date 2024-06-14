@@ -6,11 +6,11 @@
         <div class="container">
             <div class="categories-left">
                 <ul class="options">
-                    <li><a href="{% url 'index' %}">All movies</a></li>
-                    <li><a href="{% url 'index' %}?order=1">Rating Sort</a></li>
-                    <li><a href="{% url 'index' %}?order=2">Collection Sort</a></li>
-                    <li><a href="{% url 'index' %}?order=3">Time Sort</a></li>
-                    <li><a href="{% url 'index' %}?order=4">Popularity Sort</a></li>
+                    <li><a href="{% url 'index' %}">全部电影</a></li>
+                    <li><a href="{% url 'index' %}?order=1">按评分排序</a></li>
+                    <li><a href="{% url 'index' %}?order=2">按收藏排序</a></li>
+                    <li><a href="{% url 'index' %}?order=3">按时间排序</a></li>
+                    <li><a href="{% url 'index' %}?order=4">按热度排序</a></li>
                 </ul>
                 <select class="s-option" onchange="location = this.value;">
                     {% for tag in tags %}
@@ -30,7 +30,7 @@
     </div>
 {% endblock %}
 {% block content %}
-    <!-- content-left -->
+    <!-- content-left 这里是内容哦！！！ -->
     <div class="col-md-8 content-left">
         {% for movie in movies %}
             <div onclick="" class="artical">
@@ -45,13 +45,13 @@
                     <div class="clearfix"></div>
                     <!-- artical-info -->
                     <div class="artical-info">
-                        <p><strong>Release Time:</strong> {{ movie.years }}</p>
-                        <p><strong>Tag:</strong> {% for tag in movie.tags.all %}
+                        <p><strong>发布时间:</strong> {{ movie.years }}</p>
+                        <p><strong>标签:</strong> {% for tag in movie.tags.all %}
                             <a href="">{{ tag.name }}</a>
                         {% endfor %}
                         </p>
-                        <p><strong>Director:</strong> {{ movie.director }}</p>
-                        <p><strong>Douban rating:</strong>{{ movie.d_rate }} </p>
+                        <p><strong>导演:</strong> {{ movie.director }}</p>
+                        <p><strong>豆瓣评分:</strong>{{ movie.d_rate }} </p>
                     </div>
                 </div>
                 <div class="clearfix"></div>

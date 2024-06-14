@@ -10990,14 +10990,20 @@ CREATE TABLE `user_director`  (
   `introduction` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nationality` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `prize` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `create_id` int NOT NULL,
-  `create_time` datetime NOT NULL,
-  `edit_id` int NOT NULL,
-  `edit_time` datetime NOT NULL,
+  `create_id` int NOT NULL DEFAULT 1,
+  `create_time` datetime NOT NULL DEFAULT now(),
+  `edit_id` int NOT NULL DEFAULT 1,
+  `edit_time` datetime NOT NULL DEFAULT now(),
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `user_director_ibfk_1` FOREIGN KEY (`create_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_director_ibfk_2` FOREIGN KEY (`edit_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Add some data into table
+-- ----------------------------
+INSERT INTO `user_director` VALUES(1, "导演名字1", "男", "2000-01-01", "导演介绍1", "中国", "导演获奖信息1", 1, "2024-06-03 00:00:00", 1, "2024-06-03 00:00:00");
+INSERT INTO `user_director` VALUES(2, "director name2", "女", "2000-01-01", "导演介绍1", "美国", "导演获奖信息2", 1, "2024-06-03 00:00:00", 1, "2024-06-03 00:00:00");
 
 
 -- ----------------------------
@@ -11012,14 +11018,20 @@ CREATE TABLE `user_actor`  (
   `introduction` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nationality` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `prize` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `create_id` int NOT NULL,
-  `create_time` datetime NOT NULL,
-  `edit_id` int NOT NULL,
-  `edit_time` datetime NOT NULL,
+  `create_id` int NOT NULL DEFAULT 1,
+  `create_time` datetime NOT NULL DEFAULT now(),
+  `edit_id` int NOT NULL DEFAULT 1,
+  `edit_time` datetime NOT NULL DEFAULT now(),
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `user_actor_ibfk_1` FOREIGN KEY (`create_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_actor_ibfk_2` FOREIGN KEY (`edit_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Add some data into table
+-- ----------------------------
+INSERT INTO `user_actor` VALUES(1, "演员名字1", "男", "2000-01-01", "演员介绍1", "中国", "演员获奖信息1", 1, "2024-06-03 00:00:00", 1, "2024-06-03 00:00:00");
+INSERT INTO `user_actor` VALUES(2, "actor name2", "女", "2000-01-01", "演员介绍1", "美国", "演员获奖信息2", 1, "2024-06-03 00:00:00", 1, "2024-06-03 00:00:00");
 
 
 -- ----------------------------
