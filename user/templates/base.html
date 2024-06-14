@@ -161,7 +161,7 @@
                 <!-- 基于用户的推荐 -->
                 {% verbatim app %}
                     <div class="popular-albums" id="app">
-                        <h2>User-based recommendations</h2>
+                        <h2>基于用户的推荐</h2>
                         <div class="popular-allbum" v-for="movie in movies.slice(0,5)">
                             <div class="popular-allbum-pic">
                                 <a v-bind:href="'/movie/'+movie.id">
@@ -170,9 +170,9 @@
                             </div>
                             <div class="popular-allbum-info">
                                 <h3><a v-bind:href="'/movie/'+movie.id">{{ movie.name }}</a></h3>
-                                <p><strong>Release Time:</strong>{{ movie.years }}</p>
-                                <p><strong> Director:</strong>{{ movie.director }} </p>
-                                <p><strong> Douban rating:</strong>{{ movie.d_rate }} </p>
+                                <p><strong>发布时间：</strong>{{ movie.years }}</p>
+                                <p><strong> 导演：</strong>{{ movie.director }} </p>
+                                <p><strong> 豆瓣评分：</strong>{{ movie.d_rate }} </p>
                             </div>
                             <div class="clearfix"></div>
                         </div>
