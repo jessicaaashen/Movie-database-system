@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
-    <div class="col-md-8 content-left">
+    <div class="col-md-8 content-left" style="width: 100%;">
         <!-- artical-single-page -->
         <div class="artical-details">
             <h2>{{ movie.name }} </h2>
@@ -48,9 +48,9 @@
                     <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
-                            <a class="button" style="padding-bottom: 10px; margin-left: 10px" href="{% url 'decollect' movie.id %}">取消喜欢</a>
+                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: #db8c2b; color: black;border: 1px solid;" href="{% url 'decollect' movie.id %}">取消喜欢</a>
                         {% else %}
-                            <a class="button" style="padding-bottom: 10px; margin-left: 10px" href="{% url 'collect' movie.id %}">加入喜欢</a>{% endif %}
+                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: #db8c2b; color: black;border: 1px solid;" href="{% url 'collect' movie.id %}">加入喜欢</a>{% endif %}
                         {#                        <button>收藏</button>#}
                     </p>
                     <div class="row">
@@ -59,70 +59,46 @@
                                 <strong>豆瓣评分：{{ movie.d_rate }}</strong>&nbsp;&nbsp;&nbsp
                             </p>
                         </div>
-                        <div class="col-md-6">
-                            {% if user_rate is not None %}
-                                <h4>Please rate: {{ user_rate.mark }}</h4>
-                            {% else %}
-                                <form action="{% url 'score' movie.id %}" method="post">
-                                    {% csrf_token %}
-                                    <strong class="d-inline-block" style="margin-bottom: 0; box-sizing: border-box; margin-right: 20px">添加评分
-                                        <select name="score" class="custom-select" style="width: auto">
-                                            <option>1.0</option>
-                                            <option>2.0</option>
-                                            <option>3.0</option>
-                                            <option>4.0</option>
-                                            <option>5.0</option>
-                                            <option>6.0</option>
-                                            <option>7.0</option>
-                                            <option>8.0</option>
-                                            <option>9.0</option>
-                                            <option>10.0</option>
-                                        </select>
-                                    </strong>
-                                    <button type="submit" class="btn-success">提交</button>
-                                </form>
-                            {% endif %}
-                        </div>
+                     
                     </div>
-                    <a class="download" target="_blank" href="{{ movie.douban_link }}">去观看 (豆瓣链接)</a>
+                   
                 </div>
                 <div class="clearfix"></div>
-                <div class="related-articals">
-                    <h2>基于用户的推荐</h2>
-                    <!-- related-albums -->
-                    <div class="related-albums">
-                        {% verbatim item_app %}
-                            <div id="item_app">
-                                <div id="owl-demo1" class="owl-carousel text-center">
-                                    <div class="item" v-for="movie in movies.slice(0,10)">
-                                        <div class="r-album" style="height: 450px; overflow: scroll">
-                                            <div class="r-album-pic">
-                                                <a v-bind:href="'/movie/'+movie.id"><img height="270px" v-bind:src="movie.image_link" title="name"/></a>
-                                            </div>
-                                            <div class="r-album-info">
-                                                <h3><a v-bind:href="'/movie/'+movie.id">{{ movie.name }}</a></h3>
-                                                <p><strong>发布时间：</strong>{{ movie.years }}</p>
-                                                <p><strong> 导演：</strong>{{ movie.director }} </p>
-                                                <p><strong> 豆瓣评分：</strong>{{ movie.d_rate }} </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endverbatim item_app %}
-                    </div>
-                    <!-- related-albums -->
-                </div>
+              
                 <br><br><br>
             <div>
-                <h1 align="center">电影评论分析</h1>
-                <img align="center" class="img-responsive img-rounded" src="{{ MEDIA_URL }}/comment/{{ movie.douban_id }}.jpg" alt="Comment doesn't exist.">
+                <div>
+                    {% if user_rate is not None %}
+                        <h2 style="margin: 0; padding: 0; display: block; font-size: 1.2em; text-transform: uppercase; font-weight: 700;color: #747474;">您的评分: {{ user_rate.mark }}</h2>
+                    {% else %}
+                        <form action="{% url 'score' movie.id %}" method="post">
+                            {% csrf_token %}
+                            <strong class="d-inline-block" style="margin-bottom: 0; box-sizing: border-box; margin-right: 20px">
+                                <h2>添加评分：</h2>
+                                <select name="score" class="custom-select" style="width: auto；margin-bottom: 20px;margin-top: 20px;display: block;">
+                                    <option>1.0</option>
+                                    <option>2.0</option>
+                                    <option>3.0</option>
+                                    <option>4.0</option>
+                                    <option>5.0</option>
+                                    <option>6.0</option>
+                                    <option>7.0</option>
+                                    <option>8.0</option>
+                                    <option>9.0</option>
+                                    <option>10.0</option>
+                                </select>
+                            </strong>
+                            <input type="submit"  class="button" id="submit" style="background-color: #db8c2b;width: 2cm;display: block;" value="提交"/>
+                            <!-- <button type="submit" class="download" style="width: 120px;display: block;">提交</button> -->
+                        </form>
+                    {% endif %}
+                </div>
             </div>
                 <div class="comment">
                     <div lang="en-US" class="gitment-container gitment-editor-container">
                         <form role="form" class="" action="{% url 'comment' movie.id %}" method="post">
                             <div class="gitment-editor-main">
-                                <div class="gitment-editor-header">
+                                <div class="gitment-editor-header" style="margin-top: 20px;">
                                     <h2>您的影片评论：</h2>
                                     <br>
                                 </div>
@@ -132,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="gitment-editor-footer">
-                                <br><input type="submit" name="submit" class="button" id="submit" style="background-color: #b6b7b9;width: 2cm;" value="发送"/>
+                                <br><input type="submit" name="submit" class="button" id="submit" style="background-color: #db8c2b;width: 2cm;" value="发送"/>
                             </div>
                         </form>
                     </div>

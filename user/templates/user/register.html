@@ -23,7 +23,7 @@
 });
 </script>
 
-<h1>Register</h1>
+<h1>注册</h1>
 {% if error %}
     <h2 align="center">{{ error }}</h2>
 {% endif %}
@@ -45,7 +45,7 @@
 {#        <button type="submit" class="btn btn-primary btn-block">注册</button>#}
 
 </br>
-     <span class=" text fa fa-mail-forward" style="color: white;font-size: 20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Already have an account？<a href="{% url 'login' %}">   Click here to login</a></span>
+     <span class=" text fa fa-mail-forward" style="color: white;font-size: 20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已有账号？<a href="{% url 'login' %}">  点击此处登录 </a></span>
 	<div class="signin"><input type="submit" value="Register" ></div>
     </form>
 </div>

@@ -390,6 +390,9 @@ ul.options li a:hover{
 	border:1px solid #EEE;
 	padding:1em 0;
 	margin-bottom:1em;
+	width: 50%;
+	height: 270px;
+	float: left;
 }
 /*-- pagenate --*/
 .pagenate{

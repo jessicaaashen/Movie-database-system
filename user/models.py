@@ -72,15 +72,15 @@ class Movie(models.Model):
     country = models.CharField(verbose_name="国家/地区", max_length=255)
     years = models.DateField(verbose_name='上映时间')
     leader = models.CharField(verbose_name="演员", max_length=1024)
-    d_rate_nums = models.IntegerField(verbose_name="豆瓣评分数量")
+    # d_rate_nums = models.IntegerField(verbose_name="豆瓣评分数量")
     d_rate = models.CharField(verbose_name="豆瓣评分", max_length=255)
     intro = models.TextField(verbose_name="情节简介")
     num = models.IntegerField(verbose_name="浏览数量", default=0)                    # 这个好像没有什么必要，但是删掉了就不能正常跑了
-    origin_image_link = models.URLField(verbose_name='豆瓣图片链接', max_length=255, null=True)
-    image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover')
-    imdb_link = models.URLField(verbose_name="IMDB链接", null=True)
-    douban_link = models.URLField(verbose_name='豆瓣链接')
-    douban_id = models.CharField(verbose_name='豆瓣ID',max_length=128,null=True)
+    # origin_image_link = models.URLField(verbose_name='豆瓣图片链接', max_length=255, null=True, blank=True)
+    image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
+    # imdb_link = models.URLField(verbose_name="IMDB链接", null=True, blank=True)
+    # douban_link = models.URLField(verbose_name='豆瓣链接',null=True, blank=True)
+    douban_id = models.CharField(verbose_name='豆瓣ID',max_length=128,null=True, blank=True)
 
     # 下列字段是我加入的
     duration = models.IntegerField(verbose_name='电影时长',null=True)

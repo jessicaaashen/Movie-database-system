@@ -20,9 +20,9 @@ class Edit(forms.ModelForm):
         model = User
         fields = ["password", "username", "email"]
         labels = {
-            "password": "Password",
-            "name": "Name",
-            "email": "Mialbox",
+            "password": "密码",
+            "name": "名字",
+            "email": "邮箱",
         }
         widgets = {
             "password": forms.PasswordInput(attrs={"class": "form-control"}),
