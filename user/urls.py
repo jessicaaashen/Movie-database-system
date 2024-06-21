@@ -27,4 +27,6 @@ urlpatterns = [
     # 和user/base.html line 30 31 新增内容对应
     # 具体定义在user/views.py中
 
+    # sjy0621新增 主要用于画面详情的链接
+    
 ]

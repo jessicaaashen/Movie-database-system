@@ -1,44 +1,65 @@
 <!-- 新增的导演浏览界面 cx 20240613 -->
 <!-- 应该要参考user/templates/index.html的line33~58 -->
+
+
+
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="col-md-8 content-left">
+
+    <!-- <div class="col-md-8 content-left"> -->
     <!-- content artical 的定义在一堆css里面 -->
     <!-- 表格的容器的宽度占总宽度的8/12 -->
 
-        <div class="albums">
-            <h1>演员信息</h1>
-        </div>
+ 
 
-        {% for actor in actors %}
-        <!-- 此处actors使用的是user/views.py里面的“变量” -->
-            <div onclick="" class="artical">
 
-                <!-- 本来user/templates/index.html有一段添加图像的内容，搜索关键词 movie.image_link -->
 
-                <div class="col-md-8 artical-right">
+<div class="col-md-8 content-left" style="width: 100%;">
 
-                    <div class="artical-head">
-                        <h2>{{ actor.name }}</a></h2>
-                        <!-- 按理说应该在<h2>和{{ actor.name }}中间设置一个点击跳转的东西，但是目前好像还没办法加 -->
-                        <!-- tags.html中可以实现点击跳转的东西：<a href="{% url 'index' %}?tag_id={{ tag.id }}"> -->
-                        <!-- 可以参见user/templates/index.html和user/templates/user/tags.html -->
-                        <div class="clearfix"></div>
-                    </div>
+    <div class="albums">
+        <h1>演员信息</h1>
+    </div>
 
+    {% for actor in actors %}
+        <!-- <div onclick="" class="artical">
+            <div class="col-md-8 artical-right"> -->
+                <div class="artical-head">
+                    <h2><a href="{% url 'all_actors' %}">{{ actor.name }}</a></h2>
                     <div class="clearfix"></div>
-
-                    <!-- artical-info -->
-                    <div class="artical-info">
-                        <p><strong>性别:</strong> {{ actor.gender }}</p>
-                        <p><strong>出生日期:</strong> {{ actor.birthday }}</p>
-                        <p><strong>国籍:</strong>{{ actor.nationality }} </p>
-                    </div>
                 </div>
                 <div class="clearfix"></div>
+                <!-- artical-info -->
+                <div class="artical-info">
+                    <p><strong>性别:</strong> {{ actor.gender }}</p>
+                    <p><strong>出生日期:</strong> {{ actor.birthday }}</p>
+                    <p><strong>国籍:</strong>{{ actor.nationality }} </p>
+                </div>
             </div>
-        {% endfor %}
-
+            <div class="clearfix"></div>
+        </div>
+    {% endfor %}
+    <!-- artical-end -->
+    <div class="clearfix"></div>
+    <!-- pagenate -->
+    <div class="pagenate">
+        <ul>
+            {% for l in  actors.paginator.page_range %}
+                {% if l <= actors.number|add:5 and l >= actors.number|add:-5 %}
+                    {% if actors.number == l %}
+                        <li class="page-active"><span>{{ l }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if movies.has_next %}
+                <li class="next"><a href="?page={{ actors.next_page_number }}">Next Page</a></li>
+            {% endif %}
+        </ul>
     </div>
+    <!-- pagenate -->
+</div>
+
+
 {% endblock %}

@@ -325,6 +325,7 @@ def all_directors(request):
 # 新增演员浏览页面 cx 20240613
 def all_actors(request):
     actors = Actor.objects.all()        # 用到了user/models.py里面的Actor模板类，actors在.html里面用了
+    print(actors)
     return render(request, "user/actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
 
 
@@ -344,3 +345,9 @@ def choose_tags(request):
 def clear_cache(request):
     cache.clear()
     return redirect(reverse('index'))
+
+
+# sjy 0621修改 跳转演员详情的界面
+def actor(request, actor_id):
+    actor = Actor.objects.get(pk=actor_id)
+    return render(request, "user/actors_details.html", locals())
