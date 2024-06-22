@@ -26,9 +26,10 @@ urlpatterns = [
     # 和user/base.html line 30 31 新增内容对应
     # 具体定义在user/views.py中
 
-    # sjy0621新增 主要用于画面详情的链接
+
     
     # cx0622修改"actor/<int:actor_id>/"，因为views里面定义的actor()模板有两个参数
+    #sjy0622
     path("actor/<int:actor_id>/", views.actor, name="actor"),
     path("director/<int:director_id>/", views.director, name="director"),
     path("clear_cache/", views.clear_cache, name="clear_cache"),

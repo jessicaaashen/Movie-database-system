@@ -160,6 +160,7 @@ def search(request):  # 搜索
 def movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     actor_roles = MovieActor.objects.filter(movie=movie).select_related('actor')
+    director_roles = MovieDirector.objects.filter(movie=movie).select_related('director')
     movie.num += 1
     movie.save()
     comments = movie.comment_set.order_by("-create_time")
@@ -173,7 +174,7 @@ def movie(request, movie_id):
         user_rate = Rate.objects.filter(movie=movie, user_id=user_id).first()
         user = User.objects.get(pk=user_id)
         is_collect = movie.collect.filter(id=user_id).first()
-    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles})
+    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles})
 
 
 @login_in
