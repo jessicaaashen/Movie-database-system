@@ -27,7 +27,8 @@
                             <p><strong>上映国家:</strong> {{ movie.country }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>导演:</strong> {{ movie.director }}</p>
+                            <!-- <p><strong>导演:</strong> {{ movie.director }}</p> -->
+                            <p><strong>导演:</strong> </p>
                         </div>
                     </div>
 
@@ -40,11 +41,12 @@
                             <p><strong>语言:</strong> {{ movie.language }}</p>
                         </div>
                     </div>
-                    <p><strong>上映状态:</strong>{{ movie.state }}</p>
-                    <p><strong>公司:</strong>{{ movie.company.name }}</p>
+                    <p><strong>上映状态：</strong>{{ movie.state }}</p>
+                    <p><strong>公司：</strong>{{ movie.company.name }}</p>
                     <!-- 以上是我新加的部分 -->
 
-                    <p><strong>演员:</strong> {{ movie.leader | slice:50 }}...
+                    <!-- <p><strong>演员:</strong> {{ movie.leader | slice:50 }}... -->
+                    <p><strong>演员:</strong> ...
                     <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}

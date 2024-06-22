@@ -48,10 +48,6 @@ class UserTagPrefer(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=255, verbose_name='公司名称')    # 增加了别名“公司名称”  cx
     city = models.CharField(max_length=64, verbose_name='所在城市')     # 增加了别名“所在城市”  cx
-    #create_id = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='created_companies')
-    #create_time = models.DateTimeField()
-    #edit_id = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='edited_companies')
-    #edit_time = models.DateTimeField()
 
     # 增加了"company"的别名“公司信息”  cx
     class Meta:
@@ -63,31 +59,61 @@ class Company(models.Model):
 # 以上是我新加的表
 
 
+# 新增的演员信息管理  cx
+class Actor(models.Model):
+    name = models.CharField(verbose_name="演员姓名", max_length=255)
+    gender = models.CharField(verbose_name="性别", max_length=4)
+    birthday = models.DateField(verbose_name="生日")
+    introduction = models.TextField(verbose_name="简介")
+    nationality = models.CharField(verbose_name="国籍", max_length=255)
+    prize = models.CharField(verbose_name="获奖信息", max_length=255)
+    image_link = models.FileField(verbose_name="演员照片", max_length=255, upload_to='actor_photo',null=True, blank=True)
+
+    class Meta:
+        verbose_name = "演员信息"
+        verbose_name_plural = "演员信息"
+
+    def __str__(self):
+        return self.name
+    
+
+# 新增的导演信息管理  cx
+class Director(models.Model):
+    name = models.CharField(verbose_name="导演姓名", max_length=255, unique=True)
+    gender = models.CharField(verbose_name="性别", max_length=4)
+    birthday = models.DateField(verbose_name="生日")
+    introduction = models.TextField(verbose_name="简介")
+    nationality = models.CharField(verbose_name="国籍", max_length=255)
+    prize = models.CharField(verbose_name="获奖信息", max_length=255)
+    image_link = models.FileField(verbose_name="导演照片", max_length=255, upload_to='director_photo',null=True, blank=True)
+
+    class Meta:
+        verbose_name = "导演信息"
+        verbose_name_plural = "导演信息"
+
+    def __str__(self):
+        return self.name
+
+
 
 class Movie(models.Model):
-    tags = models.ManyToManyField(Tags, verbose_name='电影标签', blank = True)      # 这个好像不显示，是外键？
-    collect = models.ManyToManyField(User, verbose_name="收藏用户", blank = True)   # 这个好像不显示，是外键？
+    tags = models.ManyToManyField(Tags, verbose_name='电影标签')      # 删掉了最后的 , blank = True cx0622
+    collect = models.ManyToManyField(User, verbose_name="收藏用户")   # 删掉了最后的 , blank = True cx0622
     name = models.CharField(verbose_name="电影名称", max_length=255, unique = True)
-    director = models.CharField(verbose_name="导演", max_length=255)
+    director = models.ManyToManyField(Director, verbose_name="导演", max_length=255)         # cx 0622
     country = models.CharField(verbose_name="国家/地区", max_length=255)
     years = models.DateField(verbose_name='上映时间')
-    leader = models.CharField(verbose_name="演员", max_length=1024)
-    # d_rate_nums = models.IntegerField(verbose_name="豆瓣评分数量")
-    d_rate = models.CharField(verbose_name="豆瓣评分", max_length=255)
+    leader = models.ManyToManyField(Actor, verbose_name="演员", max_length=1024)          # cx 0622
+    d_rate = models.IntegerField(verbose_name="豆瓣评分", max_length=255)          # cx 0622
     intro = models.TextField(verbose_name="情节简介")
-    num = models.IntegerField(verbose_name="浏览数量", default=0)                    # 这个好像没有什么必要，但是删掉了就不能正常跑了
-    # origin_image_link = models.URLField(verbose_name='豆瓣图片链接', max_length=255, null=True, blank=True)
+    num = models.IntegerField(verbose_name="浏览数量", default=0)
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
-    # imdb_link = models.URLField(verbose_name="IMDB链接", null=True, blank=True)
-    # douban_link = models.URLField(verbose_name='豆瓣链接',null=True, blank=True)
-    # douban_id = models.CharField(verbose_name='豆瓣ID',max_length=128,null=True, blank=True)
 
     # 下列字段是sjy加入的
-    duration = models.IntegerField(verbose_name='电影时长',null=True)
+    duration = models.IntegerField(verbose_name='电影时长', null=True)
     state = models.CharField(verbose_name="上映状态",max_length=20)
     language = models.CharField(verbose_name="语言",max_length=20,default="英语")
-    company = models.ForeignKey(Company,verbose_name="涉及公司",on_delete=models.CASCADE,blank=True)
-
+    company = models.ForeignKey(Company,verbose_name="涉及公司",on_delete=models.CASCADE, blank=True)
 
 
     @property
@@ -143,36 +169,3 @@ class LikeComment(models.Model):
         verbose_name_plural = "点赞信息"
 
 
-
-# 新增的演员信息管理  cx
-class Actor(models.Model):
-    name = models.CharField(verbose_name="演员姓名", max_length=255)
-    gender = models.CharField(verbose_name="性别", max_length=4)
-    birthday = models.DateField(verbose_name="生日")
-    introduction = models.TextField(verbose_name="简介")
-    nationality = models.CharField(verbose_name="国籍", max_length=255)
-    prize = models.CharField(verbose_name="获奖信息", max_length=255)
-
-    class Meta:
-        verbose_name = "演员信息"
-        verbose_name_plural = "演员信息"
-
-    def __str__(self):
-        return self.name
-    
-
-# 新增的导演信息管理  cx
-class Director(models.Model):
-    name = models.CharField(verbose_name="导演姓名", max_length=255, unique=True)
-    gender = models.CharField(verbose_name="性别", max_length=4)
-    birthday = models.DateField(verbose_name="生日")
-    introduction = models.TextField(verbose_name="简介")
-    nationality = models.CharField(verbose_name="国籍", max_length=255)
-    prize = models.CharField(verbose_name="获奖信息", max_length=255)
-
-    class Meta:
-        verbose_name = "导演信息"
-        verbose_name_plural = "导演信息"
-
-    def __str__(self):
-        return self.name

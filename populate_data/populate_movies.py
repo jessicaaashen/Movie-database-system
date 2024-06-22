@@ -38,6 +38,7 @@ def replace_special_char(name):
     return re.sub(special_char, '_', name)
 
 
+# 数据填充函数，负责读取CSV文件中的每一行数据（by.通义）
 def populate_movies(filename):
     opener = open(filename, 'r')
     reader = csv.reader(opener)
