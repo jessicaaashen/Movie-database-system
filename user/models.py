@@ -80,7 +80,7 @@ class Movie(models.Model):
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
     # imdb_link = models.URLField(verbose_name="IMDB链接", null=True, blank=True)
     # douban_link = models.URLField(verbose_name='豆瓣链接',null=True, blank=True)
-    douban_id = models.CharField(verbose_name='豆瓣ID',max_length=128,null=True, blank=True)
+    # douban_id = models.CharField(verbose_name='豆瓣ID',max_length=128,null=True, blank=True)
 
     # 下列字段是sjy加入的
     duration = models.IntegerField(verbose_name='电影时长',null=True)
