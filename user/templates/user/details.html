@@ -48,9 +48,9 @@
                     <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
-                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: #db8c2b; color: black;border: 1px solid;" href="{% url 'decollect' movie.id %}">取消喜欢</a>
+                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: grey; color: white;border: 1px solid;" href="{% url 'decollect' movie.id %}">取消喜欢</a>
                         {% else %}
-                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: #db8c2b; color: black;border: 1px solid;" href="{% url 'collect' movie.id %}">加入喜欢</a>{% endif %}
+                            <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: grey; color: white;border: 1px solid;" href="{% url 'collect' movie.id %}">加入喜欢</a>{% endif %}
                         {#                        <button>收藏</button>#}
                     </p>
                     <div class="row">
@@ -69,7 +69,7 @@
             <div>
                 <div>
                     {% if user_rate is not None %}
-                        <h2 style="margin: 0; padding: 0; display: block; font-size: 1.2em; text-transform: uppercase; font-weight: 700;color: #747474;">您的评分: {{ user_rate.mark }}</h2>
+                        <h2 style="margin: 0; padding: 0; display: block; font-size: 1.2em; text-transform: uppercase; font-weight: 700;color: grey;">您的评分: {{ user_rate.mark }}</h2>
                     {% else %}
                         <form action="{% url 'score' movie.id %}" method="post">
                             {% csrf_token %}
@@ -88,7 +88,7 @@
                                     <option>10.0</option>
                                 </select>
                             </strong>
-                            <input type="submit"  class="button" id="submit" style="background-color: #db8c2b;width: 2cm;display: block;" value="提交"/>
+                            <input type="submit"  class="button" id="submit" style="background-color: #c5c5c5;width: 2cm;display: block;" value="提交"/>
                             <!-- <button type="submit" class="download" style="width: 120px;display: block;">提交</button> -->
                         </form>
                     {% endif %}
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="gitment-editor-footer">
-                                <br><input type="submit" name="submit" class="button" id="submit" style="background-color: #db8c2b;width: 2cm;" value="发送"/>
+                                <br><input type="submit" name="submit" class="button" id="submit" style="background-color: #c5c5c5;width: 2cm;" value="发送"/>
                             </div>
                         </form>
                     </div>

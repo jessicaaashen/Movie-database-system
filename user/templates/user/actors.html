@@ -1,19 +1,11 @@
 <!-- 新增的导演浏览界面 cx 20240613 -->
 <!-- 应该要参考user/templates/index.html的line33~58 -->
-
-
-
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
     <!-- <div class="col-md-8 content-left"> -->
     <!-- content artical 的定义在一堆css里面 -->
     <!-- 表格的容器的宽度占总宽度的8/12 -->
-
- 
-
-
 
 <div class="col-md-8 content-left" style="width: 100%;">
 
@@ -21,26 +13,25 @@
         <h1>演员信息</h1>
     </div>
 
+    <!-- cx0622修改了前端，支持两列显示，增加了一些空格 -->
     {% for actor in actors %}
-        <!-- <div onclick="" class="artical">
-            <div class="col-md-8 artical-right"> -->
-                <div class="artical-head">
-                    <h2><a href="{% url 'all_actors' %}">{{ actor.name }}</a></h2>
-                    <div class="clearfix"></div>
-                </div>
+        <div class="artical">
+            <div class="artical-head">
+                <h2>&nbsp;&nbsp;<a href="{% url 'actor' actor.id %}">{{ actor.name }}</a></h2>
                 <div class="clearfix"></div>
-                <!-- artical-info -->
-                <div class="artical-info">
-                    <p><strong>性别:</strong> {{ actor.gender }}</p>
-                    <p><strong>出生日期:</strong> {{ actor.birthday }}</p>
-                    <p><strong>国籍:</strong>{{ actor.nationality }} </p>
-                </div>
             </div>
             <div class="clearfix"></div>
+            <div class="artical-info">
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别:</strong> {{ actor.gender }}</p>
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;出生日期:</strong> {{ actor.birthday }}</p>
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍:</strong>{{ actor.nationality }}</p>
+            </div>
         </div>
     {% endfor %}
-    <!-- artical-end -->
+
+    <!-- sjy0621新增 -->
     <div class="clearfix"></div>
+    
     <!-- pagenate -->
     <div class="pagenate">
         <ul>
@@ -59,7 +50,7 @@
         </ul>
     </div>
     <!-- pagenate -->
-</div>
 
+</div>
 
 {% endblock %}

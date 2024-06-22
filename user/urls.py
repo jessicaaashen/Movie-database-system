@@ -19,7 +19,6 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("all_tags/", views.all_tags, name="all_tags"),
     path("choose_tags/", views.choose_tags, name="choose_tags"),
-    path("clear_cache/", views.clear_cache, name="clear_cache"),
 
     # 以下为新增内容 cx 20240613
     path("all_actors/", views.all_actors, name="all_actors"),
@@ -28,5 +27,11 @@ urlpatterns = [
     # 具体定义在user/views.py中
 
     # sjy0621新增 主要用于画面详情的链接
+    
+    # cx0622修改"actor/<int:actor_id>/"，因为views里面定义的actor()模板有两个参数
+    path("actor/<int:actor_id>/", views.actor, name="actor"),
+    path("director/<int:director_id>/", views.director, name="director"),
+
+    path("clear_cache/", views.clear_cache, name="clear_cache"),
     
 ]

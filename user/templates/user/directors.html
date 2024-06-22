@@ -3,42 +3,54 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="col-md-8 content-left">
     <!-- content artical 的定义在一堆css里面 -->
     <!-- 表格的容器的宽度占总宽度的8/12 -->
+    <!-- line16 directors使用的是user/views.py里面的“变量” -->
+        <!-- 本来user/templates/index.html有一段添加图像的内容，搜索关键词 movie.image_link -->
+     
+<div class="col-md-12 content-left">
 
-        <div class="albums">
-            <h1>导演信息</h1>
-        </div>
+    <div class="albums">
+        <h1>导演信息</h1>
+    </div>
 
-        {% for director in directors %}
-        <!-- 此处directors使用的是user/views.py里面的“变量” -->
-            <div onclick="" class="artical">
-
-                <!-- 本来user/templates/index.html有一段添加图像的内容，搜索关键词 movie.image_link -->
-
-                <div class="col-md-8 artical-right">
-
-                    <div class="artical-head">
-                        <h2>{{ director.name }}</a></h2>
-                        <!-- 按理说应该在<h2>和{{ director.name }}中间设置一个点击跳转的东西，但是目前好像还没办法加 -->
-                        <!-- tags.html中可以实现点击跳转的东西 <a href="{% url 'index' %}?tag_id={{ tag.id }}"> -->
-                        <!-- 可以参见user/templates/index.html和user/templates/user/tags.html -->
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <!-- artical-info -->
-                    <div class="artical-info">
-                        <p><strong>性别:</strong> {{ director.gender }}</p>
-                        <p><strong>出生日期:</strong> {{ director.birthday }}</p>
-                        <p><strong>国籍:</strong>{{ director.nationality }} </p>
-                    </div>
-                </div>
+    <!-- cx0622修改了前端，支持两列显示，增加了一些空格 -->
+    {% for director in directors %}
+        <div class="artical">
+            <div class="artical-head">
+                <h2>&nbsp;&nbsp;<a href="{% url 'director' director.id %}">{{ director.name }}</a></h2>
                 <div class="clearfix"></div>
             </div>
-        {% endfor %}
-
+            <div class="clearfix"></div>
+            <div class="artical-info">
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别:</strong> {{ director.gender }}</p>
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;出生日期:</strong> {{ director.birthday }}</p>
+                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍:</strong>{{ director.nationality }}</p>
+            </div>
+        </div>
+    {% endfor %}
+        
+    <!-- 参照sjy0621新增内容 -->
+    <div class="clearfix"></div>
+    <!-- pagenate -->
+    <div class="pagenate">
+        <ul>
+            {% for l in  directors.paginator.page_range %}
+                {% if l <= directors.number|add:5 and l >= directors.number|add:-5 %}
+                    {% if directors.number == l %}
+                        <li class="page-active"><span>{{ l }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if movies.has_next %}
+                <li class="next"><a href="?page={{ directors.next_page_number }}">Next Page</a></li>
+            {% endif %}
+        </ul>
     </div>
+    <!-- pagenate -->
+
+</div>
+
 {% endblock %}

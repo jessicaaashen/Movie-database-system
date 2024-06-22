@@ -315,6 +315,17 @@ def all_tags(request):
     tags = Tags.objects.all()      # 这里应该用到了user/models.py里面的Tags模板类
     return render(request, "user/tags.html", {"tags": tags})    # 这里连接到了user/templates/user/tags.html
 
+@login_in
+@csrf_exempt
+def choose_tags(request):
+    tags_name = json.loads(request.body)
+    user_id = request.session.get('user_id')
+    for tag_name in tags_name:
+        tag = Tags.objects.filter(name=tag_name.strip()).first()
+        UserTagPrefer.objects.create(tag_id=tag.id, user_id=user_id, score=5)
+    # request.session.pop('new')
+    return redirect(reverse("index"))
+
 
 # 新增导演浏览页面 cx 20240613
 def all_directors(request):
@@ -329,25 +340,21 @@ def all_actors(request):
     return render(request, "user/actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
 
 
-@login_in
-@csrf_exempt
-def choose_tags(request):
-    tags_name = json.loads(request.body)
-    user_id = request.session.get('user_id')
-    for tag_name in tags_name:
-        tag = Tags.objects.filter(name=tag_name.strip()).first()
-        UserTagPrefer.objects.create(tag_id=tag.id, user_id=user_id, score=5)
-    # request.session.pop('new')
-    return redirect(reverse("index"))
+# sjy 0621修改 跳转演员详情的界面
+# 注意这里有两个参数，在urls和actors里面要提供两个参数 cx0622
+def actor(request, actor_id):
+    actor = Actor.objects.get(pk=actor_id)
+    return render(request, "user/actor_details.html", locals())
+
+
+# cx 0622修改 跳转导演详情的界面
+# 注意这里有两个参数，在urls和directors里面要提供两个参数 cx0622
+def director(request, director_id):
+    director = Director.objects.get(pk=director_id)
+    return render(request, "user/director_details.html", locals())
 
 
 @login_in
 def clear_cache(request):
     cache.clear()
     return redirect(reverse('index'))
-
-
-# sjy 0621修改 跳转演员详情的界面
-def actor(request, actor_id):
-    actor = Actor.objects.get(pk=actor_id)
-    return render(request, "user/actors_details.html", locals())

@@ -1,41 +1,29 @@
 
 <!-- sjy0621新建！ -->
+<!-- cx0622修改 -->
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
+<div class="col-md-12 content-left">
+
+    <div class="albums">
+        <h1>演员详情</h1>
+    </div>
+
     <div class="col-md-8 content-left" style="width: 100%;">
         <!-- artical-single-page -->
         <div class="artical-details">
             <h2>{{ actor.name }} </h2>
             <!-- artical-details-info -->
             <div class="artical-details-info">
-                <!-- <div class="artical-details-info-left">
-                    <a href="#"><img src="{{ MEDIA_URL }}{{ movie.image_link }}" title="name"/></a>
-                </div> -->
-                <!-- <div class="artical-details-info-right"> -->
-                    <div class="row">
-                        <!-- <div class="col-md-6">
-                            <p><strong>标签:</strong> {% for tag in movie.tags.all %}
-                                <a href="">{{ tag.name }}</a>
-                            {% endfor %}
-                            </p>
-                        </div>
-                        <div class="col-md-6"> -->
-                            <p><strong>性别:</strong> {{ actor.gender }}</p>
-                        <!-- </div> -->
-                    </div>
-                    <div class="row">
-                        <!-- <div class="col-md-6"> -->
-                            <p><strong>生日:</strong> {{ actor.birthday }}</p>
-                        <!-- </div> -->
-                        <!-- <div class="col-md-6"> -->
-                            <p><strong>国籍:</strong> {{ actor.nationality }}</p>
-                        <!-- </div> -->
-                    </div>
-                            <p><strong>获奖记录:</strong> {{ actor.prize }} </p>
-                    <p><strong>简介: </strong>{{ actor.introduction | slice:240 }}...</p>                 
-                   
+                <div class="row">
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别：</strong> {{ actor.gender }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生日：</strong> {{ actor.birthday }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍：</strong> {{ actor.nationality }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;获奖记录：</strong> {{ actor.prize }} </p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ actor.introduction | slice:240 }}...</p>                 
                 </div>
-                <div class="clearfix"></div>
-              
-             
+            </div>
+        <div class="clearfix"></div>
+    </div> 
+{% endblock %}

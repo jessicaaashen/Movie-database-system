@@ -1,0 +1,28 @@
+
+<!-- cx0622修改，参照actor_details.html -->
+{% extends 'base.html' %}
+{% load grav_tag %}
+{% block content %}
+<div class="col-md-12 content-left">
+
+    <div class="albums">
+        <h1>导演详情</h1>
+    </div>
+
+    <div class="col-md-8 content-left" style="width: 100%;">
+        <!-- artical-single-page -->
+        <div class="artical-details">
+            <h2>{{ director.name }} </h2>
+            <!-- artical-details-info -->
+            <div class="artical-details-info">
+                <div class="row">
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别：</strong> {{ director.gender }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生日：</strong> {{ director.birthday }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍：</strong> {{ director.nationality }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;获奖记录：</strong> {{ director.prize }} </p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ director.introduction | slice:240 }}...</p>                 
+                </div>
+            </div>
+        <div class="clearfix"></div>
+    </div> 
+{% endblock %}
