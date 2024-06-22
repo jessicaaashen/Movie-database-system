@@ -21,7 +21,12 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生日：</strong> {{ actor.birthday }}</p>
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍：</strong> {{ actor.nationality }}</p>
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;获奖记录：</strong> {{ actor.prize }} </p>
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ actor.introduction | slice:240 }}...</p>                 
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ actor.introduction | slice:240 }}...</p>    
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;参演的相关电影：</strong> 
+                        {% for movie in actor.movie_set.all %}
+                            <a href="{% url 'movie' movie.id %}"">{{ movie.name }}</a>
+                        {% endfor %}
+                    </p>             
                 </div>
             </div>
         <div class="clearfix"></div>

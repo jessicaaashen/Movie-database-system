@@ -148,7 +148,7 @@ def search(request):  # 搜索
     else:
         key = request.session.get("search")  # 得到关键词
     movies = Movie.objects.filter(
-        Q(name__icontains=key) | Q(intro__icontains=key) | Q(director__icontains=key)
+        Q(name__icontains=key)  | Q(infro__icontains=key)| Q(director__icontains=key)
     )  # 进行内容的模糊搜索
     page_num = request.GET.get("page", 1)
     movies = movies_paginator(movies, page_num)
@@ -156,8 +156,10 @@ def search(request):  # 搜索
 
 
 # 请求单个电影数据时调用的接口
+#sjy0622
 def movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
+    actor_roles = MovieActor.objects.filter(movie=movie).select_related('actor')
     movie.num += 1
     movie.save()
     comments = movie.comment_set.order_by("-create_time")
@@ -171,7 +173,7 @@ def movie(request, movie_id):
         user_rate = Rate.objects.filter(movie=movie, user_id=user_id).first()
         user = User.objects.get(pk=user_id)
         is_collect = movie.collect.filter(id=user_id).first()
-    return render(request, "user/details.html", locals())
+    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles})
 
 
 @login_in

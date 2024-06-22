@@ -20,7 +20,12 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生日：</strong> {{ director.birthday }}</p>
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍：</strong> {{ director.nationality }}</p>
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;获奖记录：</strong> {{ director.prize }} </p>
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ director.introduction | slice:240 }}...</p>                 
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ director.introduction | slice:240 }}...</p> 
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;导演的相关电影：</strong> 
+                        {% for movie in director.movie_set.all %}
+                            <a href="{% url 'movie' movie.id %}"">{{ movie.name }}</a>
+                        {% endfor %}
+                    </p>
                 </div>
             </div>
         <div class="clearfix"></div>

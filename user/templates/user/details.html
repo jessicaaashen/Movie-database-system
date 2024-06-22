@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>标签:</strong> {% for tag in movie.tags.all %}
-                                <a href="">{{ tag.name }}</a>
+                                <a href="{% url 'index' %}?tag_id={{ tag.id }}">{{ tag.name }}</a>
                             {% endfor %}
                             </p>
                         </div>
@@ -27,8 +27,11 @@
                             <p><strong>上映国家:</strong> {{ movie.country }}</p>
                         </div>
                         <div class="col-md-6">
-                            <!-- <p><strong>导演:</strong> {{ movie.director }}</p> -->
-                            <p><strong>导演:</strong> </p>
+                            <p><strong>导演:</strong> 
+                                    {% for director in movie.director.all %}
+                                        <a href="{% url 'director' director.id %}"">{{ director.name }}</a>
+                                    {% endfor %}
+                                </p>
                         </div>
                     </div>
 
@@ -45,8 +48,17 @@
                     <p><strong>公司：</strong>{{ movie.company.name }}</p>
                     <!-- 以上是我新加的部分 -->
 
-                    <!-- <p><strong>演员:</strong> {{ movie.leader | slice:50 }}... -->
-                    <p><strong>演员:</strong> ...
+                    
+                        
+                    <p><strong>演员:</strong>
+                    {% for actor_role in actor_roles %}
+                        <a href="{% url 'actor' actor_role.actor.id %}">{{ actor_role.actor.name }}</a> - {{ actor_role.duty }}
+                    {% endfor %}
+                    </p>
+
+
+
+
                     <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
