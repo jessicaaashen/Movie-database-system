@@ -97,11 +97,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'movie4',
         'USER': 'root',
-        'PASSWORD': 'Sesh2624@fDu',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'jessica513',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
+
 
 CACHES = {
     'default': {
