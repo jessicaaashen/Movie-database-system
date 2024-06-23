@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
+from django.db import connection
 
 # from als_model import als_recommend_by_user_id
 from cache_keys import USER_CACHE, ITEM_CACHE, ALS_CACHE
@@ -116,13 +117,23 @@ def logout(request):
 
 
 def index(request):
-    tags = Tags.objects.all()
+    tags = Tags.objects.raw("select * from user_tags")
     order = request.GET.get('order')
     tag_id = request.GET.get('tag_id')
     if tag_id is not None:
-        movies = Movie.objects.filter(tags__id=tag_id)
+        movies = Movie.objects.raw('''
+            SELECT user_movie.*
+            FROM user_movie
+            JOIN user_movie_tags ON user_movie.id = user_movie_tags.movie_id
+            WHERE user_movie_tags.tags_id = %s;
+        ''', [tag_id])
     else:
-        movies = Movie.objects.all()
+        movies = Movie.objects.raw("select * from user_movie")
+    temp = Movie.objects.none()
+    for movie in movies:
+        obj = Movie(movie.id)
+        temp |= Movie.objects.filter(pk = obj.pk)
+    movies = temp
     #     评分排序
     if order == '1':
         movies = movies.annotate(marks=Avg('rate__mark')).order_by('-marks')
@@ -355,6 +366,7 @@ def actor(request, actor_id):
 def director(request, director_id):
     director = Director.objects.get(pk=director_id)
     return render(request, "user/director_details.html", locals())
+
 
 
 @login_in

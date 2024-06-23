@@ -9,6 +9,7 @@ class User(models.Model):
     email = models.EmailField(verbose_name="邮箱")
 
     class Meta:
+        db_table = 'user_user'
         verbose_name_plural = "普通用户"
         verbose_name = "普通用户"
 
@@ -20,6 +21,7 @@ class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="电影标签", unique=True)
 
     class Meta:
+        db_table = 'user_tags'
         verbose_name = "电影标签"
         verbose_name_plural = "电影标签"
 
@@ -35,6 +37,7 @@ class UserTagPrefer(models.Model):
     score = models.FloatField(default=0)
 
     class Meta:
+        db_table = 'user_usertagprefer'
         verbose_name = "用户喜好"
         verbose_name_plural = "喜好"
 
@@ -51,6 +54,7 @@ class Company(models.Model):
 
     # 增加了"company"的别名“公司信息”  cx
     class Meta:
+        db_table = 'user_company'
         verbose_name = "公司信息"
         verbose_name_plural = "公司信息"
 
@@ -70,6 +74,7 @@ class Actor(models.Model):
     image_link = models.FileField(verbose_name="演员照片", max_length=255, upload_to='actor_photo',null=True, blank=True)
 
     class Meta:
+        db_table = 'user_actor'
         verbose_name = "演员信息"
         verbose_name_plural = "演员信息"
 
@@ -88,6 +93,7 @@ class Director(models.Model):
     image_link = models.FileField(verbose_name="导演照片", max_length=255, upload_to='director_photo',null=True, blank=True)
 
     class Meta:
+        db_table = 'user_director'
         verbose_name = "导演信息"
         verbose_name_plural = "导演信息"
 
@@ -122,6 +128,7 @@ class Movie(models.Model):
         return movie_rate or '暂无评分'
 
     class Meta:
+        db_table = 'user_movie'
         verbose_name = "电影信息"
         verbose_name_plural = "电影信息"
 
@@ -179,6 +186,7 @@ class Rate(models.Model):
         return average
 
     class Meta:
+        db_table = 'user_rate'
         verbose_name = "评分信息"
         verbose_name_plural = "评分信息"
 
@@ -190,6 +198,7 @@ class Comment(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="电影")
 
     class Meta:
+        db_table = 'user_comment'
         verbose_name = "评论信息"
         verbose_name_plural = "评论信息"
 
@@ -199,6 +208,7 @@ class LikeComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户名')
 
     class Meta:
+        db_table = 'user_likecomment'
         verbose_name = "点赞信息"
         verbose_name_plural = "点赞信息"
 
