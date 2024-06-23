@@ -368,6 +368,7 @@ def director(request, director_id):
     return render(request, "user/director_details.html", locals())
 
 
+
 @login_in
 def clear_cache(request):
     cache.clear()

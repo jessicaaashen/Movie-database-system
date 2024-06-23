@@ -1,7 +1,21 @@
 from rest_framework import serializers
 
-from user.models import Rate, Movie, Comment
+from user.models import *
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = ['name']
+
+class DirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        fields = ['name']
+
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = ['name']
 
 class RateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,11 +34,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class CollectSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True)
+    director = DirectorSerializer(many=True)
+    actor = ActorSerializer(many=True)
+
     class Meta:
         model = Movie
+        fields = ['name', 'years', 'num', 'director']
 
     def to_representation(self, instance):
-        return {'电影名': instance.name, '导演': instance.director, '上映时间': instance.years, '浏览量': instance.num}
+        return {'电影名': instance.name, '导演': [director.name for director in instance.director.all()], '上映时间': instance.years, '浏览量': instance.num}
 
 
 class MovieSerializer(serializers.ModelSerializer):
