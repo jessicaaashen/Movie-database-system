@@ -175,9 +175,12 @@ def actor_search(request):
         request.session["search"] = key  # 记录搜索关键词解决跳页问题
     else:
         key = request.session.get("search")  # 得到关键词
-    actors = Actor.objects.filter(
-        Q(name__icontains=key) | Q(nationality__icontains=key)
-    )  # 进行内容的模糊搜索
+    sql = """
+        SELECT * FROM user_actor
+        WHERE name LIKE %s OR nationality LIKE %s
+    """
+    params = [f'%{key}%', f'%{key}%']
+    actors = Actor.objects.raw(sql, params)
     page_num = request.GET.get("page", 1)
     actors = movies_paginator(actors, page_num)
     return render(request, 'actors.html', {'actors': actors})
@@ -190,9 +193,12 @@ def director_search(request):
         request.session["search"] = key  # 记录搜索关键词解决跳页问题
     else:
         key = request.session.get("search")  # 得到关键词
-    directors = Director.objects.filter(
-        Q(name__icontains=key) | Q(nationality__icontains=key)
-    )  # 进行内容的模糊搜索
+    sql = """
+        SELECT * FROM user_director
+        WHERE name LIKE %s OR nationality LIKE %s
+    """
+    params = [f'%{key}%', f'%{key}%']
+    directors = Director.objects.raw(sql, params)
     page_num = request.GET.get("page", 1)
     directors = movies_paginator(directors, page_num)
     return render(request, 'directors.html', {'directors': directors})
@@ -203,8 +209,32 @@ def director_search(request):
 # cx 0623 加了最后一行的 'comments': comments,
 def movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
-    actor_roles = MovieActor.objects.filter(movie=movie).select_related('actor')
-    director_roles = MovieDirector.objects.filter(movie=movie).select_related('director')
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_movie_actor` 
+    INNER JOIN 
+        `user_actor` 
+    ON 
+        (`user_movie_actor`.`actor_id` = `user_actor`.`id`) 
+    WHERE 
+        `user_movie_actor`.`movie_id` = %s
+    '''
+    actor_roles = MovieActor.objects.raw(sql_query, [movie_id])
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_movie_director` 
+    INNER JOIN 
+        `user_director` 
+    ON 
+        (`user_movie_director`.`director_id` = `user_director`.`id`) 
+    WHERE 
+        `user_movie_director`.`movie_id` = %s
+    '''
+    director_roles = MovieDirector.objects.raw(sql_query, [movie_id])
     movie.num += 1
     movie.save()
     comments = movie.comment_set.order_by("-create_time")
@@ -218,7 +248,7 @@ def movie(request, movie_id):
         user_rate = Rate.objects.filter(movie=movie, user_id=user_id).first()
         user = User.objects.get(pk=user_id)
         is_collect = movie.collect.filter(id=user_id).first()
-    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles, 'comments': comments, })
+    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles, 'comments': comments, 'is_collect': is_collect})
 
 
 @login_in
