@@ -23,7 +23,7 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ director.introduction | slice:240 }}...</p> 
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;导演的相关电影：</strong> 
                         {% for movie in director.movie_set.all %}
-                            <a href="{% url 'movie' movie.id %}"">{{ movie.name }}</a>
+                            <a href="{% url 'movie' movie.id %}">{{ movie.name }}</a>
                         {% endfor %}
                     </p>
                 </div>

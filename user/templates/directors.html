@@ -24,18 +24,24 @@
     </div>
 
     <!-- cx0622修改了前端，支持两列显示，增加了一些空格 -->
+    <!-- cx 0624 增加了照片 -->
     {% for director in directors %}
         <div class="artical">
-            <div class="artical-head">
-                <h2>&nbsp;&nbsp;<a href="{% url 'director' director.id %}">{{ director.name }}</a></h2>
+            <div class="col-md-4 artical-left">
+                <a href="{% url 'director' director.id %}"><img src="{{ MEDIA_URL }}{{ director.image_link }}" title="post-name"/></a>
+            </div>
+            <div class="col-md-8 artical-right">
+                <div class="artical-head">
+                    <h2>&nbsp;&nbsp;<a href="{% url 'director' director.id %}">{{ director.name }}</a></h2>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="clearfix"></div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="artical-info">
-                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别:</strong> {{ director.gender }}</p>
-                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;出生日期:</strong> {{ director.birthday }}</p>
-                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍:</strong>{{ director.nationality }}</p>
-            </div>
+                <div class="artical-info">
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别:</strong> {{ director.gender }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;出生日期:</strong> {{ director.birthday }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍:</strong>{{ director.nationality }}</p>
+                </div>
+            </div>    
         </div>
     {% endfor %}
         

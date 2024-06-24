@@ -172,6 +172,22 @@ class MovieDirector(models.Model):
 
 
 
+# # cx 0624
+# class MovieTag(models.Model):
+#     movie = models.ForeignKey(Movie, on_delete=models.RESTRICT, verbose_name="电影")
+#     tag = models.ForeignKey(Tags, on_delete=models.RESTRICT, verbose_name="标签")
+
+#     class Meta:
+#         # 定义数据库约束名称，确保它们与 SQL 脚本中的相匹配（如果需要）
+#         db_table = 'user_movie_tags'  # 指定数据库中的表名称
+#         verbose_name = "电影与标签关系"
+#         verbose_name_plural = "电影与标签关系"
+#         unique_together = (('movie', 'tag'),)     # cx 0623，保证唯一性
+
+#     def __str__(self):
+#         return f"{self.movie.name} - {self.tags.name}"
+
+
 class Rate(models.Model):
     movie = models.ForeignKey(
         Movie, on_delete=models.CASCADE, blank=True, null=True, verbose_name="电影ID"
