@@ -159,10 +159,23 @@ def search(request):  # 搜索
         request.session["search"] = key  # 记录搜索关键词解决跳页问题
     else:
         key = request.session.get("search")  # 得到关键词
-    movies = Movie.objects.filter(
-        # Q(name__icontains=key)  | Q(intro__icontains=key)| Q(director__icontains=key) cx 0623
-        Q(name__icontains=key) | Q(moviedirector__director__name__icontains=key) | Q(movieactor__actor__name__icontains=key)
-    )  # 进行内容的模糊搜索
+    search_key = f"%{key}%"  # 模糊搜索关键字
+    sql_query = '''
+    SELECT DISTINCT *
+    FROM `user_movie`
+    WHERE `user_movie`.`id` IN (
+        SELECT `user_movie`.`id`
+        FROM `user_movie`
+        LEFT OUTER JOIN `user_movie_director` ON (`user_movie`.`id` = `user_movie_director`.`movie_id`)
+        LEFT OUTER JOIN `user_director` ON (`user_movie_director`.`director_id` = `user_director`.`id`)
+        LEFT OUTER JOIN `user_movie_actor` ON (`user_movie`.`id` = `user_movie_actor`.`movie_id`)
+        LEFT OUTER JOIN `user_actor` ON (`user_movie_actor`.`actor_id` = `user_actor`.`id`)
+        WHERE `user_movie`.`name` LIKE %s 
+        OR `user_director`.`name` LIKE %s 
+        OR `user_actor`.`name` LIKE %s
+    )
+    '''
+    movies = Movie.objects.raw(sql_query, [search_key, search_key, search_key])
     page_num = request.GET.get("page", 1)
     movies = movies_paginator(movies, page_num)
     return render(request, "index.html", {"movies": movies, 'title': "Search Results"})
@@ -393,7 +406,13 @@ def delete_rate(request, rate_id):
 
 # 电影的标签页面
 def all_tags(request):
-    tags = Tags.objects.all()      # 这里应该用到了user/models.py里面的Tags模板类
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_tags`
+    '''
+    tags = Tags.objects.raw(sql_query)
     return render(request, "user/tags.html", {"tags": tags})    # 这里连接到了user/templates/user/tags.html
 
 @login_in
@@ -410,7 +429,13 @@ def choose_tags(request):
 
 # 新增导演浏览页面 cx 20240613
 def all_directors(request):
-    directors = Director.objects.all()  # 用到了user/models.py里面的Director模板类，directors在.html里面用了
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_director`
+    '''
+    directors = Director.objects.raw(sql_query)
     paginator = Paginator(directors, 6)    # cx 0623 分页
     current_page = request.GET.get("page", 1)
     directors = paginator.page(current_page)
@@ -419,7 +444,13 @@ def all_directors(request):
 
 # 新增演员浏览页面 cx 20240613
 def all_actors(request):
-    actors = Actor.objects.all()        # 用到了user/models.py里面的Actor模板类，actors在.html里面用了
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_actor`
+    '''
+    actors = Actor.objects.raw(sql_query)
     paginator = Paginator(actors, 6)    # cx 0623 分页
     current_page = request.GET.get("page", 1)
     actors = paginator.page(current_page)
@@ -429,14 +460,30 @@ def all_actors(request):
 # sjy 0621修改 跳转演员详情的界面
 # 注意这里有两个参数，在urls和actors里面要提供两个参数 cx0622
 def actor(request, actor_id):
-    actor = Actor.objects.get(pk=actor_id)
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_actor`
+    WHERE 
+        `user_actor`.`id` = %s
+    '''
+    actor = Actor.objects.raw(sql_query, [actor_id])[0]
     return render(request, "user/actor_details.html", locals())
 
 
 # cx 0622修改 跳转导演详情的界面
 # 注意这里有两个参数，在urls和directors里面要提供两个参数 cx0622
 def director(request, director_id):
-    director = Director.objects.get(pk=director_id)
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_director`
+    WHERE 
+        `user_director`.`id` = %s
+    '''
+    director = Director.objects.raw(sql_query, [director_id])[0]
     return render(request, "user/director_details.html", locals())
 
 
