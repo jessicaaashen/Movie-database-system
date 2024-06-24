@@ -24,9 +24,7 @@ def rate_detail(request, user_id):
 def collect_detail(request, user_id):
     user = User.objects.get(id=user_id)
     collect_movies = user.movie_set.all()
-    print(collect_movies)
     serializer = CollectSerializer(collect_movies, many=True)
-    print(serializer.data)
     return Response(serializer.data)
 
 
