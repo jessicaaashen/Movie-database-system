@@ -248,7 +248,7 @@ def movie(request, movie_id):
         user_rate = Rate.objects.filter(movie=movie, user_id=user_id).first()
         user = User.objects.get(pk=user_id)
         is_collect = movie.collect.filter(id=user_id).first()
-    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles, 'comments': comments, 'is_collect': is_collect})
+    return render(request, "user/details.html", locals())
 
 
 @login_in
