@@ -30,7 +30,7 @@
     </div>
 {% endblock %}
 {% block content %}
-    <!-- content-left 这里是内容哦！！！ -->
+    <!-- content-left 这里是内容 -->
     <div class="col-md-8 content-left" style="width: 100%;">
         {% for movie in movies %}
             <div onclick="" class="artical">
@@ -47,7 +47,7 @@
                     <div class="artical-info">
                         <p><strong>发布时间:</strong> {{ movie.years }}</p>
                         <p><strong>标签:</strong> {% for tag in movie.tags.all %}
-                            <a href="">{{ tag.name }}</a>
+                            <a href="{% url 'index' %}?tag_id={{ tag.id }}">{{ tag.name }}</a>
                         {% endfor %}
                         </p>
                         <p><strong>导演:</strong> {% for director in movie.director.all %}
@@ -75,7 +75,7 @@
                     {% endif %}
                 {% endfor %}
                 {% if movies.has_next %}
-                    <li class="next"><a href="?page={{ movies.next_page_number }}">Next Page</a></li>
+                    <li class="next"><a href="?page={{ movies.next_page_number }}">下一页</a></li>
                 {% endif %}
             </ul>
         </div>
