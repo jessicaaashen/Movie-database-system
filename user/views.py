@@ -406,7 +406,13 @@ def delete_rate(request, rate_id):
 
 # 电影的标签页面
 def all_tags(request):
-    tags = Tags.objects.all()      # 这里应该用到了user/models.py里面的Tags模板类
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_tags`
+    '''
+    tags = Tags.objects.raw(sql_query)
     return render(request, "user/tags.html", {"tags": tags})    # 这里连接到了user/templates/user/tags.html
 
 @login_in
