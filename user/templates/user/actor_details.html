@@ -24,7 +24,7 @@
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ actor.introduction | slice:240 }}...</p>    
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;参演的相关电影：</strong> 
                         {% for movie in actor.movie_set.all %}
-                            <a href="{% url 'movie' movie.id %}"">{{ movie.name }}</a>
+                            <a href="{% url 'movie' movie.id %}">{{ movie.name }}</a>
                         {% endfor %}
                     </p>             
                 </div>

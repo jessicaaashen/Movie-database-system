@@ -50,7 +50,10 @@
                             <a href="">{{ tag.name }}</a>
                         {% endfor %}
                         </p>
-                        <p><strong>导演:</strong> {{ movie.director }}</p>
+                        <p><strong>导演:</strong> {% for director in movie.director.all %}
+                            <a href="">{{ director.name }}</a>
+                        {% endfor %}
+                        </p>
                         <p><strong>豆瓣评分:</strong>{{ movie.d_rate }} </p>
                     </div>
                 </div>
