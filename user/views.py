@@ -159,12 +159,12 @@ def search(request):  # 搜索
         request.session["search"] = key  # 记录搜索关键词解决跳页问题
     else:
         key = request.session.get("search")  # 得到关键词
-<<<<<<< HEAD
-    movies = Movie.objects.filter.distinct()(
-        # Q(name__icontains=key)  | Q(intro__icontains=key)| Q(director__icontains=key) cx 0623
-        Q(name__icontains=key) | Q(moviedirector__director__name__icontains=key) | Q(movieactor__actor__name__icontains=key)
-    )  # 进行内容的模糊搜索
-=======
+
+    # movies = Movie.objects.filter.distinct()(
+    #     # Q(name__icontains=key)  | Q(intro__icontains=key)| Q(director__icontains=key) cx 0623
+    #     Q(name__icontains=key) | Q(moviedirector__director__name__icontains=key) | Q(movieactor__actor__name__icontains=key)
+    # )  # 进行内容的模糊搜索
+
     search_key = f"%{key}%"  # 模糊搜索关键字
     sql_query = '''
     SELECT DISTINCT *
@@ -182,7 +182,7 @@ def search(request):  # 搜索
     )
     '''
     movies = Movie.objects.raw(sql_query, [search_key, search_key, search_key])
->>>>>>> 6027c5f7944f4fcb2a12ad7cdc5c16e63887f48b
+
     page_num = request.GET.get("page", 1)
     movies = movies_paginator(movies, page_num)
     return render(request, "index.html", {"movies": movies, 'title': "Search Results"})
