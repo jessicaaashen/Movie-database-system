@@ -21,8 +21,9 @@ urlpatterns = [
     path("choose_tags/", views.choose_tags, name="choose_tags"),
 
     # 以下为新增内容 cx 20240613
-    path("all_actors", views.all_actors, name="all_actors"),
+    path("all_actors/", views.all_actors, name="all_actors"),
     path("all_directors/", views.all_directors, name="all_directors"),
+    path("all_companies/", views.all_companies, name="all_companies"),
     # 和user/base.html line 30 31 新增内容对应
     # 具体定义在user/views.py中
     
@@ -35,5 +36,6 @@ urlpatterns = [
     # cx 0623 新增演员/导演搜索
     path("actor_search/", views.actor_search, name='actor_search'),
     path("director_search/", views.director_search, name='director_search'),
+    path("company_search/", views.company_search, name='company_search'),
     
 ]

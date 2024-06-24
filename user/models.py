@@ -48,7 +48,7 @@ class UserTagPrefer(models.Model):
 
 
 
-# 以下是我新加的表
+# 公司信息管理
 class Company(models.Model):
     name = models.CharField(max_length=255, verbose_name='公司名称', unique=True)    # cx 0623 保证唯一性
     city = models.CharField(max_length=64, verbose_name='所在城市')
@@ -60,7 +60,6 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
-# 以上是我新加的表
 
 
 # 新增的演员信息管理  cx
@@ -115,7 +114,6 @@ class Movie(models.Model):
     num = models.IntegerField(verbose_name="浏览数量", default=0)
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
 
-    # 下列字段是sjy加入的
     duration = models.IntegerField(verbose_name='电影时长', null=True)
     state = models.CharField(verbose_name="上映状态",max_length=20)
     language = models.CharField(verbose_name="语言",max_length=20,default="英语")
@@ -171,6 +169,21 @@ class MovieDirector(models.Model):
         return f"{self.movie.name} - {self.director.name}"
 
 
+# # cx 0624
+# class MovieCompany(models.Model):
+#     movie = models.ForeignKey(Movie, on_delete=models.RESTRICT, verbose_name="电影")
+#     company = models.ForeignKey(Company, on_delete=models.RESTRICT, verbose_name="公司")
+
+#     class Meta:
+#         # 定义数据库约束名称，确保它们与 SQL 脚本中的相匹配（如果需要）
+#         db_table = 'user_movie_company'  # 指定数据库中的表名称
+#         verbose_name = "电影与公司关系"
+#         verbose_name_plural = "电影与公司关系"
+#         unique_together = (('movie', 'company'),)     # cx 0623，保证唯一性
+
+#     def __str__(self):
+#         return f"{self.movie.name} - {self.company.name}"
+
 
 # # cx 0624
 # class MovieTag(models.Model):
@@ -185,7 +198,7 @@ class MovieDirector(models.Model):
 #         unique_together = (('movie', 'tag'),)     # cx 0623，保证唯一性
 
 #     def __str__(self):
-#         return f"{self.movie.name} - {self.tags.name}"
+#         return f"{self.movie.name} - {self.tag.name}"
 
 
 class Rate(models.Model):

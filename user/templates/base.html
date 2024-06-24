@@ -29,6 +29,7 @@
                 <li><a href="{% url 'all_tags' %}">标签信息 </a></li>
                 <li><a href="{% url 'all_directors' %}">导演信息 </a></li>
                 <li><a href="{% url 'all_actors' %}">演员信息 </a></li>
+                <li><a href="{% url 'all_companies' %}">公司信息 </a></li>
                 <li><a href="/admin">后台管理</a></li>
                 {% if request.session.login_in == True %}
                     <li><a href="{% url 'personal' %}">{{ request.session.name }}</a></li>

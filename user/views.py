@@ -224,6 +224,24 @@ def director_search(request):
     return render(request, 'directors.html', {'directors': directors})
 
 
+# cx 0624 新增公司搜索
+def company_search(request):
+    if request.method == "POST":  # 如果搜索界面
+        key = request.POST["search"]
+        request.session["search"] = key  # 记录搜索关键词解决跳页问题
+    else:
+        key = request.session.get("search")  # 得到关键词
+    sql = """
+        SELECT * FROM user_company
+        WHERE name LIKE %s OR city LIKE %s
+    """
+    params = [f'%{key}%', f'%{key}%']
+    companies = Company.objects.raw(sql, params)
+    page_num = request.GET.get("page", 1)
+    companies = movies_paginator(companies, page_num)
+    return render(request, 'companies.html', {'companies': companies})
+
+
 # 请求单个电影数据时调用的接口
 # sjy0622
 # cx 0623 加了最后一行的 'comments': comments,
@@ -462,6 +480,21 @@ def all_actors(request):
     current_page = request.GET.get("page", 1)
     actors = paginator.page(current_page)
     return render(request, "actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
+
+
+# 新增公司浏览/详情页面 cx 0624
+def all_companies(request):
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_company`
+    '''
+    companies = Company.objects.raw(sql_query)
+    paginator = Paginator(companies, 6)    # cx 0623 分页
+    current_page = request.GET.get("page", 1)
+    companies = paginator.page(current_page)
+    return render(request, "companies.html", {"companies": companies})     # 连接到了user/templates/user/companies.html（新增文件）
 
 
 # sjy 0621修改 跳转演员详情的界面
