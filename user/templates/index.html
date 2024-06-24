@@ -51,10 +51,10 @@
                         {% endfor %}
                         </p>
                         <p><strong>导演:</strong> {% for director in movie.director.all %}
-                            <a href="">{{ director.name }}</a>
+                            <a href="{% url 'director' director.id %}">{{ director.name }}</a>
                         {% endfor %}
                         </p>
-                        <p><strong>豆瓣评分:</strong>{{ movie.d_rate }} </p>
+                        <p><strong>电影数据库评分:</strong>&nbsp;&nbsp;<strong style="font-size: 20px;">{{ movie.d_rate }} </strong></p>
                     </div>
                 </div>
                 <div class="clearfix"></div>

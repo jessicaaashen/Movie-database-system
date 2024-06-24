@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
+<style>
+    .artical-details-info-right p a{
+        color: #4cb4cc;
+    }
+</style>
     <div class="col-md-8 content-left" style="width: 100%;">
         <!-- artical-single-page -->
         <div class="artical-details">
@@ -26,13 +31,7 @@
                         <div class="col-md-6">
                             <p><strong>上映国家:</strong> {{ movie.country }}</p>
                         </div>
-                        <div class="col-md-6">
-                            <p><strong>导演:</strong>
-                                {% for director_role in director_roles %}
-                                    <p><a href="{% url 'director' director_role.director.id %}">{{ director_role.director.name }}</a>  担任  {{ director_role.duty }}</p>
-                                {% endfor %}
-                            </p>
-                        </div>
+                       
                     </div>
 
                     <div class="row">
@@ -47,16 +46,24 @@
                     <p><strong>公司：</strong>{{ movie.company.name }}</p>
 
                     <!-- sjy 0622 -->
-                        
-                    <p><strong>演员:</strong>
-                    {% for actor_role in actor_roles %}
-                        <p><a href="{% url 'actor' actor_role.actor.id %}">{{ actor_role.actor.name }}</a>  饰演  {{ actor_role.duty }}</p>
-                    {% endfor %}
-                    </p>
-
-
-
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>导演:</strong>
+                                {% for director_role in director_roles %}
+                                    <p><a href="{% url 'director' director_role.director.id %}">{{ director_role.director.name }}</a>  担任  {{ director_role.duty }}</p>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>演员:</strong>
+                                {% for actor_role in actor_roles %}
+                                    <p><a href="{% url 'actor' actor_role.actor.id %}">{{ actor_role.actor.name }}</a>  饰演  {{ actor_role.duty }}</p>
+                                {% endfor %}
+                                </p>
+                        </div>
+                    </div>
+                                     
+                 
                     <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
@@ -68,7 +75,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <p>
-                                <strong>豆瓣评分：{{ movie.d_rate }}</strong>&nbsp;&nbsp;&nbsp
+                                <strong>电影数据库评分：{{ movie.d_rate }}</strong>&nbsp;&nbsp;&nbsp
                             </p>
                         </div>
                      

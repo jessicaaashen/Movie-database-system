@@ -159,7 +159,7 @@ def search(request):  # 搜索
         request.session["search"] = key  # 记录搜索关键词解决跳页问题
     else:
         key = request.session.get("search")  # 得到关键词
-    movies = Movie.objects.filter(
+    movies = Movie.objects.filter.distinct()(
         # Q(name__icontains=key)  | Q(intro__icontains=key)| Q(director__icontains=key) cx 0623
         Q(name__icontains=key) | Q(moviedirector__director__name__icontains=key) | Q(movieactor__actor__name__icontains=key)
     )  # 进行内容的模糊搜索

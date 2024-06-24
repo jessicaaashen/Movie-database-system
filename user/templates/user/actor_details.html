@@ -4,29 +4,52 @@
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
+<style>
+    .artical-details-info a {
+        color: #4cb4cc;
+    }
+</style>
 <div class="col-md-12 content-left">
 
     <div class="albums">
         <h1>演员详情</h1>
     </div>
-
-    <div class="col-md-8 content-left" style="width: 100%;">
+    <div class="col-md-8 content-left" style="width: 20%;">
+        <img src="{{ MEDIA_URL }}{{ actor.image_link }} " style="max-width: 100%;">
+    </div>
+    <div class="col-md-8 content-right" style="width: 80%;">
         <!-- artical-single-page -->
         <div class="artical-details">
             <h2>{{ actor.name }} </h2>
             <!-- artical-details-info -->
             <div class="artical-details-info">
                 <div class="row">
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性别：</strong> {{ actor.gender }}</p>
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生日：</strong> {{ actor.birthday }}</p>
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国籍：</strong> {{ actor.nationality }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</strong> {{ actor.gender }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：</strong> {{ actor.birthday }}</p>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍：</strong> {{ actor.nationality }}</p>
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;获奖记录：</strong> {{ actor.prize }} </p>
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;简介：</strong>{{ actor.introduction | slice:240 }}...</p>    
-                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;参演的相关电影：</strong> 
-                        {% for movie in actor.movie_set.all %}
+                      
+                    <p> 
+                        <table>
+                            <tr>
+                                <td style="align-content: flex-start;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介：</strong></td>
+                                <td> {{ actor.introduction }}</td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p> 
+                        <table>
+                            <tr>
+                                <td style="align-content: flex-start;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;参演的相关电影：</strong></td>
+                                <td> 
+                                    {% for movie in actor.movie_set.all %}
                             <a href="{% url 'movie' movie.id %}">{{ movie.name }}</a>
-                        {% endfor %}
-                    </p>             
+                                    <br>
+                                {% endfor %}</td>
+                            </tr>
+                        </table>
+                    </p>     
+                     
                 </div>
             </div>
         <div class="clearfix"></div>
