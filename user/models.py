@@ -40,6 +40,7 @@ class UserTagPrefer(models.Model):
         db_table = 'user_usertagprefer'
         verbose_name = "用户喜好"
         verbose_name_plural = "喜好"
+        unique_together = (('user', 'tag'),)     # cx 0623，保证唯一性（一个用户对一个标签至多有一条记录）
 
     def __str__(self):
         return self.user.username + str(self.score)
@@ -49,9 +50,8 @@ class UserTagPrefer(models.Model):
 
 # 以下是我新加的表
 class Company(models.Model):
-    name = models.CharField(max_length=255, verbose_name='公司名称')    # 增加了别名“公司名称”  cx
-    city = models.CharField(max_length=64, verbose_name='所在城市')     # 增加了别名“所在城市”  cx
-
+    name = models.CharField(max_length=255, verbose_name='公司名称', unique=True)    # cx 0623 保证唯一性
+    city = models.CharField(max_length=64, verbose_name='所在城市')
     # 增加了"company"的别名“公司信息”  cx
     class Meta:
         db_table = 'user_company'
@@ -110,7 +110,7 @@ class Movie(models.Model):
     country = models.CharField(verbose_name="国家/地区", max_length=255)
     years = models.DateField(verbose_name='上映时间')
     actor = models.ManyToManyField(Actor, through='MovieActor',verbose_name="演员", max_length=1024)          # cx 0622
-    d_rate = models.IntegerField(verbose_name="豆瓣评分", max_length=255)          # cx 0622
+    d_rate = models.DecimalField(verbose_name="豆瓣评分", max_digits=3, decimal_places=1)          # cx 0622 0623
     intro = models.TextField(verbose_name="情节简介")
     num = models.IntegerField(verbose_name="浏览数量", default=0)
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
@@ -134,8 +134,10 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.name
-    
-#sjy加入 0623
+
+
+
+# sjy加入 0623
 class MovieActor(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.RESTRICT, verbose_name="电影")
     actor = models.ForeignKey(Actor, on_delete=models.RESTRICT, verbose_name="演员")
@@ -146,6 +148,7 @@ class MovieActor(models.Model):
         db_table = 'user_movie_actor'  # 指定数据库中的表名称
         verbose_name = "电影与演员关系"
         verbose_name_plural = "电影与演员关系"
+        unique_together = (('movie', 'actor', 'duty'),)     # cx 0623，保证唯一性
 
     def __str__(self):
         return f"{self.movie.name} - {self.actor.name}"
@@ -162,11 +165,10 @@ class MovieDirector(models.Model):
         db_table = 'user_movie_director'  # 指定数据库中的表名称
         verbose_name = "电影与导演关系"
         verbose_name_plural = "电影与导演关系"
+        unique_together = (('movie', 'director', 'duty'),)     # cx 0623，保证唯一性
 
     def __str__(self):
         return f"{self.movie.name} - {self.director.name}"
-
-
 
 
 
@@ -189,11 +191,13 @@ class Rate(models.Model):
         db_table = 'user_rate'
         verbose_name = "评分信息"
         verbose_name_plural = "评分信息"
+        unique_together = (('movie', 'user'),)           # cx 0623，保证唯一性（用户对一个电影只能有一个评分）
+
 
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户名")
-    content = models.CharField(max_length=255, verbose_name="评论内容")
+    content = models.CharField(max_length=255, verbose_name="评论内容", blank=False, null=False)
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="评论时间")
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="电影")
 
@@ -201,6 +205,7 @@ class Comment(models.Model):
         db_table = 'user_comment'
         verbose_name = "评论信息"
         verbose_name_plural = "评论信息"
+
 
 
 class LikeComment(models.Model):

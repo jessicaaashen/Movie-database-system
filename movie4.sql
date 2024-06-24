@@ -355,46 +355,75 @@ DROP TABLE IF EXISTS `user_movie`;
 CREATE TABLE `user_movie`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  -- `director` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `country` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `years` date NOT NULL,															-- 这里应该是YEAR类型，但是DATE也没有问题
-  -- `leader` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  -- `d_rate_nums` int NOT NULL,
   `d_rate` decimal(3,1) NOT NULL,
   `intro` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `num` int NOT NULL,
   `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
 
-  -- 以下字段是我新加入的
   `duration` smallint NOT NULL,
   `company_id` smallint NULL,
   `state` enum("在映","下线","重映") CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `language` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `user_movie_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `user_company` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20332 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_movie
 -- ----------------------------
-  -- INSERT INTO `user_movie` VALUES (18151, '肖申克的救赎 The Shawshank Redemption', '弗兰克·德拉邦特', ' 美国', '1994-09-10', '蒂姆·罗宾斯/摩根·弗里曼/鲍勃·冈顿/威廉姆·赛德勒/克兰西·布朗/吉尔·贝罗斯/马克·罗斯顿/詹姆斯·惠特摩/杰弗里·德曼/拉里·布兰登伯格/尼尔·吉恩托利/布赖恩·利比/大卫·普罗瓦尔/约瑟夫·劳格诺/祖德·塞克利拉/保罗·麦克兰尼/芮妮·布莱恩/阿方索·弗里曼/V·J·福斯特/弗兰克·梅德拉诺/马克·迈尔斯/尼尔·萨默斯/耐德·巴拉米/布赖恩·戴拉特/唐·麦克马纳斯', 9, '9.7', '\n                                    　　20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为肖申克的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来灰暗绝望的人生。未过多久，安迪尝试接近囚犯中颇有声望的瑞德（摩根·弗里曼 Morgan Freeman 饰），请求对方帮自己搞来小锤子。以此为契机，二人逐渐熟稔，安迪也仿佛在鱼龙混杂、罪恶横生、黑白混淆的牢狱中找到属于自己的求生之道。他利用自身的专业知识，帮助监狱管理层逃税、洗黑钱，同时凭借与瑞德的交往在犯人中间也渐渐受到礼遇。表面看来，他已如瑞德那样对那堵高墙从憎恨转变为处之泰然，但是对自由的渴望仍促使他朝着心中的希望和目标前进。而关于其罪行的真相，似乎更使这一切朝前推进了一步……\n                                        \n                                    　　本片根据著名作家斯蒂芬·金（Stephen Edwin King）的...\n                            ', 35, 'image_link', 'movie_cover/p480747492.jpg', 'https://www.imdb.com/title/tt0111161', 'https://movie.douban.com/subject/1292052/', '1292052',100,1,'下线','英语');
-  INSERT INTO `user_movie` VALUES (18152, '霸王别姬', ' 中国大陆 / 中国香港', '1993-01-01', 9.6, '\n                                　　段小楼（张丰毅）与程蝶衣（张国荣）是一对打小一起长大的师兄弟，两人一个演生，一个饰旦，一向配合天衣无缝，尤其一出《霸王别姬》，更是誉满京城，为此，两人约定合演一辈子《霸王别姬》。但两人对戏剧与人生关系的理解有本质不同，段小楼深知戏非人生，程蝶衣则是人戏不分。\n                                    \n                                　　段小楼在认为该成家立业之时迎娶了名妓菊仙（巩俐），致使程蝶衣认定菊仙是可耻的第三者，使段小楼做了叛徒，自此，三人围绕一出《霸王别姬》生出的爱恨情仇战开始随着时代风云的变迁不断升级，终酿成悲剧。\n                        ', 2, 'movie_cover/p2561716440.jpg', 180 ,2,'下线','英语');
--- INSERT INTO `user_movie` VALUES (18153, '阿甘正传 Forrest Gump', '罗伯特·泽米吉斯', ' 美国', '1994-06-23', '汤姆·汉克斯/罗宾·怀特/加里·西尼斯/麦凯尔泰·威廉逊/莎莉·菲尔德/海利·乔·奥斯蒙/迈克尔·康纳·亨弗里斯/哈罗德·G·赫瑟姆/山姆·安德森/伊俄涅·M·特雷奇/彼得·道博森/希芳·法隆/伊丽莎白·汉克斯/汉娜·豪尔/克里斯托弗·琼斯/罗布·兰德里/杰森·麦克奎尔/桑尼·施罗耶/艾德·戴维斯/丹尼尔C.斯瑞派克/大卫·布里斯宾/德博拉·麦克蒂尔/艾尔·哈林顿/阿非莫·奥米拉/约翰·沃德斯塔德/迈克尔·伯吉斯/埃里克·安德伍德/拜伦·明斯/斯蒂芬·布吉格沃特/约翰·威廉·高尔特/希拉里·沙普兰/伊莎贝尔·罗斯/理查德·达历山德罗/迪克·史迪威/迈克尔-杰斯/杰弗里·布莱克/瓦妮莎·罗斯/迪克·卡维特/马拉·苏查雷特扎/乔·阿拉斯奇/W·本森·泰瑞', 9, '9.5', '\n                                　　阿甘（汤姆·汉克斯 饰）于二战结束后不久出生在美国南方阿拉巴马州一个闭塞的小镇，他先天弱智，智商只有75，然而他的妈妈是一个性格坚强的女性，她常常鼓励阿甘“傻人有傻福”，要他自强不息。\n                                    \n                                　　阿甘像普通孩子一样上学，并且认识了一生的朋友和至爱珍妮（罗宾·莱特·潘 饰），在珍妮和妈妈的爱护下，阿甘凭着上帝赐予的“飞毛腿”开始了一生不停的奔跑。\n                                    \n                                　　阿甘成为橄榄球巨星、越战英雄、乒乓球外交使者、亿万富翁，但是，他始终忘不了珍妮，几次匆匆的相聚和离别，更是加深了阿甘的思念。\n                                    \n                                　　有一天，阿甘收到珍妮的信，他们终于又要见面……\n                        ', 0, 'image_link', 'movie_cover/p1484728154.jpg', 'https://www.imdb.com/title/tt0109830', 'https://movie.douban.com/subject/1292720/', '1292720',144,2,'下线','意大利语');
--- INSERT INTO `user_movie` VALUES (18154, '这个杀手不太冷 Léon', '吕克·贝松', ' 法国', '1994-09-14', '让·雷诺/娜塔莉·波特曼/加里·奥德曼/丹尼·爱罗/彼得·阿佩尔/迈克尔·巴达鲁科/艾伦·格里尼/伊丽莎白·瑞根/卡尔·马图斯维奇/弗兰克·赛格/麦温/乔治·马丁/罗伯特·拉萨多/亚当·布斯奇/马里奥·托迪斯科/萨米·纳塞利', 9, '9.4', '\n                                　　里昂（让·雷诺饰）是名孤独的职业杀手，受人雇佣。一天，邻居家小姑娘马蒂尔达（纳塔丽·波特曼饰)敲开他的房门，要求在他那里暂避杀身之祸。原来邻居家的主人是警方缉毒组的眼线，只因贪污了一小包毒品而遭恶警（加里·奥德曼饰）杀害全家的惩罚。马蒂尔达得到里昂的留救，幸免于难，并留在里昂那里。里昂教小女孩使枪，她教里昂法文，两人关系日趋亲密，相处融洽。\n                                    \n                                　　女孩想着去报仇，反倒被抓，里昂及时赶到，将女孩救回。混杂着哀怨情仇的正邪之战渐次升级，更大的冲突在所难免……\n                        ', 2, 'image_link', 'movie_cover/p511118051.jpg', 'https://www.imdb.com/title/tt0110413', 'https://movie.douban.com/subject/1295644/', '1295644',180,1,'在映','中文');
--- INSERT INTO `user_movie` VALUES (18155, '美丽人生 La vita è bella', '罗伯托·贝尼尼', ' 意大利', '2020-01-03', '罗伯托·贝尼尼/尼可莱塔·布拉斯基/乔治·坎塔里尼/朱斯蒂诺·杜拉诺/赛尔乔·比尼·布斯特里克/玛丽萨·帕雷德斯/霍斯特·布赫霍尔茨/利迪娅·阿方西/朱利亚娜·洛约迪切/亚美利哥·丰塔尼/彼得·德·席尔瓦/弗朗西斯·古佐/拉法埃拉·莱博罗尼/克劳迪奥·阿方西/吉尔·巴罗尼/马西莫·比安奇/恩尼奥·孔萨尔维/吉安卡尔洛·科森蒂诺/阿伦·克雷格/汉尼斯·赫尔曼/弗兰科·梅斯科利尼/安东尼奥·普雷斯特/吉娜·诺维勒/理查德·塞梅尔/安德烈提多娜/迪尔克·范登贝格/奥梅罗·安东努蒂', 9, '9.5', '\n                                　　犹太青年圭多（罗伯托·贝尼尼）邂逅美丽的女教师多拉（尼可莱塔·布拉斯基），他彬彬有礼的向多拉鞠躬：“早安！公主！”。历经诸多令人啼笑皆非的周折后，天遂人愿，两人幸福美满的生活在一起。\n                                    \n                                　　然而好景不长，法西斯政权下，圭多和儿子被强行送往犹太人集中营。多拉虽没有犹太血统，毅然同行，与丈夫儿子分开关押在一个集中营里。聪明乐天的圭多哄骗儿子这只是一场游戏，奖品就是一辆大坦克，儿子快乐、天真的生活在纳粹的阴霾之中。尽管集中营的生活艰苦寂寞，圭多仍然带给他人很多快乐，他还趁机在纳粹的广播里问候妻子：“早安！公主！”\n                                    \n                                　　法西斯政权即将倾覆，纳粹的集中营很快就要接受最后的清理，圭多编给儿子的游戏该怎么结束？他们一家能否平安的度过这黑暗的年代呢？\n                        ', 0, 'image_link', 'movie_cover/p2578474613.jpg', 'https://www.imdb.com/title/tt0118799', 'https://movie.douban.com/subject/1292063/', '1292063',134,1,'下线','中文');
--- INSERT INTO `user_movie` VALUES (18156, '泰坦尼克号 Titanic', '詹姆斯·卡梅隆', ' 美国', '1998-04-03', '莱昂纳多·迪卡普里奥/凯特·温丝莱特/比利·赞恩/凯西·贝茨/弗兰西丝·费舍/格劳瑞亚·斯图尔特/比尔·帕克斯顿/伯纳德·希尔/大卫·沃纳/维克多·加博/乔纳森·海德/苏茜·爱米斯/刘易斯·阿伯内西/尼古拉斯·卡斯柯恩/阿那托利·萨加洛维奇/丹尼·努齐/杰森·贝瑞/伊万·斯图尔特/艾恩·格拉法德/乔纳森·菲利普斯/马克·林赛·查普曼/理查德·格拉翰/保罗·布赖特威尔/艾瑞克·布里登/夏洛特·查顿/博纳德·福克斯/迈克尔·英塞恩/法妮·布雷特/马丁·贾维斯/罗莎琳·艾尔斯/罗切尔·罗斯/乔纳森·伊万斯-琼斯/西蒙·克雷恩/爱德华德·弗莱彻/斯科特·安德森/马丁·伊斯特/克雷格·凯利/格雷戈里·库克/利亚姆·图伊/詹姆斯·兰开斯特/艾尔莎·瑞雯/卢·帕尔特/泰瑞·佛瑞斯塔/凯文·德·拉·诺伊', 9, '9.4', '\n                                　　1912年4月10日，号称 “世界工业史上的奇迹”的豪华客轮泰坦尼克号开始了自己的处女航，从英国的南安普顿出发驶往美国纽约。富家少女罗丝（凯特•温丝莱特）与母亲及未婚夫卡尔坐上了头等舱；另一边，放荡不羁的少年画家杰克（莱昂纳多·迪卡普里奥）也在码头的一场赌博中赢得了下等舱的船票。\n                                    \n                                　　罗丝厌倦了上流社会虚伪的生活，不愿嫁给卡尔，打算投海自尽，被杰克救起。很快，美丽活泼的罗丝与英俊开朗的杰克相爱，杰克带罗丝参加下等舱的舞会、为她画像，二人的感情逐渐升温。\n                                    \n                                　　1912年4月14日，星期天晚上，一个风平浪静的夜晚。泰坦尼克号撞上了冰山，“永不沉没的”泰坦尼克号面临沉船的命运，罗丝和杰克刚萌芽的爱情也将经历生死的考验。\n                        ', 0, 'image_link', 'movie_cover/p457760035.jpg', 'https://www.imdb.com/title/tt0120338', 'https://movie.douban.com/subject/1292722/', '1292722');
--- INSERT INTO `user_movie` VALUES (18157, '千与千寻 千と千尋の神隠し', '宫崎骏', ' 日本', '2019-06-21', '柊瑠美/入野自由/夏木真理/菅原文太/中村彰男/玉井夕海/神木隆之介/内藤刚志/泽口靖子/我修院达也/大泉洋/小林郁夫/上条恒彦/小野武彦', 9, '9.4', '\n                                　　千寻和爸爸妈妈一同驱车前往新家，在郊外的小路上不慎进入了神秘的隧道——他们去到了另外一个诡异世界—一个中世纪的小镇。远处飘来食物的香味，爸爸妈妈大快朵颐，孰料之后变成了猪！这时小镇上渐渐来了许多样子古怪、半透明的人。\n                                    \n                                　　千寻仓皇逃出，一个叫小白的人救了他，喂了她阻止身体消 失的药，并且告诉她怎样去找锅炉爷爷以及汤婆婆，而且必须获得一份工作才能不被魔法变成别的东西。\n                                    \n                                　　千寻在小白的帮助下幸运地获得了一份在浴池打杂的工作。渐渐她不再被那些怪模怪样的人吓倒，并从小玲那儿知道了小白是凶恶的汤婆婆的弟子。\n                                    \n                                　　一次，千寻发现小白被一群白色飞舞的纸人打伤，为了救受伤的小白，她用河神送给她的药丸驱出了小白身体内的封印以及守封印的小妖精，但小白还是没有醒过来。\n                                    \n                                　　为了救小白，千寻又踏上了她的冒险之旅。\n                        ', 0, 'image_link', 'movie_cover/p2557573348.jpg', 'https://www.imdb.com/title/tt0245429', 'https://movie.douban.com/subject/1291561/', '1291561');
--- INSERT INTO `user_movie` VALUES (18158, '辛德勒的名单 Schindler\'s List', '史蒂文·斯皮尔伯格', ' 美国', '1993-11-30', '连姆·尼森/本·金斯利/拉尔夫·费因斯/卡罗琳·古多尔/乔纳森·萨加尔/艾伯丝·戴维兹/马尔戈萨·格贝尔/马克·伊瓦涅/碧翠斯·马科拉/安德烈·瑟韦林/弗里德里希·冯·图恩/克齐斯茨托夫·拉夫特/诺伯特·魏塞尔', 9, '9.5', '\n                                　　1939年，波兰在纳粹德国的统治下，党卫军对犹太人进行了隔离统治。德国商人奥斯卡·辛德勒（连姆·尼森 Liam Neeson 饰）来到德军统治下的克拉科夫，开设了一间搪瓷厂，生产军需用品。凭着出众的社交能力和大量的金钱，辛德勒和德军建立了良好的关系，他的工厂雇用犹太人工作，大发战争财。\n                                    \n                                　　1943年，克拉科夫的犹太人遭到了惨绝人寰的大屠杀，辛德勒目睹这一切，受到了极大的震撼，他贿赂军官，让自己的工厂成为集中营的附属劳役营，在那些疯狂屠杀的日子里，他的工厂也成为了犹太人的避难所。\n                                    \n                                　　1944年，德国战败前夕，屠杀犹太人的行动越发疯狂，辛德勒向德军军官开出了1200人的名单，倾家荡产买下了这些犹太人的生命。在那些暗无天日的岁月里，拯救一个人，就是拯救全世界。\n                        ', 0, 'image_link', 'movie_cover/p492406163.jpg', 'https://www.imdb.com/title/tt0108052', 'https://movie.douban.com/subject/1295124/', '1295124');
--- INSERT INTO `user_movie` VALUES (18159, '盗梦空间 Inception', '克里斯托弗·诺兰', ' 美国 / 英国', '2010-09-01', '莱昂纳多·迪卡普里奥/约瑟夫·高登-莱维特/艾伦·佩吉/汤姆·哈迪/渡边谦/迪利普·劳/基里安·墨菲/汤姆·贝伦杰/玛丽昂·歌迪亚/皮特·波斯尔思韦特/迈克尔·凯恩/卢卡斯·哈斯/李太力/克莱尔·吉尔蕾/马格努斯·诺兰/泰勒·吉蕾/乔纳森·吉尔/水源士郎/冈本玉二/厄尔·卡梅伦/瑞恩·海沃德/米兰达·诺兰/拉什·费加/蒂姆·科勒赫/妲露拉·莱莉', 9, '9.3', '\n                                    　　道姆·柯布（莱昂纳多·迪卡普里奥 Leonardo DiCaprio 饰）与同事阿瑟（约瑟夫·戈登-莱维特 Joseph Gordon-Levitt 饰）和纳什（卢卡斯·哈斯 Lukas Haas 饰）在一次针对日本能源大亨齐藤（渡边谦 饰）的盗梦行动中失败，反被齐藤利用。齐藤威逼利诱因遭通缉而流亡海外的柯布帮他拆分他竞争对手的公司，采取极端措施在其唯一继承人罗伯特·费希尔（希里安·墨菲 Cillian Murphy 饰）的深层潜意识中种下放弃家族公司、自立门户的想法。为了重返美国，柯布偷偷求助于岳父迈尔斯（迈克尔·凯恩 Michael Caine 饰），吸收了年轻的梦境设计师艾里阿德妮（艾伦·佩吉 Ellen Page 饰）、梦境演员艾姆斯（汤姆·哈迪 Tom Hardy 饰）和药剂师约瑟夫（迪利普·劳 Dileep Rao 饰）加入行动。在一层层...\n                            ', 0, 'image_link', 'movie_cover/p513344864.jpg', 'https://www.imdb.com/title/tt1375666', 'https://movie.douban.com/subject/3541415/', '3541415');
--- INSERT INTO `user_movie` VALUES (18160, '忠犬八公的故事 Hachi: A Dog\'s Tale', '拉斯·霍尔斯道姆', ' 美国 / 英国', '2009-06-13', '理查·基尔/萨拉·罗默尔/琼·艾伦/罗比·萨布莱特/艾瑞克·阿瓦利/田川洋行/杰森·亚历山大/罗伯特·卡普荣', 9, '9.4', '\n                                    　　八公（Forest 饰）是一条谜一样的犬，因为没有人知道它从哪里来。教授帕克（理查·基尔 Richard Gere 饰）在小镇的火车站拣到一只走失的小狗，冥冥中似乎注定小狗和帕克教授有着某种缘分，帕克一抱起这只小狗就再也放不下来，最终，帕克对小狗八公的疼爱感化了起初极力反对养狗的妻子卡特（琼·艾伦 Joan Allen 饰）。八公在帕克的呵护下慢慢长大，帕克上班时八公会一直把他送到车站，下班时八公也会早早便爬在车站等候，八公的忠诚让小镇的人家对它更加疼爱。有一天，八公在帕克要上班时表现异常，居然玩起了以往从来不会的捡球游戏，八公的表现让帕克非常满意，可是就是在那天，帕克因病去世。帕克的妻子、女儿安迪（萨拉·罗默尔 Sarah Roemer 饰）及女婿迈克尔（罗比·萨布莱特 Robbie Sublett 饰）怀着无比沉痛的心情埋葬了帕克，可是不明就里的...\n                            ', 0, 'image_link', 'movie_cover/p524964016.jpg', 'https://www.imdb.com/title/tt1028532', 'https://movie.douban.com/subject/3011091/', '3011091');
--- INSERT INTO `user_movie` VALUES (18161, '海上钢琴师 La leggenda del pianista sull\'oceano', '朱塞佩·托纳多雷', ' 意大利', '2019-11-15', '蒂姆·罗斯/普路特·泰勒·文斯/比尔·努恩/克兰伦斯·威廉姆斯三世/梅兰尼·蒂埃里/皮特·沃恩/尼尔·奥布赖恩/阿尔贝托·巴斯克斯/加布里埃莱·拉维亚/科里·巴克/西德尼·科尔/Luigi De Luca/尼古拉·迪·平托/费米·依鲁福祖/伊斯顿·盖奇/凯文·麦克纳利/布莱恩·普林格/沙拉·鲁宾/希思科特·威廉姆斯/阿妮妲·扎格利亚/安吉洛·迪洛雷塔', 9, '9.3', '\n                                　　本片讲述了一个钢琴天才传奇的一生。\n                                    \n                                　　1900年，Virginian号豪华邮轮上，一个孤儿被遗弃在头等舱，由船上的水手抚养长大，取名1900（蒂姆•罗斯 饰）。1900慢慢长大，显示出了无师自通的非凡钢琴天赋，在船上的乐队表演钢琴，每个听过他演奏的人，都被深深打动。爵士乐鼻祖杰尼听说了1900的高超技艺，专门上船和他比赛，最后自叹弗如，黯然离去。\n                                    \n                                　　可惜，这一切的事情都发生在海上，1900从来不愿踏上陆地，直到有一天，他爱上了一个女孩，情愫在琴键上流淌。他会不会为了爱情，踏上陆地开始新的生活，用他的琴声惊艳世界？他将怎样谱写自己非凡的人生。\n                        ', 0, 'image_link', 'movie_cover/p2574551676.jpg', 'https://www.imdb.com/title/tt0120731', 'https://movie.douban.com/subject/1292001/', '1292001');
--- INSERT INTO `user_movie` VALUES (18162, '楚门的世界 The Truman Show', '彼得·威尔', ' 美国', '1998-06-05', '金·凯瑞/劳拉·琳妮/艾德·哈里斯/诺亚·艾默里奇/娜塔莎·麦克艾霍恩', 9, '9.3', '\n                                　　楚门（金•凯瑞 Jim Carrey 饰）是一个平凡得不能再平凡的人，除了一些有些稀奇的经历之外——初恋女友突然失踪、溺水身亡的父亲忽然似乎又出现在眼前，他和绝大多数30多岁的美国男人绝无异样。这令他倍感失落。他也曾试过离开自己生活了多年的地方，但总因种种理由而不能成行。\n                                    \n                                　　直到有一天，他忽然发觉自己似乎一直在被人跟踪，无论他走到哪里，干什么事情。这种感觉愈来愈强烈。楚门决定不惜一切代价逃离这个他生活了30多年的地方，去寻找他的初恋女友。\n                                    \n                                　　但他却发现自己怎样也逃不出去。真相其实很残忍。\n                        ', 0, 'image_link', 'movie_cover/p479682972.jpg', 'https://www.imdb.com/title/tt0120382', 'https://movie.douban.com/subject/1292064/', '1292064');
--- INSERT INTO `user_movie` VALUES (18163, '三傻大闹宝莱坞 3 Idiots', '拉吉库马尔·希拉尼', ' 印度', '2011-12-08', '阿米尔·汗/卡琳娜·卡普尔/马达范/沙尔曼·乔希/奥米·瓦依达/博曼·伊拉尼/莫娜·辛格/拉杰夫·拉宾德拉纳特安', 9, '9.2', '\n                                    　　本片根据印度畅销书作家奇坦·巴哈特（Chetan Bhagat）的处女作小说《五点人》（Five Point Someone）改编而成。法兰（马德哈万 R Madhavan 饰）、拉杜（沙曼·乔希 Sharman Joshi 饰）与兰乔（阿米尔·汗 Aamir Khan 饰）是皇家工程学院的学生，三人共居一室，结为好友。在以严格著称的学院里，兰乔是个非常与众不同的学生，他不死记硬背，甚至还公然顶撞校长“病毒”（波曼·伊拉尼 Boman Irani 饰），质疑他的教学方法。他不仅鼓动法兰与拉杜去勇敢追寻理想，还劝说校长的二女儿碧雅（卡琳娜·卡普 Kareena Kapoor 饰）离开满眼铜臭的未婚夫。兰乔的特立独行引起了模范学生“消音器”（奥米·维嘉 Omi Vaidya 饰）的不满，他约定十年后再与兰乔一决高下，看哪种生活方式更能取得成功。\n                                        \n                                    　　本片获孟...\n                            ', 0, 'image_link', 'movie_cover/p579729551.jpg', 'https://www.imdb.com/title/tt1187043', 'https://movie.douban.com/subject/3793023/', '3793023');
--- INSERT INTO `user_movie` VALUES (18164, '机器人总动员 WALL·E', '安德鲁·斯坦顿', ' 美国', '2008-06-27', '本·贝尔特/艾丽莎·奈特/杰夫·格尔林/佛莱德·威拉特/西格妮·韦弗/MacInTalk/约翰·拉岑贝格/凯茜·纳基麦/泰迪·牛顿/鲍伯·伯根/洛丽·理查德森/吉姆·瓦德/彼特·道格特/安德鲁·斯坦顿/杰夫·皮金/约翰·齐甘/米凯·麦高万/雪莉·琳恩/克莱特·惠特克/唐纳德·富利洛夫/罗里·艾伦/杰斯·哈梅尔/拉瑞恩·纽曼/扬·拉布森/保罗·伊丁', 9, '9.3', '\n                                　　公元2805年，人类文明高度发展，却因污染和生活垃圾大量增加使得地球不再适于人类居住。地球人被迫乘坐飞船离开故乡，进行一次漫长无边的宇宙之旅。临行前他们委托Buynlarge的公司对地球垃圾进行清理，该公司开发了名为WALL·E（Waste Allocation Loa d Lifters – Earth 地球废品分装员）的机器人担当此重任。\n                                    \n                                　　这些机器人按照程序日复一日、年复一年辛勤工作，但随着时间的流逝和恶劣环境的侵蚀，WALL·E们接连损坏、停止运动。最后只有一个仍在进行这项似乎永无止境的工作。经历了漫长的岁月，它开始拥有了自己的意识。它喜欢将收集来的宝贝小心翼翼藏起，喜欢收工后看看几百年前的歌舞片，此外还有一只蟑螂朋友作伴。直到有一天，一艘来自宇宙的飞船打破了它一成不变的生活……\n                                    \n                                　　本片荣获2009年第81届奥斯卡最佳动画长片奖。\n                        ', 0, 'image_link', 'movie_cover/p1461851991.jpg', 'https://www.imdb.com/title/tt0910970', 'https://movie.douban.com/subject/2131459/', '2131459');
--- INSERT INTO `user_movie` VALUES (18165, '放牛班的春天 Les choristes', '克里斯托夫·巴拉蒂', ' 法国 / 瑞士 / 德国', '2004-10-16', '热拉尔·朱尼奥/弗朗索瓦·贝莱昂/凯德·麦拉德/让-保罗·博奈雷/玛丽·布奈尔/让-巴蒂斯特·莫尼耶/马科森斯·珀林/格雷戈里·加迪诺尔/托马斯·布伦门塔尔/西里尔·伯尔尼科特/西蒙·法戈特/泰奥杜尔·卡雷-卡赛尼/菲利普·杜·詹纳兰德/埃里克·德斯玛莱茨/狄迪尔·弗拉蒙/雅克·贝汉', 9, '9.3', '\n                                　　1949年的法国乡村，音乐家克莱门特（杰勒德•尊诺 饰）到了一间外号叫“塘低”的男子寄宿学校当助理教师。学校里的学生大部分都是难缠的问题儿童，体罚在这里司空见惯，学校的校长（弗朗西斯•贝尔兰德 饰）只顾自己的前途，残暴高压。\n                                    \n                                　　性格沉静的克莱门特尝试用自己的方法改善这种状况，他重新创作音乐作品，组织合唱团，决定用音乐的方法来打开学生们封闭的心灵。\n                                    \n                                　　然而，事情并不顺利，克莱门特发现学生皮埃尔•莫安琦（尚•巴堤•莫里耶 饰）拥有非同一般的音乐天赋，但是单亲家庭长大的他，性格异常敏感孤僻，怎样释放皮埃尔的音乐才能，让克莱门特头痛不已；同时，他与皮埃尔母亲的感情也渐渐微妙起来。\n                        ', 0, 'image_link', 'movie_cover/p1910824951.jpg', 'https://www.imdb.com/title/tt0372824', 'https://movie.douban.com/subject/1291549/', '1291549');
--- INSERT INTO `user_movie` VALUES (18166, '星际穿越 Interstellar', '克里斯托弗·诺兰', ' 美国 / 英国 / 加拿大 / 冰岛', '2014-11-12', '马修·麦康纳/安妮·海瑟薇/杰西卡·查斯坦/卡西·阿弗莱克/迈克尔·凯恩/马特·达蒙/麦肯吉·弗依/蒂莫西·柴勒梅德/艾伦·伯斯汀/约翰·利思戈/韦斯·本特利/大卫·吉亚西/比尔·欧文/托弗·戈瑞斯/科莱特·沃夫/弗朗西斯·X·麦卡蒂/安德鲁·博尔巴/乔什·斯图沃特/莱雅·卡里恩斯/利亚姆·迪金森/杰夫·赫普内尔/伊莱耶斯·加贝尔/布鲁克·史密斯/大卫·奥伊罗/威廉姆·德瓦内/拉什·费加/格里芬·弗雷泽/弗洛拉·诺兰', 9, '9.3', '\n                                    　　近未来的地球黄沙遍野，小麦、秋葵等基础农作物相继因枯萎病灭绝，人类不再像从前那样仰望星空，放纵想象力和灵感的迸发，而是每日在沙尘暴的肆虐下倒数着所剩不多的光景。在家务农的前NASA宇航员库珀（马修·麦康纳 Matthew McConaughey 饰）接连在女儿墨菲（麦肯吉·弗依 Mackenzie Foy 饰）的书房发现奇怪的重力场现象，随即得知在某个未知区域内前NASA成员仍秘密进行一个拯救人类的计划。多年以前土星附近出现神秘虫洞，NASA借机将数名宇航员派遣到遥远的星系寻找适合居住的星球。在布兰德教授（迈克尔·凯恩 Michael Caine 饰）的劝说下，库珀忍痛告别了女儿，和其他三名专家教授女儿艾米莉亚·布兰德（安妮·海瑟薇 Anne Hathaway 饰）、罗米利（大卫·吉雅西 David Gyasi 饰）、多伊尔（韦斯·本特利 Wes B...\n                            ', 0, 'image_link', 'movie_cover/p2206088801.jpg', 'https://www.imdb.com/title/tt0816692', 'https://movie.douban.com/subject/1889243/', '1889243');
+  -- INSERT INTO `user_movie` VALUES (16, '肖申克的救赎 The Shawshank Redemption', ' 美国', '1994-09-10', 9.7, 
+--   '\n                                    　　20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为肖申克的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来灰暗绝望的人生。未过多久，安迪尝试接近囚犯中颇有声望的瑞德（摩根·弗里曼 Morgan Freeman 饰），请求对方帮自己搞来小锤子。以此为契机，二人逐渐熟稔，安迪也仿佛在鱼龙混杂、罪恶横生、黑白混淆的牢狱中找到属于自己的求生之道。他利用自身的专业知识，帮助监狱管理层逃税、洗黑钱，同时凭借与瑞德的交往在犯人中间也渐渐受到礼遇。表面看来，他已如瑞德那样对那堵高墙从憎恨转变为处之泰然，但是对自由的渴望仍促使他朝着心中的希望和目标前进。而关于其罪行的真相，似乎更使这一切朝前推进了一步……\n                                        \n                                    　　本片根据著名作家斯蒂芬·金（Stephen Edwin King）的...\n                            ', 
+--   35, 'movie_cover/p480747492.jpg', 180, 1,'下线','英语');
+  INSERT INTO `user_movie` VALUES (1, '疯狂动物城 Zootopia', '美国', '2016-03-04', 9.2, 
+  '故事发生在一个所有哺乳类动物和谐共存的美好世界中，兔子朱迪（金妮弗·古德温 Ginnifer Goodwin 配音）从小就梦想着能够成为一名惩恶扬善的刑警，凭借着智慧和努力，朱迪成功的从警校中毕业进入了疯狂动物城警察局，殊不知这里是大型肉食类动物的领地，作为第一只，也是唯一的小型食草类动物，朱迪会遇到怎样的故事呢？', 
+  0, 'p2315672647.jpg', 109, 1,'下线','英语');
+  INSERT INTO `user_movie` VALUES (2, '头脑特工队 Inside Out ', '美国', '2015-10-06', 8.8, 
+  '可爱的小女孩莱莉（凯特林·迪亚斯 Kaitlyn Dias 配音）出生在明尼苏达州一个平凡的家庭中，从小她在父母的呵护下长大，脑海中保存着无数美好甜蜜的回忆。当然这些记忆还与几个莱莉未曾谋面的伙伴息息相关，他们就是人类的五种主要情绪：乐乐（艾米·波勒 Amy Poehl er 配音）、忧忧（菲利丝·史密斯 Phyllis Smith 配音）、怕怕（比尔·哈德尔 Bill Hader 配音）、厌厌（敏迪·卡灵 Mindy Kaling 配音）和怒怒（刘易斯·布莱克 Lewis Black 配音）。乐乐作为团队的领导，她协同其他伙伴致力于为小主人营造更多美好的珍贵回忆。某天，莱莉随同父母搬到了旧金山，肮脏逼仄的公寓、陌生的校园环境、逐渐失落的友情都让莱莉无所适从，她的负面情绪逐渐累积，内心美好的世界渐次崩塌。', 
+  0, 'p2266293606.jpg', 95, 1,'下线','英语');
+  INSERT INTO `user_movie` VALUES (3, '玩具总动员4 Toy Story 4 ', '美国', '2019-06-21', 8.5, 
+  '自从与小主人安迪告别后，胡迪（汤姆·汉克斯 Tom Hanks 配音）和他的伙伴们在小女孩邦妮家安顿下来，不仅成为了邦妮（玛德琳·麦格劳 Madeleine McGraw 配音）的心爱之物，还结识了一批新伙伴。转眼之间，邦妮也要进入幼儿园啦，她用灵巧的小手把一个餐叉做成了玩具带了回来，并且热爱有加。胡迪虽然稍感失落，却还能欣然接受。只不过叉叉（托尼·海尔 Tony Hale 配音）似乎认定自己只是垃圾，一次次逃走跳进垃圾桶里，这可给胡迪找了不少麻烦。不久，邦妮一家外出旅行。叉叉故技重施，想方设法逃走，结果在追逐他的过程中，胡迪和叉叉便与邦妮家失散了。在流浪途中，胡迪意外重逢久未谋面的牧羊女（安妮·波茨 Annie Potts 配音），与此同时，新的冒险也就此展开……', 
+  0, 'p2557284230.jpg', 100, 1,'下线','英语');
+  INSERT INTO `user_movie` VALUES (4, '神偷奶爸3 Despicable Me 3 ', '美国', '2017-07-07', 6.8, 
+  '洗心革面之后，格鲁（史蒂夫·卡瑞尔 Steve Carell 配音）作为特工成绩斐然，却因未能打败坏小子巴萨扎·布莱德（崔·帕克Trey Parker 配音）而被新局长扫地出门。就在此时，他收到一封远方来信，这才得知自己原来还有一个双胞胎兄弟德鲁（史蒂夫·卡瑞尔 Steve Carell 配音）。在德鲁盛情邀请下，格鲁带着妻子露西•王尔德（克里斯汀·韦格 Kristen Wiig 配音）以及玛戈（米兰达·卡斯格拉夫 Miranda Cosgrove 配音）、伊迪丝（达娜·盖伊 Dana Gaier 配音）和阿格蕾丝（埃尔希·费舍 Elsie Fisher 配音）来到了他亲生父亲所居住的地方探亲。德鲁天真烂漫，却一心想和哥哥搭档成为坏蛋二人组。格鲁虽然暂时回归狂野，可正义之心并未泯灭。尤其当巴萨扎邪恶的计划和三个可爱的孩子牵扯到一起时，他再也无法坐视不理……', 
+  0, 'p2469070974.jpg', 90, 2,'下线','英语');
+  INSERT INTO `user_movie` VALUES (5, '小黄人大眼萌：神偷奶爸前传 Minions: The Rise of Gru', '美国', '2022-08-19', 7.1, 
+  '影片是2015年推出的小黄人独立电影《小黄人大眼萌》的直接前传。作为《神偷奶爸》的衍生作品，讲述了小黄人们在“前格鲁”时代为其他主人服务的经历，不过少年格鲁曾经出现在这部衍生电影里，续集将围绕他与小黄人们结缘的过程展开。', 
+  0, 'p2877522569.jpg', 87, 2,'下线','英语');
+  INSERT INTO `user_movie` VALUES (6, '春娇与志明 春嬌與志明', '中国香港 / 中国大陆', '2012-03-30', 7.3, 
+  '张志明（余文乐 饰）与余春娇（杨千嬅 饰）在一起后，恋情也不可避免由热烈转向平淡，几番龃龉过后，二人平平淡淡、不知不觉地分手了。在此之后，志明接受前老板的邀请，和公公前往北京发展，他很快结识了美丽温柔的空姐尚优优（杨幂 饰），一段新的恋情由此展开。另一方面，春娇的化妆品牌决定关掉香港分店，于是她也和娥姐转战北京。曾经的恋人相见自是几多尴尬，而原以为早已平淡和忘却的情感竟在见面的一刻复萌。虽然志明有优优陪伴，春娇也意外邂逅了体贴稳重的SAM（徐峥 饰），但是他们仍然瞒着另一半偷偷见面，他们小心地保持着距离，心又不由自主地向对方靠近。已是从香港转战北京的爱情，将如何收场……', 
+  0, 'p1461642128.jpg', 111, 3,'下线','粤语/普通话');
+  INSERT INTO `user_movie` VALUES (7, '泰坦尼克号 Titanic', '美国', '1998-04-03', 9.5, 
+  '1912年4月10日，号称 “世界工业史上的奇迹”的豪华客轮泰坦尼克号开始了自己的处女航，从英国的南安普顿出发驶往美国纽约。富家少女罗丝（凯特•温丝莱特）与母亲及未婚夫卡尔坐上了头等舱；另一边，放荡不羁的少年画家杰克（莱昂纳多·迪卡普里奥）也在码头的一场赌博中赢得了下等舱的船票。罗丝厌倦了上流社会虚伪的生活，不愿嫁给卡尔，打算投海自尽，被杰克救起。很快，美丽活泼的罗丝与英俊开朗的杰克相爱，杰克带罗丝参加下等舱的舞会、为她画像，二人的感情逐渐升温。1912年4月14日，星期天晚上，一个风平浪静的夜晚。泰坦尼克号撞上了冰山，“永不沉没的”泰坦尼克号面临沉船的命运，罗丝和杰克刚萌芽的爱情也将经历生死的考验。', 
+  0, 'p457760035.jpg', 194, 4,'下线','英语');
+  INSERT INTO `user_movie` VALUES (8, '爱乐之城 La La Land', '美国', '2017-02-14', 8.4, 
+  '米娅（艾玛·斯通 Emma Stone 饰）渴望成为一名演员，但至今她仍旧只是片场咖啡厅里的一名平凡的咖啡师，尽管不停的参加着大大小小的试镜，但米娅收获的只有失败。某日，在一场派对之中，米娅邂逅了名为塞巴斯汀（瑞恩·高斯林 Ryan Gosling 饰）的男子，起初两人之间产生了小小的矛盾，但很快，米娅便被塞巴斯汀身上闪耀的才华以及他对爵士乐的纯粹追求所吸引，最终两人走到了一起。在塞巴斯汀的鼓励下，米娅辞掉了咖啡厅的工作，专心为自己写起了剧本，与此同时，塞巴斯汀为了获得一份稳定的收入，加入了一支流行爵士乐队，开始演奏自己并不喜欢的现代爵士乐，没想到一炮而红。随着时间的推移，努力追求梦想的两人，彼此之间的距离却越来越远，在理想和感情之间，他们必须做出选择。', 
+  0, 'p2565101499.jpg', 128, 5,'下线','英语');
+  INSERT INTO `user_movie` VALUES (9, '爱在午夜降临前 Before Midnight', '美国/希腊', '2013-06-14', 8.9, 
+  '被影迷奉为爱情圭臬的《爱在黎明破晓前》、《爱在日落黄昏时》终于迎来了第三部《爱在午夜降临前》。第一部中美国青年杰西（伊桑·霍克 Ethan Hawke 饰）坐火车邂逅法国女孩赛琳（朱莉·德尔佩 Julie Delpy 饰），两人在维也纳度过难忘一晚；9 年后的第二部，杰西已成为作家，他的小说让他和赛琳在巴黎重逢，两人于日落前再续前缘。如今又一个 9 年过去了，杰西与赛琳已经一起生活并有了一对双胞胎女儿，对人生和爱情也有了更多感悟。《爱在午夜降临前》就是撷取他们在希腊伯罗奔尼撒南部小岛度假的最后一天。导演理查德·林克莱特和两位主演就像与影迷在赴一个每 9 年的约会，尽管三部曲的制作跨度长达 18 年，但故事情节几乎可以写在一张纸的背面。电影惯于只用人与人的对话讲述故事，两位主人公或行走在静谧的村落，或悠然坐在露台和餐桌前，不断的讨论着文学、爱情、生活、两性等话题...', 
+  0, 'p2074715729.jpg', 109, 6,'下线','英语');
+  INSERT INTO `user_movie` VALUES (10, '爱在日落黄昏时 Before Sunset', '美国/法国', '2004-02-10', 8.9, 
+  '九年前，杰西（伊桑·霍克 Ethan Hawke 饰）与席琳（朱莉·德尔佩 Julie Delpy 饰）在火车上不期而遇，怦然心动。在维也纳渡过疯狂而又浪漫的一夜后，他们在日出前分手，并相约在维也纳重逢。九年之后，杰西已成为畅销书作家，而席琳则是法国环保组织成员。杰西在新书里娓娓道来的，正是九年前的浪漫夜晚。在巴黎促销新书时，杰西与席琳在书店相遇，然而他们只有一下午的时光相处，日落之前，杰西要乘飞机赶回美国。两人在午后的巴黎街头散步，在美丽的护城河上泛舟，无所不谈，兴致勃勃。可是就像命运的捉弄，快乐的时光像烟花一样醉人却短暂。杰西对席琳一送再送，难以忘情；席琳用吉他和歌声，怀念着内心深处的爱恋。太阳就快落下去了，杰西就要误了飞机，又或许他更不想错过的，是命里注定的缘分.', 
+  0, 'p2561542458.jpg', 80, 6,'下线','英语');
+  INSERT INTO `user_movie` VALUES (11, '加菲猫家族 The Garfield Movie', '美国', '2024-06-01', 6.9, 
+  '加菲猫（克里斯·帕拉特 Chris Pratt 配音），这只全球闻名、厌恶星期一、对千层面情有独钟的宅猫，正准备开启一段疯狂的户外奇遇！在与他失散多年的亲生猫爸——不羁的流浪猫维克（塞缪尔·杰克逊 Samuel L. Jackson 配音）意外重聚后，加菲猫和他的狗狗伙伴欧迪被迫告别了安逸舒适的生活，卷入了一场搞笑又充满刺激的大冒险，而一直娇生惯养的加菲猫，将在这次冒险之旅中蜕变成为上天入地的“猫猫特工”，带着家族直面挑战、化解危机。', 
+  0, 'p2908686677.jpg', 101, 7,'在映','英语');
+  INSERT INTO `user_movie` VALUES (12, '哆啦 A 梦：大雄的地球交响乐 映画ドラえもん のび太の地球交響楽', '日本', '2024-05-31', 6.7, 
+  '为了准备学校音乐会的演出，大雄埋头苦练他并不擅长的竖笛。这时，他的面前出现了一位神秘的外星少女米佳，她格外中意大雄吹出来的跑调的笛声，于是米佳引领哆啦 A 梦和伙伴们来到了以音乐为能量的外星球上的一座音乐殿堂。就在这时，一种能够令音乐从世界上消失的神秘生命体突然降临，地球陷入危机……！哆啦 A 梦和伙伴们究竟能否拯救音乐的未来和地球危机呢？', 
+  0, 'p2906817350.jpg', 115, 8,'在映','日语');
+  INSERT INTO `user_movie` VALUES (13, '当幸福来敲门 The Pursuit of Happyness', '美国', '2008-01-17', 9.2, 
+  '克里斯•加纳（威尔·史密斯 Will Smith 饰）用尽全部积蓄买下了高科技治疗仪，到处向医院推销，可是价格高昂，接受的人不多。就算他多努力都无法提供一个良好的生活环境给妻儿，妻子（桑迪·牛顿 Thandie Newton 饰）最终选择离开家。从此他带着儿子克里斯托夫（贾登·史密斯 Jaden Smith 饰）相依为命。克里斯好不容易争取回来一个股票投资公司实习的机会，就算没有报酬，成功机会只有百分之五，他仍努力奋斗，儿子是他的力量。他看尽白眼，与儿子躲在地铁站里的公共厕所里，住在教堂的收容所里…… 他坚信，幸福明天就会来临。', 
+  0, 'p1312700628.jpg', 117, 7,'下线','英语');
+  INSERT INTO `user_movie` VALUES (14, '楚门的世界 The Truman Show ', '美国', '1998-06-05', 9.4, 
+  '楚门（金•凯瑞 Jim Carrey 饰）是一个平凡得不能再平凡的人，除了一些有些稀奇的经历之外——初恋女友突然失踪、溺水身亡的父亲忽然似乎又出现在眼前，他和绝大多数 30 多岁的美国男人绝无异样。这令他倍感失落。他也曾试过离开自己生活了多年的地方，但总因种种理由而不能成行。直到有一天，他忽然发觉自己似乎一直在被人跟踪，无论他走到哪里，干什么事情。这种感觉愈来愈强烈。楚门决定不惜一切代价逃离这个他生活了 30 多年的地方，去寻找他的初恋女友。但他却发现自己怎样也逃不出去。真相其实很残忍。', 
+  0, 'p479682972.jpg', 103, 4,'下线','英语');
+  INSERT INTO `user_movie` VALUES (15, '美丽人生 La vita è bella', '意大利', '1997-12-20', 9.5, 
+  '犹太青年圭多（罗伯托·贝尼尼）邂逅美丽的女教师多拉（尼可莱塔·布拉斯基），他彬彬有礼的向多拉鞠躬：“早安！公主！”。历经诸多令人啼笑皆非的周折后，天遂人愿，两人幸福美满的生活在一起。然而好景不长，法西斯政权下，圭多和儿子被强行送往犹太人集中营。多拉虽没有犹太血统，毅然同行，与丈夫儿子分开关押在一个集中营里。聪明乐天的圭多哄骗儿子这只是一场游戏，奖品就是一辆大坦克，儿子快乐、天真的生活在纳粹的阴霾之中。尽管集中营的生活艰苦寂寞，圭多仍然带给他人很多快乐，他还趁机在纳粹的广播里问候妻子：“早安！公主！”法西斯政权即将倾覆，纳粹的集中营很快就要接受最后的清理，圭多编给儿子的游戏该怎么结束？他们一家能否平安的度过这黑暗的年代呢？', 
+  0, 'p510861873.jpg', 116, 9,'下线','英语');
 
-
+  
+  
 -- ----------------------------
 -- Table structure for user_movie_collect
 -- ----------------------------
@@ -414,7 +443,7 @@ CREATE TABLE `user_movie_collect`  (
 -- ----------------------------
 -- Records of user_movie_collect
 -- ----------------------------
-INSERT INTO `user_movie_collect` VALUES (1, 18151, 401);
+INSERT INTO `user_movie_collect` VALUES (1, 1, 1);
 
 -- ----------------------------
 -- Table structure for user_movie_tags
@@ -430,25 +459,60 @@ CREATE TABLE `user_movie_tags`  (
   INDEX `user_movie_tags_tags_id_d3315ced`(`tags_id` ASC) USING BTREE,
   CONSTRAINT `user_movie_tags_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_movie_tags_ibfk_2` FOREIGN KEY (`tags_id`) REFERENCES `user_tags` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 55809 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_movie_tags
 -- ----------------------------
-INSERT INTO `user_movie_tags` VALUES (50009, 18151, 287);
-INSERT INTO `user_movie_tags` VALUES (50010, 18151, 288);
-INSERT INTO `user_movie_tags` VALUES (50011, 18152, 287);
-INSERT INTO `user_movie_tags` VALUES (50012, 18152, 289);
-INSERT INTO `user_movie_tags` VALUES (50013, 18152, 290);
-INSERT INTO `user_movie_tags` VALUES (50014, 18153, 287);
-INSERT INTO `user_movie_tags` VALUES (50015, 18153, 289);
-INSERT INTO `user_movie_tags` VALUES (50016, 18154, 287);
-INSERT INTO `user_movie_tags` VALUES (50018, 18154, 288);
-INSERT INTO `user_movie_tags` VALUES (50017, 18154, 291);
-INSERT INTO `user_movie_tags` VALUES (50019, 18155, 287);
-INSERT INTO `user_movie_tags` VALUES (50021, 18155, 289);
-INSERT INTO `user_movie_tags` VALUES (50020, 18155, 292);
-INSERT INTO `user_movie_tags` VALUES (50022, 18155, 293);
+INSERT INTO `user_movie_tags` VALUES (1, 1, 6);
+INSERT INTO `user_movie_tags` VALUES (2, 1, 9);
+INSERT INTO `user_movie_tags` VALUES (3, 1, 14);
+INSERT INTO `user_movie_tags` VALUES (4, 2, 1);
+INSERT INTO `user_movie_tags` VALUES (5, 2, 6);
+INSERT INTO `user_movie_tags` VALUES (6, 2, 9);
+INSERT INTO `user_movie_tags` VALUES (7, 2, 10);
+INSERT INTO `user_movie_tags` VALUES (8, 2, 14);
+INSERT INTO `user_movie_tags` VALUES (9, 3, 6);
+INSERT INTO `user_movie_tags` VALUES (10, 3, 9);
+INSERT INTO `user_movie_tags` VALUES (11, 3, 10);
+INSERT INTO `user_movie_tags` VALUES (12, 4, 6);
+INSERT INTO `user_movie_tags` VALUES (13, 4, 9);
+INSERT INTO `user_movie_tags` VALUES (14, 4, 14);
+INSERT INTO `user_movie_tags` VALUES (15, 5, 2);
+INSERT INTO `user_movie_tags` VALUES (16, 5, 6);
+INSERT INTO `user_movie_tags` VALUES (17, 5, 9);
+INSERT INTO `user_movie_tags` VALUES (18, 5, 12);
+INSERT INTO `user_movie_tags` VALUES (19, 5, 14);
+INSERT INTO `user_movie_tags` VALUES (20, 6, 1);
+INSERT INTO `user_movie_tags` VALUES (21, 6, 2);
+INSERT INTO `user_movie_tags` VALUES (22, 6, 6);
+INSERT INTO `user_movie_tags` VALUES (23, 7, 1);
+INSERT INTO `user_movie_tags` VALUES (24, 7, 3);
+INSERT INTO `user_movie_tags` VALUES (25, 7, 8);
+INSERT INTO `user_movie_tags` VALUES (26, 8, 1);
+INSERT INTO `user_movie_tags` VALUES (27, 8, 3);
+INSERT INTO `user_movie_tags` VALUES (28, 8, 16);
+INSERT INTO `user_movie_tags` VALUES (29, 9, 1);
+INSERT INTO `user_movie_tags` VALUES (30, 9, 3);
+INSERT INTO `user_movie_tags` VALUES (31, 10, 1);
+INSERT INTO `user_movie_tags` VALUES (32, 10, 3);
+INSERT INTO `user_movie_tags` VALUES (33, 11, 6);
+INSERT INTO `user_movie_tags` VALUES (34, 11, 9);
+INSERT INTO `user_movie_tags` VALUES (35, 11, 10);
+INSERT INTO `user_movie_tags` VALUES (36, 11, 14);
+INSERT INTO `user_movie_tags` VALUES (37, 12, 9);
+INSERT INTO `user_movie_tags` VALUES (38, 12, 10);
+INSERT INTO `user_movie_tags` VALUES (39, 12, 12);
+INSERT INTO `user_movie_tags` VALUES (40, 12, 14);
+INSERT INTO `user_movie_tags` VALUES (41, 13, 1);
+INSERT INTO `user_movie_tags` VALUES (42, 13, 18);
+INSERT INTO `user_movie_tags` VALUES (43, 13, 19);
+INSERT INTO `user_movie_tags` VALUES (44, 14, 1);
+INSERT INTO `user_movie_tags` VALUES (45, 14, 12);
+INSERT INTO `user_movie_tags` VALUES (46, 15, 1);
+INSERT INTO `user_movie_tags` VALUES (47, 15, 3);
+INSERT INTO `user_movie_tags` VALUES (48, 15, 6);
+INSERT INTO `user_movie_tags` VALUES (49, 15, 7);
 
 
 -- ----------------------------
@@ -466,18 +530,12 @@ CREATE TABLE `user_rate`  (
   INDEX `user_rate_user_id_b85a90b9`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_rate_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_rate_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2203 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_rate
 -- ----------------------------
-INSERT INTO `user_rate` VALUES (1, 3, '2021-05-12 07:19:54', 19666, 1);
--- INSERT INTO `user_rate` VALUES (2, 1, '2021-05-12 07:19:54', 19202, 1);
--- INSERT INTO `user_rate` VALUES (3, 5, '2021-05-12 07:19:54', 18313, 1);
--- INSERT INTO `user_rate` VALUES (4, 2, '2021-05-12 07:19:54', 18684, 1);
--- INSERT INTO `user_rate` VALUES (5, 5, '2021-05-12 07:19:54', 18397, 1);
--- INSERT INTO `user_rate` VALUES (6, 2, '2021-05-12 07:19:54', 18437, 2);
--- INSERT INTO `user_rate` VALUES (7, 4, '2021-05-12 07:19:54', 18595, 2);
+INSERT INTO `user_rate` VALUES (1, 9, '2021-05-12 07:19:54', 1, 1);
 
 -- ----------------------------
 -- Table structure for user_tags
@@ -492,35 +550,35 @@ CREATE TABLE `user_tags`  (
 -- ----------------------------
 -- Records of user_tags
 -- ----------------------------
-INSERT INTO `user_tags` VALUES (287, '剧情');
-INSERT INTO `user_tags` VALUES (288, '犯罪');
-INSERT INTO `user_tags` VALUES (289, '爱情');
-INSERT INTO `user_tags` VALUES (290, '同性');
-INSERT INTO `user_tags` VALUES (291, '动作');
-INSERT INTO `user_tags` VALUES (292, '喜剧');
-INSERT INTO `user_tags` VALUES (293, '战争');
-INSERT INTO `user_tags` VALUES (294, '灾难');
-INSERT INTO `user_tags` VALUES (295, '动画');
-INSERT INTO `user_tags` VALUES (296, '奇幻');
-INSERT INTO `user_tags` VALUES (297, '历史');
-INSERT INTO `user_tags` VALUES (298, '科幻');
-INSERT INTO `user_tags` VALUES (299, '悬疑');
-INSERT INTO `user_tags` VALUES (300, '冒险');
-INSERT INTO `user_tags` VALUES (301, '音乐');
-INSERT INTO `user_tags` VALUES (302, '歌舞');
-INSERT INTO `user_tags` VALUES (303, '古装');
-INSERT INTO `user_tags` VALUES (304, '家庭');
-INSERT INTO `user_tags` VALUES (305, '传记');
-INSERT INTO `user_tags` VALUES (306, '惊悚');
-INSERT INTO `user_tags` VALUES (307, '武侠');
-INSERT INTO `user_tags` VALUES (308, '儿童');
-INSERT INTO `user_tags` VALUES (309, '纪录片');
-INSERT INTO `user_tags` VALUES (310, '恐怖');
-INSERT INTO `user_tags` VALUES (311, '西部');
-INSERT INTO `user_tags` VALUES (312, '情色');
-INSERT INTO `user_tags` VALUES (313, '运动');
-INSERT INTO `user_tags` VALUES (314, '真人秀');
-INSERT INTO `user_tags` VALUES (315, '短片');
+INSERT INTO `user_tags` VALUES (1, '剧情');
+INSERT INTO `user_tags` VALUES (2, '犯罪');
+INSERT INTO `user_tags` VALUES (3, '爱情');
+INSERT INTO `user_tags` VALUES (4, '同性');
+INSERT INTO `user_tags` VALUES (5, '动作');
+INSERT INTO `user_tags` VALUES (6, '喜剧');
+INSERT INTO `user_tags` VALUES (7, '战争');
+INSERT INTO `user_tags` VALUES (8, '灾难');
+INSERT INTO `user_tags` VALUES (9, '动画');
+INSERT INTO `user_tags` VALUES (10, '奇幻');
+INSERT INTO `user_tags` VALUES (11, '历史');
+INSERT INTO `user_tags` VALUES (12, '科幻');
+INSERT INTO `user_tags` VALUES (13, '悬疑');
+INSERT INTO `user_tags` VALUES (14, '冒险');
+INSERT INTO `user_tags` VALUES (15, '音乐');
+INSERT INTO `user_tags` VALUES (16, '歌舞');
+INSERT INTO `user_tags` VALUES (17, '古装');
+INSERT INTO `user_tags` VALUES (18, '家庭');
+INSERT INTO `user_tags` VALUES (19, '传记');
+INSERT INTO `user_tags` VALUES (20, '惊悚');
+INSERT INTO `user_tags` VALUES (21, '武侠');
+INSERT INTO `user_tags` VALUES (22, '儿童');
+INSERT INTO `user_tags` VALUES (23, '纪录片');
+INSERT INTO `user_tags` VALUES (24, '恐怖');
+INSERT INTO `user_tags` VALUES (25, '西部');
+INSERT INTO `user_tags` VALUES (26, '情色');
+INSERT INTO `user_tags` VALUES (27, '运动');
+INSERT INTO `user_tags` VALUES (28, '真人秀');
+INSERT INTO `user_tags` VALUES (29, '短片');
 
 -- ----------------------------
 -- Table structure for user_user
@@ -537,12 +595,9 @@ CREATE TABLE `user_user`  (
 -- ----------------------------
 -- Records of user_user
 -- ----------------------------
--- INSERT INTO `user_user` VALUES (1, 'nciae', 'nciae', 'eysny@163.com');
--- INSERT INTO `user_user` VALUES (2, 'khtof', 'khtof', 'hcgvi@163.com');
--- INSERT INTO `user_user` VALUES (3, 'devx_', 'devx_', 'xyewv@163.com');
-INSERT INTO `user_user` VALUES (401, '22307140119', '111111', '12345678@qq.com');
-INSERT INTO `user_user` VALUES (402, 'aaaaaa', 'aaaaaa', 'aaa@aa.com');
-INSERT INTO `user_user` VALUES (403, 'liyang', '123456', 'liyang@qq.com');
+INSERT INTO `user_user` VALUES (1, '22307140119', '111111', '12345678@qq.com');
+INSERT INTO `user_user` VALUES (2, 'aaaaaa', 'aaaaaa', 'aaa@aa.com');
+INSERT INTO `user_user` VALUES (3, 'liyang', '123456', 'liyang@qq.com');
 
 -- ----------------------------
 -- Table structure for user_usertagprefer
@@ -558,7 +613,7 @@ CREATE TABLE `user_usertagprefer`  (
   INDEX `user_usertagprefer_user_id_9e6cb135`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_usertagprefer_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `user_tags` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_usertagprefer_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_usertagprefer
@@ -570,7 +625,6 @@ CREATE TABLE `user_usertagprefer`  (
 -- INSERT INTO `user_usertagprefer` VALUES (5, 5, 287, 402);
 -- INSERT INTO `user_usertagprefer` VALUES (6, 5, 287, 403);
 -- INSERT INTO `user_usertagprefer` VALUES (7, 5, 288, 403);
-
 
 
 
@@ -587,13 +641,21 @@ CREATE TABLE `user_company`  (
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `city` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Add some data into table
 -- ----------------------------
-INSERT INTO `user_company` VALUES (1,'xxx娱乐公司','上海');
-INSERT INTO `user_company` VALUES (2,'yyy娱乐公司','纽约');
+INSERT INTO `user_company` VALUES (1, '迪士尼影业', '伯班克');
+INSERT INTO `user_company` VALUES (2, '环球影片公司', '洛杉矶');
+INSERT INTO `user_company` VALUES (3, '寰亚电影制作有限公司', '杭州');
+INSERT INTO `user_company` VALUES (4, '派拉蒙影业公司', '好莱坞');
+INSERT INTO `user_company` VALUES (5, '顶峰娱乐', '圣莫尼卡');
+INSERT INTO `user_company` VALUES (6, 'Castle Rock Entertainment', '洛杉矶');
+INSERT INTO `user_company` VALUES (7, '哥伦比亚电影公司', '洛杉矶');
+INSERT INTO `user_company` VALUES (8, 'SHIN-EI动画', '东京');
+INSERT INTO `user_company` VALUES (9, 'Regal Films', '诺克斯维尔');
+
 
 
 -- ----------------------------
@@ -610,15 +672,48 @@ CREATE TABLE `user_director`  (
   `prize` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Add some data into table
 -- ----------------------------
-INSERT INTO `user_director` VALUES(1, "导演名字1", "男", "2000-01-01", "导演介绍1", "中国", "导演获奖信息1", "");
-INSERT INTO `user_director` VALUES(2, "director name2", "女", "2000-01-01", "导演介绍1", "美国", "导演获奖信息2", "");
-INSERT INTO `user_director` VALUES(3, "导演名字3", "男", "2000-01-01", "导演介绍3", "中国", "导演获奖信息3", "");
-INSERT INTO `user_director` VALUES(4, "director nameeeeeeeeee4", "女", "2000-01-01", "导演介绍4", "美国", "导演获奖信息4", "");
+INSERT INTO `user_director` VALUES(1, "拜伦·霍华德", "男", "1971-02-28", 
+"拜伦·霍华德是迪士尼动画工作室的一位导演和动画师。他曾参与多部迪士尼动画电影的制作，包括《闪电狗》（Bolt）、《魔发奇缘》（Tangled）和《疯狂动物城》（Zootopia），其中《疯狂动物城》获得了广泛的赞誉和多个奖项。", 
+"美国", "奥斯卡最佳动画长片奖（例如，《疯狂动物城》Zootopia）、安妮奖（Annie Awards）、英国电影学院奖（BAFTA）等。", "p2324166991.jpg");
+INSERT INTO `user_director` VALUES(2, "彼特·道格特 ", "男", "1968-10-09", 
+"彼特·道格特是皮克斯的首席创意官之一，也是一位多产的导演和编剧。他导演了多部成功的动画电影，包括《怪兽公司》（Monsters, Inc.）、《飞屋环游记》（Up）、《头脑特工队》（Inside Out）等。这些作品不仅在商业上取得巨大成功，也获得了观众和评论家的高度评价。", 
+"美国", "奥斯卡最佳动画长片奖、安妮奖等。", "p2399395492.jpg");
+INSERT INTO `user_director` VALUES(3, "乔什·库雷", "男", "1970-02-20", 
+"乔什·库雷在动画行业有着丰富的经验，他在皮克斯动画工作室参与了多部动画电影的制作。他最为人熟知的作品是担任导演的《玩具总动员4》（Toy Story 4），这部电影是广受欢迎的《玩具总动员》系列电影的续集，并且获得了观众和评论家的好评。", 
+"美国", "奥斯卡最佳动画长片奖、安妮奖等。", "p2493111108.jpg");
+INSERT INTO `user_director` VALUES(4, "凯尔·巴尔达 ", "男", "1972-05-25", 
+"凯尔·巴尔达在动画行业有着丰富的经验，尤其是在照明娱乐公司。他曾参与了多部成功的动画电影的制作，包括《神偷奶爸》（Despicable Me）系列", 
+"美国", "第68届金球奖，第38届动画安妮奖", "p2500889015.jpg");
+INSERT INTO `user_director` VALUES(5, "彭浩翔", "男", "1973-07-03", 
+"彭浩翔电影集合黑色幽默、恐怖、离奇荒诞与警匪等元素。自幼热爱电影，14岁时曾用兄长的录像机自导自演短片《智勇三雄》，中学时为了看一场阿诺·施瓦辛格的电影而跟自己女友分手。毕业后曾经修读台大先修班，回港后曾在亚洲电视担任喜剧综艺科的节目编剧，并在报纸与杂志撰写影评及小说。2010年《志明与春娇》，电影讲述新修订禁烟条例实施后，烟民围在户外烟灰缸吸烟，因而产生的一段男女关系。彭浩翔与拍档麦曦茵凭此电影获得第30届香港电影金像奖最佳编剧奖。", 
+"中国", "第30届香港电影金像奖最佳编剧奖。", "p2506333621.jpg");
+INSERT INTO `user_director` VALUES(6, "詹姆斯·卡梅隆", "男", "1954-08-16", 
+"詹姆斯·卡梅隆是好莱坞最具影响力的导演之一，以其对电影工业的技术贡献和开创性的电影作品而著称。他导演的作品包括《终结者》（The Terminator）、《异形2》（Aliens）、《深渊》（The Abyss）、《终结者2：审判日》（Terminator 2: Judgment Day）、《泰坦尼克号》（Titanic）和《阿凡达》（Avatar）。这些电影不仅在商业上取得了巨大成功，而且在艺术上也获得了高度评价。", 
+"美国", "奥斯卡最佳导演奖、奥斯卡最佳影片奖、金球奖、英国电影学院奖等。", "p644244925.jpg");
+INSERT INTO `user_director` VALUES(7, "达米恩·查泽雷", "男", "1985-01-19", 
+"达米恩·查泽雷是当代电影界最令人兴奋的年轻导演之一。他执导的电影在评论界和商业上都取得了成功。他的代表作包括《爆裂鼓手》（Whiplash）、《爱乐之城》（La La Land）和《登月第一人》（First Man）。《爆裂鼓手》赢得了广泛的赞誉，并为他赢得了奥斯卡最佳改编剧本奖提名。《爱乐之城》更是获得了多项奥斯卡奖，包括最佳导演奖，使他成为奥斯卡历史上最年轻的最佳导演获奖者。", 
+"美国", "奥斯卡最佳导演奖，金球奖，英国电影学院奖", "p2437536981.jpg");
+INSERT INTO `user_director` VALUES(8, "理查德·林克莱特", "男", "1960-07-30", 
+"林克莱特以其长篇电影系列《少年时代》（Boyhood）、《日落之前》（Before Sunset）和《日落之后》（Before Midnight）等作品而闻名。他的作品经常探讨时间、关系和个人成长等主题。", 
+"美国", "奥斯卡最佳导演提名、金球奖最佳导演提名、柏林国际电影节银熊奖、独立精神奖等。", "p2905116773.jpg");
+INSERT INTO `user_director` VALUES(9, "马克·汀戴尔", "男", "1960-11-23", 
+"马克·汀戴尔在动画电影界有着丰富的经验，他曾担任多部动画电影的导演，其中最著名的作品是《猫儿历险记》（The Cat's Meow）和《熊的传说》（Brother Bear）。", 
+"美国", "安妮奖等", "p1356764503.08.jpg");
+INSERT INTO `user_director` VALUES(10, "今井一晓", "男", "1980-06-29", 
+"在日本的动画工作室工作，参与了多部动画电影或系列的导演工作。代表作有：《哆啦A梦》", 
+"日本", "暂无", "p1526998131.45.jpg");
+INSERT INTO `user_director` VALUES(11, "加布里埃莱·穆奇诺", "男", "1967-05-20", 
+"加布里尔·穆奇诺（Gabriele Muccino），1967年5月20日出生于意大利罗马，意大利导演、编剧、制片人。", 
+"意大利", "第13届上海国际电影节主竞赛单元-最佳影片奖，第18届圣丹斯国际电影节观众奖-世界电影单元，	第54届意大利大卫奖大卫青年奖", "p2641779759.jpg");
+INSERT INTO `user_director` VALUES(12, "彼得·威尔", "男", "1944-08-21", 
+"彼得•威尔出生在澳大利亚悉尼，原名彼得•林德塞•威尔，父亲是一位房地产经纪人。曾因去欧洲旅行了一段时间，回来以后他进入了一家电影公司，并学会了电影拍摄和制作的技巧。1971年他拍摄了自己的处女作《三个要走》，随后拍摄的《悬崖下的野餐》成为其经典之作。1989年威尔又和罗宾•威廉斯合作，拍摄了影片《死亡诗社》，影片获得了奥斯卡提名。1998年，威尔和金•凯瑞合作拍摄了电影《楚门的世界》，再次获得了奥斯卡提名。通观威尔的影片，而他一手发现或捧红了包括梅尔•吉布森，哈里森•福特等巨星。", 
+"澳大利亚", "第76届奥斯卡金像奖最佳影片 (提名)，第71届奥斯卡金像奖最佳导演 (提名) ，第44届柏林国际电影节主竞赛单元金熊奖 (提名)", "p4360.jpg");
+
 
 
 -- ----------------------------
@@ -635,13 +730,85 @@ CREATE TABLE `user_actor`  (
   `prize` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Add some data into table
 -- ----------------------------
-INSERT INTO `user_actor` VALUES(1, "演员名字1", "男", "2000-01-01", "演员介绍1", "中国", "演员获奖信息1", "");
-INSERT INTO `user_actor` VALUES(2, "actor name2", "女", "2000-01-01", "演员介绍1", "美国", "演员获奖信息2", "");
+INSERT INTO `user_actor` VALUES(1, "金妮弗·古德温", "女", "1978-05-22", 
+"金妮弗·古德温因在电视剧《大城小妞》（Big Love）和《童话镇》（Once Upon a Time）中的表现而广为人知。她在《童话镇》中饰演白雪公主，这一角色让她获得了广泛的认可。", 
+"美国", "第38届土星奖最佳电视女主角奖提名", "p9652.jpg");
+INSERT INTO `user_actor` VALUES(2, "杰森·贝特曼", "男", "1969-01-14", 
+"杰森·贝特曼在1980年代初就开始了他的演艺生涯，最初以童星的身份出现在电视剧中。他因在电视剧《发展受阻》（Arrested Development）中饰演迈克尔·布兰查德（Michael Bluth）而获得广泛认可，并在后来的职业生涯中成功转型为成人演员。贝特曼还因在Netflix剧集《黑钱胜地》（Ozark）中的表演而获得赞誉。", 
+"美国", "第70届艾美奖，第71届金球奖", "p18772.jpg");
+INSERT INTO `user_actor` VALUES(3, "艾米·波勒", "女", "1971-09-16", 
+"艾米·波勒因在《周六夜现场》（Saturday Night Live）的表演和在电视剧《公园与游憩》（Parks and Recreation）中扮演莱斯利·诺普（Leslie Knope）而广受欢迎。她也是《妈妈》（Inside Out）中的声音演员，为角色“快乐”配音。", 
+"美国", "第67届金球奖，第65届艾美奖", "p48859.jpg");
+INSERT INTO `user_actor` VALUES(4, "菲利丝·史密斯", "女", "1951-07-10", 
+"菲利丝·史密斯最初以漫画家的身份在《The Patterson》等漫画系列中工作。她后来转行进入电视行业，最著名的角色是在电视剧《办公室》（The Office）中饰演的办公室助理琳达·波特（Linda Porter）。此外，她也因在动画电影《头脑特工队》（Inside Out）中为角色“悲伤”配音而获得广泛认可。", 
+"美国", "第88届奥斯卡金像奖", "p1436104846.51.jpg");
+INSERT INTO `user_actor` VALUES(5, "汤姆·汉克斯 ", "男", "1956-07-09", 
+"汤姆·汉克斯以其在多部电影中的出色表演而闻名，包括《阿甘正传》（Forrest Gump）、《费城故事》（Philadelphia）、《拯救大兵瑞恩》（Saving Private Ryan）和《美丽人生》（Cast Away）。他以其亲切的形象和多样化的角色选择而受到观众和评论家的喜爱。", 
+"美国", "第66届奥斯卡金像奖，第77届奥斯卡金像奖", "p2564490264.jpg");
+INSERT INTO `user_actor` VALUES(6, "蒂姆·艾伦", "男", "1953-06-13", 
+"蒂姆·艾伦最初以其在脱口秀中的表演而知名，后来因在情景喜剧《家居装饰》（Home Improvement）中饰演蒂米·泰勒（Tim \"The Tool Man\" Taylor）而成名。此外，他在迪士尼·皮克斯的动画电影《玩具总动员》（Toy Story）系列中为巴兹·光年（Buzz Lightyear）配音，也广受喜爱。", 
+"美国", "第48届黄金时段艾美奖", "p6409.jpg");
+INSERT INTO `user_actor` VALUES(7, "史蒂夫·卡瑞尔", "男", "1962-08-16", 
+"史蒂夫·卡瑞尔最初以喜剧演员的身份在电视节目《The Dana Carvey Show》中亮相。他因在电视剧《办公室》（The Office）中扮演迈克尔·斯科特（Michael Scott）而获得广泛认可，并因此角色获得了金球奖。此外，卡瑞尔在多部电影中也有出色表现，包括《40岁的老处男》（The 40-Year-Old Virgin）、《糊涂侦探》（Get Smart）和《狐狸猎手》（Foxcatcher）。", 
+"美国", "第64届金球奖，第87届奥斯卡金像奖", "p1898210811.jpg");
+INSERT INTO `user_actor` VALUES(8, "克里斯汀·韦格", "女", "1973-08-22", 
+"克里斯汀·韦格因在《周六夜现场》（Saturday Night Live）的表演而成名，她在该节目中担任演员和编剧多年。她还在多部电影中担任主角，包括《伴娘》（Bridesmaids）和《捉鬼敢死队》（Ghostbusters）的重启版。韦格以其独特的幽默感和多样化的角色而受到观众的喜爱。", 
+"美国", "第69届金球奖", "p6537.jpg");
+INSERT INTO `user_actor` VALUES(9, "皮埃尔·柯芬", "男", "1967-03-26", 
+"皮埃尔·柯芬最著名的身份是动画电影《神偷奶爸》（Despicable Me）系列和《小黄人大眼萌》（Minions）系列的导演和制片人。他也是这些电影中“小黄人”角色的创造者和主要动画师。柯芬以其在动画领域的创新和幽默感而受到赞誉。", 
+"美国", "第28届安妮奖", "p1389806916.36.jpg");
+INSERT INTO `user_actor` VALUES(10, "杨千嬅 ", "女", "1974-02-03", 
+"杨千嬅以其独特的音乐风格和感人的情歌而闻名。她在1990年代末至2000年代初的香港音乐界取得了巨大成功，发行了多张畅销专辑。除了音乐事业，杨千嬅还涉足影视行业，参与了多部电影和电视剧的演出。", "中国", "IFPI香港唱片销量大奖", "p40056.jpg");
+INSERT INTO `user_actor` VALUES(11, "余文乐", "男", "1981-11-13", 
+"余文乐在1990年代末开始其演艺生涯，最初以模特身份进入娱乐圈。2000年代初，他开始在电影和电视剧中担任演员，逐渐积累了知名度。他在多部电影中的表现受到认可，包括《无间道II》、《春娇与志明》系列以及《一念无明》等。", 
+"中国", "香港电影金像奖最佳新演员提名", "p47724.jpg");
+INSERT INTO `user_actor` VALUES(12, "莱昂纳多·迪卡普里奥", "男", "1974-11-11", 
+"莱昂纳多·迪卡普里奥在青少年时期就开始了他的演艺生涯，因在电视剧《成长的烦恼》（Growing Pains）中的表现而受到关注。他后来因在电影《泰坦尼克号》（Titanic）中的杰克·道森（Jack Dawson）一角而成为国际巨星。迪卡普里奥以其在多种类型电影中的出色表演而闻名，包括《盗梦空间》（Inception）、《了不起的盖茨比》（The Great Gatsby）、《荒野猎人》（The Revenant）等。", 
+"美国", "第88届奥斯卡金像奖，英国电影和电视艺术学院奖（BAFTA）", "p643151415.jpg");
+INSERT INTO `user_actor` VALUES(13, "凯特·温斯莱特", "女", "1975-10-05", 
+"凯特·温斯莱特在1990年代初开始她的演艺生涯，并迅速成为国际知名的演员。她因在1997年的电影《泰坦尼克号》（Titanic）中饰演罗丝·德威特·卡特（Rose DeWitt Bukater）而成为全球巨星。此后，她在多部电影中展现了卓越的演技，包括《朗读者》（The Reader）、《革命之路》（Revolutionary Road）和《小混乱》（Little Children）。", 
+"英国", "第81届奥斯卡金像奖，艾美奖和英国电影和电视艺术学院奖（BAFTA）", "p643082696.jpg");
+INSERT INTO `user_actor` VALUES(14, "瑞恩·高斯林", "男", "1980-11-12", 
+"瑞恩·高斯林在2000年代初因在电视剧《家有杰克》（The Mickey Mouse Club）中的表现而开始受到关注。他后来因在多部电影中的出色表演而成为国际知名演员，包括《恋恋笔记本》（The Notebook）、《蓝色情人节》（Blue Valentine）、《驾驶我的车》（Drive）、《爱乐之城》（La La Land）和《登月第一人》（First Man）。", 
+"加拿大", "奥斯卡奖提名、金球奖提名", "p1132061191.jpg");
+INSERT INTO `user_actor` VALUES(15, "艾玛·斯通", "女", "1988-11-06", 
+"艾玛·斯通在青少年时期就开始了她的演艺生涯，最初在电视剧和剧场中亮相。她因在2007年的电影《太坏了》（Superbad）中的表现而开始受到关注。此后，她在多部电影中担任主演，包括《僵尸之地》（Zombieland）、《社交网络》（The Social Network）、《鸟人》（Birdman）、《爱乐之城》（La La Land）等。", 
+"美国", "第89届奥斯卡金像奖，英国电影和电视艺术学院奖（BAFTA）", "p2436044101.jpg");
+INSERT INTO `user_actor` VALUES(16, "伊桑·霍克", "男", "1970-11-06", 
+"伊桑·霍克在1980年代末开始了他的演艺生涯，并在1990年代初通过电影《死亡诗社》（Dead Poets Society）和《危险人物》（White Fang）等作品获得了广泛的认可。他以在理查德·林克莱特的“爱在”系列电影（《爱在黎明破晓前》、《爱在日落黄昏时》和《爱在午夜降临前》）中的表演而闻名，这些电影展示了他深厚的演技和对角色的深刻理解。", 
+"美国", "奥斯卡最佳男配角提名", "p643144270.jpg");
+INSERT INTO `user_actor` VALUES(17, "朱莉·德尔佩", "女", "1971-12-21", 
+"朱莉·德尔佩在法国长大，她的父亲是法国戏剧演员艾伯特·德尔佩（Albert Delpy）。她在很小的时候就开始了演艺生涯，十几岁时就成为了一名成功的演员。她因在1995年的电影《爱在黎明破晓前》（Before Sunrise）中的表演而获得国际认可，随后在续集《爱在日落黄昏时》（Before Sunset）和《爱在午夜降临前》（Before Midnight）中继续饰演同一角色。", 
+"法国", "奥斯卡最佳改编剧本提名", "p2561541784.jpg");
+INSERT INTO `user_actor` VALUES(18, "克里斯·帕拉特", "男", "1979-06-21", 
+"克里斯·帕拉特最初在电视剧《帕克》（Everwood）中获得知名度。他后来因在电视剧《公园与游憩》（Parks and Recreation）中饰演安迪·德怀尔（Andy Dwyer）而受到更广泛的欢迎。帕拉特在电影界也取得了巨大成功，特别是在科幻电影《银河护卫队》（Guardians of the Galaxy）中饰演彼得·奎尔/星爵（Peter Quill/Star-Lord）和在《侏罗纪世界》（Jurassic World）系列中饰演欧文·格雷迪（Owen Grady）。", "
+美国", "青少年选择奖", "p2225618346.jpg");
+INSERT INTO `user_actor` VALUES(19, "塞缪尔·杰克逊", "男", "1948-12-21", 
+"塞缪尔·杰克逊在1970年代开始了他的演艺生涯，并在1980年代逐渐获得认可。他因在电影《丛林热》（Jungle Fever）、《低俗小说》（Pulp Fiction）和《危险关系》（A Time to Kill）等中的表演而受到赞誉。杰克逊在漫威电影宇宙（Marvel Cinematic Universe）中饰演的尼克·弗瑞（Nick Fury）角色也使他成为全球知名的演员。", 
+"美国", "奥斯卡奖提名、金球奖提名", "p643142490.jpg");
+INSERT INTO `user_actor` VALUES(20, "水田山葵", "女", "1967-11-25", 
+"水田山葵以其在多个日本电视节目中的表演而知名，特别是在喜剧和脱口秀领域。她以其独特的幽默感和直言不讳的风格而受到观众的喜爱。除了在电视上的表演，水田山葵还活跃于广播和出版界。", 
+"日本", "暂无", "p2523869178.jpg");
+INSERT INTO `user_actor` VALUES(21, "大原惠美", "女", "1970-11-26", 
+"大原惠美以其在动画领域的声优工作而知名，尤其是在《神奇宝贝》（Pokémon）系列中为小霞（Misty）配音而广受欢迎。她的声音表现力强，能够为各种角色提供独特的声音。", 
+"日本", "暂无", "p1358580306.49,jpg");
+INSERT INTO `user_actor` VALUES(22, "威尔·史密斯", "男", "1968-09-25", 
+"威尔·史密斯最初以说唱歌手的身份在1980年代中期开始了他的艺术生涯，他和DJ Jazzy Jeff组成的组合\"DJ Jazzy Jeff \& The Fresh Prince\"非常成功。1990年代，他转型成为演员，因在电视剧《新鲜王子妙事多》（The Fresh Prince of Bel-Air）中的表演而成名。此后，他在电影界取得了巨大成功，主演了多部票房大片，如《独立日》（Independence Day）、《黑衣人》（Men in Black）系列、《我是传奇》（I Am Legend）和《幸福来敲门》（The Pursuit of Happyness）。", 
+"美国", "奥斯卡最佳男主角提名", "p2261641292.jpg");
+INSERT INTO `user_actor` VALUES(23, "贾登·史密斯", "男", "1998-07-08", 
+"贾登·史密斯是著名演员威尔·史密斯（Will Smith）和贾达·萍克特·史密斯（Jada Pinkett Smith）的儿子。他在很小的时候就开始了演艺生涯，最初在父亲的电影《当幸福来敲门》（The Pursuit of Happyness）中扮演角色。此后，他在多部电影中担任主演，包括《地球停转之日》（The Day the Earth Stood Still）和《功夫梦》（The Karate Kid）。", 
+"美国", "暂无", "p1519305434.22.jpg");
+INSERT INTO `user_actor` VALUES(24, "金·凯瑞", "男", "1962-01-17", 
+"金·凯瑞在1980年代开始了他的演艺生涯，最初是作为一名单口喜剧演员。1990年代，他通过一系列喜剧电影获得了国际知名度，包括《王牌天神》（Ace Ventura: Pet Detective）、《面具》（The Mask）、《阿呆与阿瓜》（Dumb and Dumber）和《楚门的世界》（The Truman Show）。他以其在喜剧和戏剧角色中的出色表演而受到赞誉。", 
+"加拿大", "金球奖最佳男演员奖", "p615.jpg");
+INSERT INTO `user_actor` VALUES(25, "劳拉·琳妮", "女", "1964-02-05", 
+"劳拉·琳妮在1980年代末开始她的职业生涯，她在舞台剧和电视剧中的表现使她获得了早期的认可。她因在电影《驾驶小姐》（Driving Miss Daisy）、《爱在春天来临前》（Love Actually）和《萨维奇一家》（Savage Grace）等中的表演而获得广泛赞誉。此外，她在电视剧《大西洋帝国》（Boardwalk Empire）中的表现也赢得了观众的喜爱。", 
+"美国", "奥斯卡最佳女主角奖，艾美奖", "p1283685959.jpg");
 
 
 -- ----------------------------
@@ -656,8 +823,26 @@ CREATE TABLE `user_movie_director`  (
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `user_movie_director_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_movie_director_ibfk_2` FOREIGN KEY (`director_id`) REFERENCES `user_director` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Add some data into table
+-- ----------------------------
+INSERT INTO `user_movie_director` VALUES(1, 1, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(2, 2, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(3, 3, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(4, 4, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(5, 4, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(6, 5, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(7, 6, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(8, 7, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(9, 8, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(10, 8, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(11, 9, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(12, 10, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(13, 11, 1, '导演');
+INSERT INTO `user_movie_director` VALUES(14, 12, 2, '导演');
+INSERT INTO `user_movie_director` VALUES(15, 13, 2, '导演');
 
 -- ----------------------------
 -- Table structure for user_movie_actor
@@ -671,8 +856,41 @@ CREATE TABLE `user_movie_actor`  (
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `user_movie_actor_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_movie_actor_ibfk_2` FOREIGN KEY (`actor_id`) REFERENCES `user_actor` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Add some data into table
+-- ----------------------------
+INSERT INTO `user_movie_actor` VALUES(1, 1, 1, '主角');
+INSERT INTO `user_movie_actor` VALUES(2, 1, 2, '主角');
+INSERT INTO `user_movie_actor` VALUES(3, 2, 3, '主角');
+INSERT INTO `user_movie_actor` VALUES(4, 2, 4, '主角');
+INSERT INTO `user_movie_actor` VALUES(5, 3, 5, '主角');
+INSERT INTO `user_movie_actor` VALUES(6, 3, 6, '主角');
+INSERT INTO `user_movie_actor` VALUES(7, 4, 7, '主角');
+INSERT INTO `user_movie_actor` VALUES(8, 4, 8, '主角');
+INSERT INTO `user_movie_actor` VALUES(9, 5, 7, '主角');
+INSERT INTO `user_movie_actor` VALUES(10, 5, 9, '主角');
+INSERT INTO `user_movie_actor` VALUES(11, 6, 10, '主角');
+INSERT INTO `user_movie_actor` VALUES(12, 6, 11, '主角');
+INSERT INTO `user_movie_actor` VALUES(13, 7, 12, '主角');
+INSERT INTO `user_movie_actor` VALUES(14, 7, 13, '主角');
+INSERT INTO `user_movie_actor` VALUES(15, 8, 14, '主角');
+INSERT INTO `user_movie_actor` VALUES(16, 8, 15, '主角');
+INSERT INTO `user_movie_actor` VALUES(17, 9, 16, '主角');
+INSERT INTO `user_movie_actor` VALUES(18, 9, 17, '主角');
+INSERT INTO `user_movie_actor` VALUES(19, 10, 16, '主角');
+INSERT INTO `user_movie_actor` VALUES(20, 10, 17, '主角');
+INSERT INTO `user_movie_actor` VALUES(21, 11, 18, '主角');
+INSERT INTO `user_movie_actor` VALUES(22, 11, 19, '主角');
+INSERT INTO `user_movie_actor` VALUES(23, 12, 20, '主角');
+INSERT INTO `user_movie_actor` VALUES(24, 12, 21, '主角');
+INSERT INTO `user_movie_actor` VALUES(25, 13, 22, '主角');
+INSERT INTO `user_movie_actor` VALUES(26, 13, 23, '主角');
+INSERT INTO `user_movie_actor` VALUES(27, 14, 24, '主角');
+INSERT INTO `user_movie_actor` VALUES(28, 14, 25, '主角');
+INSERT INTO `user_movie_actor` VALUES(29, 15, 26, '主角');
+INSERT INTO `user_movie_actor` VALUES(30, 15, 27, '主角');
 
 
 SET FOREIGN_KEY_CHECKS = 1;

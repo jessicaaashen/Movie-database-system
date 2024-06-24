@@ -10,7 +10,7 @@ from api.serializers import *
 from cache_keys import USER_CACHE
 from recommend_movies import recommend_by_user_id, recommend_by_item_id
 from user.models import Rate, Movie, Comment, User
-
+# from django.shortcuts import get_object_or_404      # cx 0623
 
 @api_view(['GET'])
 def rate_detail(request, user_id):

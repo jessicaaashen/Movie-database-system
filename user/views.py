@@ -6,6 +6,7 @@ from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -159,15 +160,47 @@ def search(request):  # 搜索
     else:
         key = request.session.get("search")  # 得到关键词
     movies = Movie.objects.filter(
-        Q(name__icontains=key)  | Q(infro__icontains=key)| Q(director__icontains=key)
+        # Q(name__icontains=key)  | Q(intro__icontains=key)| Q(director__icontains=key) cx 0623
+        Q(name__icontains=key) | Q(moviedirector__director__name__icontains=key) | Q(movieactor__actor__name__icontains=key)
     )  # 进行内容的模糊搜索
     page_num = request.GET.get("page", 1)
     movies = movies_paginator(movies, page_num)
     return render(request, "index.html", {"movies": movies, 'title': "Search Results"})
 
 
+# cx 0623 新增演员搜索
+def actor_search(request):
+    if request.method == "POST":  # 如果搜索界面
+        key = request.POST["search"]
+        request.session["search"] = key  # 记录搜索关键词解决跳页问题
+    else:
+        key = request.session.get("search")  # 得到关键词
+    actors = Actor.objects.filter(
+        Q(name__icontains=key) | Q(nationality__icontains=key)
+    )  # 进行内容的模糊搜索
+    page_num = request.GET.get("page", 1)
+    actors = movies_paginator(actors, page_num)
+    return render(request, 'actors.html', {'actors': actors})
+
+
+# cx 0623 新增导演搜索
+def director_search(request):
+    if request.method == "POST":  # 如果搜索界面
+        key = request.POST["search"]
+        request.session["search"] = key  # 记录搜索关键词解决跳页问题
+    else:
+        key = request.session.get("search")  # 得到关键词
+    directors = Director.objects.filter(
+        Q(name__icontains=key) | Q(nationality__icontains=key)
+    )  # 进行内容的模糊搜索
+    page_num = request.GET.get("page", 1)
+    directors = movies_paginator(directors, page_num)
+    return render(request, 'directors.html', {'directors': directors})
+
+
 # 请求单个电影数据时调用的接口
-#sjy0622
+# sjy0622
+# cx 0623 加了最后一行的 'comments': comments,
 def movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     actor_roles = MovieActor.objects.filter(movie=movie).select_related('actor')
@@ -185,7 +218,7 @@ def movie(request, movie_id):
         user_rate = Rate.objects.filter(movie=movie, user_id=user_id).first()
         user = User.objects.get(pk=user_id)
         is_collect = movie.collect.filter(id=user_id).first()
-    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles})
+    return render(request, "user/details.html", {'movie': movie,'actor_roles': actor_roles,'director_roles': director_roles, 'comments': comments, })
 
 
 @login_in
@@ -219,14 +252,18 @@ def score(request, movie_id):
 
 @login_in
 # 给电影进行评论
+# cx 0623 增加了“非空”的条件
 def make_comment(request, movie_id):
     user = User.objects.get(id=request.session.get("user_id"))
     movie = Movie.objects.get(id=movie_id)
     # movie.score.com += 1
     # movie.score.save()
-    comment = request.POST.get("comment")
+    # comment = request.POST.get("comment") 
+    comment = request.POST.get("comment", "").rstrip()      # 获取评论内容，并去除尾部空白
+    if not comment:  # 检查评论内容是否为空
+        return HttpResponseBadRequest("评论内容不能为空，请输入有效的评论。")  # 返回HTTP 400错误响应
     Comment.objects.create(user=user, movie=movie, content=comment)
-    return redirect(reverse("movie", args=(movie_id,)))
+    return redirect(reverse("movie", args=(movie_id,)))     # 评论成功后重定向
 
 
 # 给评论点赞
@@ -344,14 +381,19 @@ def choose_tags(request):
 # 新增导演浏览页面 cx 20240613
 def all_directors(request):
     directors = Director.objects.all()  # 用到了user/models.py里面的Director模板类，directors在.html里面用了
-    return render(request, "user/directors.html", {"directors": directors})    # 连接到了user/templates/user/directors.html（新增文件）
+    paginator = Paginator(directors, 6)    # cx 0623 分页
+    current_page = request.GET.get("page", 1)
+    directors = paginator.page(current_page)
+    return render(request, "directors.html", {"directors": directors})    # 连接到了user/templates/user/directors.html（新增文件）
 
 
 # 新增演员浏览页面 cx 20240613
 def all_actors(request):
     actors = Actor.objects.all()        # 用到了user/models.py里面的Actor模板类，actors在.html里面用了
-    print(actors)
-    return render(request, "user/actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
+    paginator = Paginator(actors, 6)    # cx 0623 分页
+    current_page = request.GET.get("page", 1)
+    actors = paginator.page(current_page)
+    return render(request, "actors.html", {"actors": actors})              # 连接到了user/templates/user/actors.html（新增文件）
 
 
 # sjy 0621修改 跳转演员详情的界面
