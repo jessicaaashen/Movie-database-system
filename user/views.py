@@ -423,7 +423,13 @@ def choose_tags(request):
 
 # 新增导演浏览页面 cx 20240613
 def all_directors(request):
-    directors = Director.objects.all()  # 用到了user/models.py里面的Director模板类，directors在.html里面用了
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_director`
+    '''
+    directors = Director.objects.raw(sql_query)
     paginator = Paginator(directors, 6)    # cx 0623 分页
     current_page = request.GET.get("page", 1)
     directors = paginator.page(current_page)
@@ -432,7 +438,13 @@ def all_directors(request):
 
 # 新增演员浏览页面 cx 20240613
 def all_actors(request):
-    actors = Actor.objects.all()        # 用到了user/models.py里面的Actor模板类，actors在.html里面用了
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_actor`
+    '''
+    actors = Actor.objects.raw(sql_query)
     paginator = Paginator(actors, 6)    # cx 0623 分页
     current_page = request.GET.get("page", 1)
     actors = paginator.page(current_page)
@@ -442,14 +454,30 @@ def all_actors(request):
 # sjy 0621修改 跳转演员详情的界面
 # 注意这里有两个参数，在urls和actors里面要提供两个参数 cx0622
 def actor(request, actor_id):
-    actor = Actor.objects.get(pk=actor_id)
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_actor`
+    WHERE 
+        `user_actor`.`id` = %s
+    '''
+    actor = Actor.objects.raw(sql_query, [actor_id])[0]
     return render(request, "user/actor_details.html", locals())
 
 
 # cx 0622修改 跳转导演详情的界面
 # 注意这里有两个参数，在urls和directors里面要提供两个参数 cx0622
 def director(request, director_id):
-    director = Director.objects.get(pk=director_id)
+    sql_query = '''
+    SELECT 
+        *
+    FROM 
+        `user_director`
+    WHERE 
+        `user_director`.`id` = %s
+    '''
+    director = Director.objects.raw(sql_query, [director_id])[0]
     return render(request, "user/director_details.html", locals())
 
 
