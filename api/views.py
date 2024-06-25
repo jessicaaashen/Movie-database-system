@@ -30,8 +30,8 @@ def collect_detail(request, user_id):
 
 @api_view(['GET'])
 def comment_detail(request, user_id):
-    rate = Comment.objects.filter(user_id=user_id)
-    serializer = CommentSerializer(rate, many=True)
+    comment = Comment.objects.filter(user_id=user_id)
+    serializer = CommentSerializer(comment, many=True)
     return Response(serializer.data)
 
 
