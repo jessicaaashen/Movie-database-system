@@ -290,13 +290,6 @@ def score(request, movie_id):
     score = float(request.POST.get("score"))
     get, created = Rate.objects.get_or_create(user_id=user_id, movie=movie, defaults={"mark": score})
     if created:
-        for tag in movie.tags.all():
-            prefer, created = UserTagPrefer.objects.get_or_create(user_id=user_id, tag=tag, defaults={'score': score})
-            if not created:
-                # 更新分数
-                prefer.score += (score - 3)
-                prefer.save()
-        print('create data')
         # 清理缓存
         user_cache = USER_CACHE.format(user_id=user_id)
         item_cache = ITEM_CACHE.format(user_id=user_id)
@@ -324,22 +317,6 @@ def make_comment(request, movie_id):
         return HttpResponseBadRequest("评论内容不能为空，请输入有效的评论。")  # 返回HTTP 400错误响应
     Comment.objects.create(user=user, movie=movie, content=comment)
     return redirect(reverse("movie", args=(movie_id,)))     # 评论成功后重定向
-
-
-# 给评论点赞
-@login_in
-def like_comment(request, comment_id, movie_id):
-    user_id = request.session.get("user_id")
-    LikeComment.objects.get_or_create(user_id=user_id, comment_id=comment_id)
-    return redirect(reverse("movie", args=(movie_id,)))
-
-
-# 取消点赞
-@login_in
-def unlike_comment(request, comment_id, movie_id):
-    user_id = request.session.get("user_id")
-    LikeComment.objects.filter(user_id=user_id, comment_id=comment_id).delete()
-    return redirect(reverse("movie", args=(movie_id,)))
 
 
 @login_in
@@ -432,6 +409,7 @@ def all_tags(request):
     tags = Tags.objects.raw(sql_query)
     return render(request, "user/tags.html", {"tags": tags})    # 这里连接到了user/templates/user/tags.html
 
+
 @login_in
 @csrf_exempt
 def choose_tags(request):
@@ -439,7 +417,6 @@ def choose_tags(request):
     user_id = request.session.get('user_id')
     for tag_name in tags_name:
         tag = Tags.objects.filter(name=tag_name.strip()).first()
-        UserTagPrefer.objects.create(tag_id=tag.id, user_id=user_id, score=5)
     # request.session.pop('new')
     return redirect(reverse("index"))
 

@@ -325,24 +325,24 @@ CREATE TABLE `user_comment`  (
 -- ----------------------------
 -- Records of user_comment
 -- ----------------------------
-INSERT INTO `user_comment` VALUES (1, 'very good', '2024-05-15 01:19:04', 1, 401);
-INSERT INTO `user_comment` VALUES (2, 'nice movie', '2024-05-27 07:55:27', 1, 402);
-INSERT INTO `user_comment` VALUES (3, '阿打发打发', '2024-05-30 09:29:01', 1, 403);
+INSERT INTO `user_comment` VALUES (1, 'very good', '2024-05-15 01:19:04', 1, 1);
+INSERT INTO `user_comment` VALUES (2, 'nice movie', '2024-05-27 07:55:27', 1, 2);
+INSERT INTO `user_comment` VALUES (3, '阿打发打发', '2024-05-30 09:29:01', 1, 3);
 
 -- ----------------------------
 -- Table structure for user_likecomment
 -- ----------------------------
-DROP TABLE IF EXISTS `user_likecomment`;
-CREATE TABLE `user_likecomment`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `comment_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_likecomment_comment_id`(`comment_id` ASC) USING BTREE,
-  INDEX `user_likecomment_user_id`(`user_id` ASC) USING BTREE,
-  CONSTRAINT `user_likecomment_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `user_comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `user_likecomment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+-- DROP TABLE IF EXISTS `user_likecomment`;
+-- CREATE TABLE `user_likecomment`  (
+--   `id` int NOT NULL AUTO_INCREMENT,
+--   `comment_id` int NOT NULL,
+--   `user_id` int NOT NULL,
+--   PRIMARY KEY (`id`) USING BTREE,
+--   INDEX `user_likecomment_comment_id`(`comment_id` ASC) USING BTREE,
+--   INDEX `user_likecomment_user_id`(`user_id` ASC) USING BTREE,
+--   CONSTRAINT `user_likecomment_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `user_comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+--   CONSTRAINT `user_likecomment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+-- ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 
 
@@ -357,8 +357,9 @@ CREATE TABLE `user_rate`  (
   `movie_id` int NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_rate_movie_id_6ccfed0c`(`movie_id` ASC) USING BTREE,
-  INDEX `user_rate_user_id_b85a90b9`(`user_id` ASC) USING BTREE,
+  INDEX `user_rate_movie_id`(`movie_id` ASC) USING BTREE,
+  INDEX `user_rate_user_id`(`user_id` ASC) USING BTREE,
+  UNIQUE(`user_id`, `movie_id`),
   CONSTRAINT `user_rate_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_rate_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
@@ -380,7 +381,6 @@ BEGIN
     SET d_rate = avg_rating
     WHERE id = NEW.movie_id;
 END //
-
 DELIMITER ;
 
 
@@ -390,15 +390,15 @@ DELIMITER ;
 DROP TABLE IF EXISTS `user_movie`;
 CREATE TABLE `user_movie`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL UNIQUE,
   `country` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `years` date NOT NULL CHECK (`years` BETWEEN '1900-01-01' AND '2074-12-31'),			-- 这里应该是YEAR类型，但是DATE也没有问题
-  `d_rate` decimal(3,1) NULL,
+  `d_rate` decimal(3,1) NULL CHECK (`d_rate` BETWEEN 1 AND 10),
   `intro` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `num` int NOT NULL,
-  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `num` int NOT NULL CHECK (`num` >= 0),
+  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
 
-  `duration` smallint NOT NULL,
+  `duration` smallint NOT NULL CHECK (`duration` >= 0),
   `company_id` smallint NOT NULL,
   `state` enum("在映","下线","重映") CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `language` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -456,21 +456,21 @@ CREATE TABLE `user_movie`  (
 -- ----------------------------
 -- Records of user_rate
 -- ----------------------------
-INSERT INTO `user_rate` VALUES (1, 1, '2024-05-12 07:19:54', 1, 1);
+INSERT INTO `user_rate` VALUES (1, 10, '2024-05-12 07:19:54', 1, 1);
 INSERT INTO `user_rate` VALUES (2, 9, '2024-05-12 07:19:54', 2, 1);
 INSERT INTO `user_rate` VALUES (3, 9, '2024-05-12 07:19:54', 3, 1);
 INSERT INTO `user_rate` VALUES (4, 9, '2024-05-12 07:19:54', 4, 1);
 INSERT INTO `user_rate` VALUES (5, 9, '2024-05-12 07:19:54', 5, 1);
 INSERT INTO `user_rate` VALUES (6, 9, '2024-05-12 07:19:54', 6, 1);
 INSERT INTO `user_rate` VALUES (7, 5, '2024-05-12 07:19:54', 7, 1);
-INSERT INTO `user_rate` VALUES (8, 2, '2024-05-12 07:19:54', 1, 2);
+INSERT INTO `user_rate` VALUES (8, 9, '2024-05-12 07:19:54', 1, 2);
 INSERT INTO `user_rate` VALUES (9, 1, '2024-05-12 07:19:54', 2, 2);
 INSERT INTO `user_rate` VALUES (10, 3, '2024-05-12 07:19:54', 3, 2);
 INSERT INTO `user_rate` VALUES (11, 7, '2024-05-12 07:19:54', 4, 2);
 INSERT INTO `user_rate` VALUES (12, 9, '2024-05-12 07:19:54', 5, 2);
 INSERT INTO `user_rate` VALUES (13, 9, '2024-05-12 07:19:54', 6, 2);
 INSERT INTO `user_rate` VALUES (14, 9, '2024-05-12 07:19:54', 7, 2);
-INSERT INTO `user_rate` VALUES (15, 1, '2024-05-12 07:19:54', 1, 3);
+INSERT INTO `user_rate` VALUES (15, 7, '2024-05-12 07:19:54', 1, 3);
 INSERT INTO `user_rate` VALUES (16, 9, '2024-05-12 07:19:54', 2, 3);
 INSERT INTO `user_rate` VALUES (17, 8, '2024-05-12 07:19:54', 3, 3);
 INSERT INTO `user_rate` VALUES (18, 6, '2024-05-12 07:19:54', 4, 3);
@@ -488,9 +488,9 @@ CREATE TABLE `user_movie_collect`  (
   `movie_id` int NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  -- UNIQUE INDEX `user_movie_collect_movie_id_user_id_0bd82515_uniq`(`movie_id` ASC, `user_id` ASC) USING BTREE,
   INDEX `user_movie_collect_movie_id`(`movie_id` ASC) USING BTREE,
   INDEX `user_movie_collect_user_id`(`user_id` ASC) USING BTREE,
+  UNIQUE (`user_id`, `movie_id`),
   CONSTRAINT `user_movie_collect_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_movie_collect_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
@@ -499,6 +499,7 @@ CREATE TABLE `user_movie_collect`  (
 -- Records of user_movie_collect
 -- ----------------------------
 INSERT INTO `user_movie_collect` VALUES (1, 1, 1);
+
 
 -- ----------------------------
 -- Table structure for user_movie_tags
@@ -509,12 +510,12 @@ CREATE TABLE `user_movie_tags`  (
   `movie_id` int NOT NULL,
   `tags_id` smallint NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `user_movie_tags_movie_id_tags_id`(`movie_id` ASC, `tags_id` ASC) USING BTREE,
   INDEX `user_movie_tags_movie_id`(`movie_id` ASC) USING BTREE,
   INDEX `user_movie_tags_tags_id`(`tags_id` ASC) USING BTREE,
+  UNIQUE `user_movie_tags_movie_id_tags_id`(`movie_id`, `tags_id`),
   CONSTRAINT `user_movie_tags_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `user_movie_tags_ibfk_2` FOREIGN KEY (`tags_id`) REFERENCES `user_tags` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_movie_tags
@@ -571,15 +572,13 @@ INSERT INTO `user_movie_tags` VALUES (49, 15, 7);
 
 
 
-
-
 -- ----------------------------
 -- Table structure for user_tags
 -- ----------------------------
 DROP TABLE IF EXISTS `user_tags`;
 CREATE TABLE `user_tags`  (
   `id` smallint NOT NULL AUTO_INCREMENT,
-  `name` char(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` char(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL UNIQUE,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -624,7 +623,7 @@ INSERT INTO `user_tags` VALUES (29, '短片');
 DROP TABLE IF EXISTS `user_user`;
 CREATE TABLE `user_user`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL UNIQUE,
   `password` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -640,30 +639,12 @@ INSERT INTO `user_user` VALUES (3, 'liyang', '123456', 'liyang@qq.com');
 
 
 -- ----------------------------
--- Table structure for user_usertagprefer
--- ----------------------------
-DROP TABLE IF EXISTS `user_usertagprefer`;
-CREATE TABLE `user_usertagprefer`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `score` double NOT NULL,
-  `tag_id` smallint NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_usertagprefer_tag_id_5729f563`(`tag_id` ASC) USING BTREE,
-  INDEX `user_usertagprefer_user_id_9e6cb135`(`user_id` ASC) USING BTREE,
-  CONSTRAINT `user_usertagprefer_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `user_tags` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `user_usertagprefer_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
-
-
-
--- ----------------------------
 -- Table structure for user_company
 -- ----------------------------
 DROP TABLE IF EXISTS `user_company`;
 CREATE TABLE `user_company`  (
   `id` smallint NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL UNIQUE,
   `city` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
@@ -695,7 +676,7 @@ CREATE TABLE `user_director`  (
   `introduction` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nationality` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `prize` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
@@ -753,7 +734,7 @@ CREATE TABLE `user_actor`  (
   `introduction` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nationality` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `prize` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 

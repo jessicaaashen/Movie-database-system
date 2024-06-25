@@ -65,7 +65,7 @@ class Actor(models.Model):
 
 # 新增的导演信息管理  cx
 class Director(models.Model):
-    name = models.CharField(verbose_name="导演姓名", max_length=255, unique=True)
+    name = models.CharField(verbose_name="导演姓名", max_length=255)
     gender = models.CharField(verbose_name="性别", max_length=4)
     birthday = models.DateField(verbose_name="生日")
     introduction = models.TextField(verbose_name="简介")
@@ -91,15 +91,21 @@ class Movie(models.Model):
     country = models.CharField(verbose_name="国家/地区", max_length=255)
     years = models.DateField(verbose_name='上映时间')
     actor = models.ManyToManyField(Actor, through='MovieActor',verbose_name="演员", max_length=1024)          # cx 0622
-    d_rate = models.DecimalField(verbose_name="电影数据库评分", max_digits=3, decimal_places=1,null=True,blank=True)          # cx 0622 0623
+    d_rate = models.DecimalField(verbose_name="电影数据库评分", max_digits=3, decimal_places=1, null=True, blank=True, 
+        validators=[
+            MinValueValidator(1),  # 设置最小值为1
+            MaxValueValidator(10)   # 设置最大值为10
+        ])
     intro = models.TextField(verbose_name="情节简介")
-    num = models.IntegerField(verbose_name="浏览数量", default=0)
+    num = models.IntegerField(verbose_name="浏览数量", default=0, validators=[
+            MinValueValidator(0)])          # 设置最小值为0
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover', null=True, blank=True)
 
-    duration = models.IntegerField(verbose_name='电影时长', null=True)
+    duration = models.IntegerField(verbose_name='电影时长', null=True, validators=[
+            MinValueValidator(0)])          # 设置最小值为0
     state = models.CharField(verbose_name="上映状态",max_length=20)
-    language = models.CharField(verbose_name="语言",max_length=20,default="英语")
-    company = models.ForeignKey(Company,verbose_name="涉及公司",on_delete=models.CASCADE, blank=True)
+    language = models.CharField(verbose_name="语言",max_length=20)
+    company = models.ForeignKey(Company,verbose_name="涉及公司",on_delete=models.CASCADE)
 
 
     @property
@@ -184,12 +190,8 @@ class MovieDirector(models.Model):
 
 
 class Rate(models.Model):
-    movie = models.ForeignKey(
-        Movie, on_delete=models.CASCADE, blank=True, null=True, verbose_name="电影ID"
-    )
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True, verbose_name="用户名",
-    )
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="电影ID")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户名")
     mark = models.FloatField(verbose_name="评分", validators=[
             MinValueValidator(1),  # 设置最小值为1
             MaxValueValidator(10)   # 设置最大值为10
@@ -222,13 +224,13 @@ class Comment(models.Model):
 
 
 
-class LikeComment(models.Model):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='评价')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户名')
+# class Collect(models.Model):
+#     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name='电影')
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='用户名')
 
-    class Meta:
-        db_table = 'user_likecomment'
-        verbose_name = "点赞信息"
-        verbose_name_plural = "点赞信息"
+#     class Meta:
+#         db_table = 'user_movie_collect'
+#         verbose_name = "收藏信息"
+#         verbose_name_plural = "收藏信息"
 
 
