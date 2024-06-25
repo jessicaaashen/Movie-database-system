@@ -110,7 +110,7 @@ class Movie(models.Model):
     country = models.CharField(verbose_name="国家/地区", max_length=255)
     years = models.DateField(verbose_name='上映时间')
     actor = models.ManyToManyField(Actor, through='MovieActor',verbose_name="演员", max_length=1024)          # cx 0622
-    d_rate = models.DecimalField(verbose_name="豆瓣评分", max_digits=3, decimal_places=1)          # cx 0622 0623
+    d_rate = models.DecimalField(verbose_name="电影数据库评分", max_digits=3, decimal_places=1)          # cx 0622 0623
     intro = models.TextField(verbose_name="情节简介")
     num = models.IntegerField(verbose_name="浏览数量", default=0)
     image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
