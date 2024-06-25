@@ -18,44 +18,48 @@
                 <div class="artical-details-info-right">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>标签:</strong> {% for tag in movie.tags.all %}
+                            <p><strong>标签：</strong> {% for tag in movie.tags.all %}
                                 <a href="{% url 'index' %}?tag_id={{ tag.id }}">{{ tag.name }}</a>
                             {% endfor %}
                             </p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>发布时间:</strong> {{ movie.years }}</p>
+                            <p><strong>发布时间：</strong> {{ movie.years }}</p>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>上映国家:</strong> {{ movie.country }}</p>
+                            <p><strong>电影时长：</strong> {{ movie.duration }} 分钟</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>上映状态：</strong>{{ movie.state }}</p>
                         </div>
                        
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>电影时长:</strong> {{ movie.duration }} minutes</p>
+                            <p><strong>上映国家：</strong> {{ movie.country }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>语言:</strong> {{ movie.language }}</p>
+                            <p><strong>语言：</strong> {{ movie.language }}</p>
                         </div>
                     </div>
-                    <p><strong>上映状态：</strong>{{ movie.state }}</p>
+                    
                     <p><strong>公司：</strong>{{ movie.company.name }}</p>
 
                     <!-- sjy 0622 -->
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>导演:</strong>
+                            <p><strong>导演：</strong>
                                 {% for director_role in director_roles %}
                                     <p><a href="{% url 'director' director_role.director.id %}">{{ director_role.director.name }}</a>  担任  {{ director_role.duty }}</p>
                                 {% endfor %}
                             </p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>演员:</strong>
+                            <p><strong>演员：</strong>
                                 {% for actor_role in actor_roles %}
                                     <p><a href="{% url 'actor' actor_role.actor.id %}">{{ actor_role.actor.name }}</a>  饰演  {{ actor_role.duty }}</p>
                                 {% endfor %}
@@ -64,7 +68,7 @@
                     </div>
                                      
                  
-                    <p><strong>剧情概述: </strong>{{ movie.intro | slice:240 }}...</p>                 
+                    <p><strong>剧情概述：</strong>{{ movie.intro | slice:240 }}...</p>                 
                     <p><strong>喜欢数量：{{ movie.collect.count }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if is_collect %}
                             <a class="button" style="padding: 5px 10px; margin-left: 10px; background-color: grey; color: white;border: 1px solid;" href="{% url 'decollect' movie.id %}">取消喜欢</a>

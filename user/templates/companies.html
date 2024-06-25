@@ -1,0 +1,84 @@
+<!-- 新增的公司浏览/详情界面 cx 20240613 -->
+<!-- 参考user/templates/index.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- <div class="col-md-8 content-left"> -->
+
+<div class="col-md-8 content-left" style="width: 100%;">
+
+    <!-- cx 0623 新增搜索 -->
+    <div class="albums">
+        <div class="categories">
+            <div class="categories-left">
+                <h1>公司信息</h1>
+            </div>
+            <div class="categories-right">
+                <form action="/company_search/" method="post">
+                    {% csrf_token %}
+                    <input type="text" required name="search" placeholder="输入搜索关键字(公司名字/城市)">
+                    <input type="submit" value="   搜 索   "/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- cx0622修改了前端，支持两列显示，增加了一些空格 -->
+    <!-- cx 0624 增加了照片 -->
+    {% for company in companies %}
+        <div class="artical">
+            <div class="artical-head">
+                <h2>&nbsp;&nbsp;{{ company.name }}</a></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            
+                <p> 
+                    <table>
+                        <tr>
+                            <td style="align-content: flex-start;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;所在城市：</strong> {{ company.city }} </td>
+                        </tr>
+                    </table>
+                </p>
+                
+                <p> 
+                    <table>
+                        <tr>
+                            <td style="align-content: flex-start;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;出品电影：&nbsp;</strong></td>
+                            <td> 
+                                {% for movie in company.movie_set.all %}
+                        <a href="{% url 'movie' movie.id %}" style="color: rgba(1, 146, 172, 0.772);">{{ movie.name }}</a>
+                                <br>
+                            {% endfor %}</td>
+                        </tr>
+                    </table>
+                </p>     
+            <!-- </div> -->
+        </div>
+    {% endfor %}
+
+    <!-- sjy0621新增 -->
+    <div class="clearfix"></div>
+    
+    <!-- pagenate -->
+    <div class="pagenate">
+        <ul>
+            {% for l in companies.paginator.page_range %}
+                {% if l <= companies.number|add:5 and l >= companies.number|add:-5 %}
+                    {% if companies.number == l %}
+                        <li class="page-active"><span>{{ l }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if companies.has_next %}
+                <li class="next"><a href="?page={{ companies.next_page_number }}">下一页</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <!-- pagenate -->
+
+</div>
+
+{% endblock %}
