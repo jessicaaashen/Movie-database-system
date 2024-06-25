@@ -1,3 +1,4 @@
+<!-- 首页 -->
 <!DOCTYPE HTML>
 <html lang="zh">
 {% load static %}
@@ -16,11 +17,10 @@
     {% endblock %}
 </head>
 <body>
-<!-- container -->
+    
 <div class="header">
     <div class="container">
-        <!-- header 顶部 -->
-        <!-- top-nav 导航栏 -->
+        <!-- 顶部导航栏 -->
         <div class="top-nav">
             <span class="menu">
 </span>
@@ -46,182 +46,21 @@
             <h2><a href="/">电影数据库</a></h2>
 
         </div>
-        <!-- top-nav -->
-        <!-- script-for-menu -->
-        <script>
-            $(document).ready(function () {
-                $("span.menu").click(function () {
-                    $(".top-nav ul").slideToggle(200);
-                });
-            });
-        </script>
-        <!-- script-for-menu -->
     </div>
-    <!-- header -->
 </div>
 
-<!-- banner轮播的横幅部分 -->
-{#            <div class="banner">#}
-{#    <!-- slider -->#}
-{#    <!--- img-slider --->#}
-{#    <div class="img-slider">#}
-{#        <!----start-slider-script---->#}
-{#        <script src="{% static 'js/responsiveslides.min.js' %}"></script>#}
-{#        <script>#}
-{#            // You can also use "$(window).load(function() {"#}
-{#            $(function () {#}
-{#                // Slideshow 4#}
-{#                $("#slider4").responsiveSlides({#}
-{#                    auto: true,#}
-{#                    pager: true,#}
-{#                    nav: true,#}
-{#                    speed: 500,#}
-{#                    namespace: "callbacks",#}
-{#                    before: function () {#}
-{#                        $('.events').append("<li>before event fired.</li>");#}
-{#                    },#}
-{#                    after: function () {#}
-{#                        $('.events').append("<li>after event fired.</li>");#}
-{#                    }#}
-{#                });#}
-{##}
-{#            });#}
-{#        </script>#}
-{#        <!----//End-slider-script---->#}
-{#        <!-- Slideshow 4 -->#}
-{#        <div id="top" class="callbacks_container">#}
-{#            <ul class="rslides" id="slider4">#}
-{#                <li>#}
-{#                    <img class="img-responsive" src="{% static 'images/1.jpg' %}" alt="">#}
-{#                    <div class="slider-caption">#}
-{#                        <div class="slider-caption-inner">#}
-{#                            <h1>电影推荐系统</h1>#}
-{#                            <h2>Movie Recommendation System</h2>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <img src="{% static 'images/2.jpg' %}" alt="">#}
-{#                    <div class="slider-caption">#}
-{#                        <div class="slider-caption-inner">#}
-{#                            <h1>电影推荐系统</h1>#}
-{#                            <h2>Movie Recommendation System</h2>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <img src="{% static 'images/3.jpg' %}" alt="">#}
-{#                    <div class="slider-caption">#}
-{#                        <div class="slider-caption-inner">#}
-{#                            <h1>电影推荐系统</h1>#}
-{#                            <h2>Movie Recommendation System</h2>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </li>#}
-{#            </ul>#}
-{#        </div>#}
-{#        <div class="clearfix"></div>#}
-{#    </div>#}
-{#    <!-- slider -->#}
-{#</div>#}
-<!-- banner -->
-<!-- categories -->
-<!---->
+<!-- “排序”栏 -->
 {% block cate %}
 {% endblock %}
-<!-- categories -->
 
-<!-- content用户偏好和最新的电影轮播图 -->
+<!-- 电影概览 -->
 <div class="content">
     <div class="container">
         {% block content %}
         {% endblock %}
-        {% block rightside %}
-            <div class="col-md-4 content-right">
-                <div class="recent-add">
-                    <!----sreen-gallery-cursual---->
-                    <div class="sreen-gallery-cursual">
-                        <!-- requried-jsfiles-for owl -->
-                        <link href="{% static 'css/owl.carousel.css' %}" rel="stylesheet">
-                        <script src="{% static 'js/owl.carousel.js' %}"></script>
-                        <div id="app2">
-                            <!-- //requried-jsfiles-for owl -->
-                            <!-- start content_slider -->
-                          
-                        </div>
-                        <!--//sreen-gallery-cursual---->
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <!-- 基于用户的推荐 -->
-               
-                <!-- popular-allbums -->
-                <!-- content-right -->
-            </div>
-        {% endblock %}
     </div>
 </div>
-<!-- content -->
-<!-- content-right 下面的是js代码啊 还是用于用户推荐和最新电影的轮播 -->
-<script src="{% static '/js/vue.js' %}"></script>
-<script src="{% static '/js/axios.min.js' %}"></script>
-    <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            movies: [],
-            name: 'app',
-        },
-        created() {
-            this.get_user_recommend();
-        },
-        methods: {
-            get_user_recommend: function () {
-                {#console.log("{{ request.session.user_id }}");#}
-                axios.get('/api/user_recommend/{{ request.session.user_id}}').then(function (res) {
-                    app.movies = res.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-        }
-    });
-    var app2 = new Vue({
-        el: '#app2',
-        data: {
-            movies: []
-        },
-        updated: function () {
-            this.load_css();
-        },
-        methods: {
-            load_css: function () {
-                $("#owl-demo").owlCarousel({
-                    items: 3,
-                    lazyLoad: true,
-                    autoPlay: true,
-                    navigation: true,
-                    navigationText: false,
-                    pagination: true,
-                });
-            }
-        },
-        created: function () {
-            axios.get('/api/hotest_movie').then(function (res) {
-                app2.movies = res.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-    });
-</script>
+
+<!-- 获取用户收藏/打分/评论 -->
 {% block js %}
 {% endblock %}
-<!-- footer -->
-<div class="footer">
-</div>
-<!-- footer -->
-<!-- container -->
-</body>
-</html>
-

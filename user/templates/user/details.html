@@ -1,3 +1,4 @@
+<!-- 电影详情界面 -->
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
@@ -167,45 +168,4 @@
         <!-- artical-single-page -->
         <div class="clearfix"></div>
     </div>
-{% endblock %}
-
-
-{% block js %}
-    <script>
-        var item_app = new Vue({
-            el: '#item_app',
-            data: {
-                movies: [],
-                name: 'item_app',
-            },
-            created() {
-                this.get_item_recommend();
-            },
-            updated() {
-                this.load_css();
-            },
-            methods: {
-                get_item_recommend: function () {
-                    if ("{{ request.session.user_id }}" === "") {
-                    }
-                    axios.get('/api/item_recommend/{{ request.session.user_id}}').then(function (res) {
-                        item_app.movies = res.data;
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                },
-                load_css: function () {
-                    $("#owl-demo1").owlCarousel({
-                        items: 3,
-                        lazyLoad: true,
-                        autoPlay: true,
-                        navigation: true,
-                        navigationText: false,
-                        pagination: true,
-                    });
-                }
-
-            }
-        });
-    </script>
 {% endblock %}

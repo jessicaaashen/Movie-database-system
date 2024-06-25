@@ -16,24 +16,18 @@ urlpatterns = [
     path("personal/", views.personal, name="personal"),
     path("delete_comment/<int:comment_id>", views.delete_comment, name="delete_comment"),
     path("delete_rate/<int:rate_id>", views.delete_rate, name="delete_rate"),
-    path("search/", views.search, name="search"),
-    path("all_tags/", views.all_tags, name="all_tags"),
-    path("choose_tags/", views.choose_tags, name="choose_tags"),
 
-    # 以下为新增内容 cx 20240613
+    path("choose_tags/", views.choose_tags, name="choose_tags"),
+    path("all_tags/", views.all_tags, name="all_tags"),
     path("all_actors/", views.all_actors, name="all_actors"),
     path("all_directors/", views.all_directors, name="all_directors"),
     path("all_companies/", views.all_companies, name="all_companies"),
-    # 和user/base.html line 30 31 新增内容对应
-    # 具体定义在user/views.py中
     
-    # cx0622修改"actor/<int:actor_id>/"，因为views里面定义的actor()模板有两个参数
-    # sjy0622
     path("actor/<int:actor_id>/", views.actor, name="actor"),
     path("director/<int:director_id>/", views.director, name="director"),
     path("clear_cache/", views.clear_cache, name="clear_cache"),
 
-    # cx 0623 新增演员/导演搜索
+    path("search/", views.search, name="search"),
     path("actor_search/", views.actor_search, name='actor_search'),
     path("director_search/", views.director_search, name='director_search'),
     path("company_search/", views.company_search, name='company_search'),

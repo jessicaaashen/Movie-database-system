@@ -1,13 +1,10 @@
-<!-- 新增的公司浏览/详情界面 cx 20240613 -->
-<!-- 参考user/templates/index.html -->
+<!-- 公司浏览/详情界面 -->
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- <div class="col-md-8 content-left"> -->
 
 <div class="col-md-8 content-left" style="width: 100%;">
 
-    <!-- cx 0623 新增搜索 -->
     <div class="albums">
         <div class="categories">
             <div class="categories-left">
@@ -23,8 +20,6 @@
         </div>
     </div>
 
-    <!-- cx0622修改了前端，支持两列显示，增加了一些空格 -->
-    <!-- cx 0624 增加了照片 -->
     {% for company in companies %}
         <div class="artical">
             <div class="artical-head">
@@ -53,14 +48,10 @@
                         </tr>
                     </table>
                 </p>     
-            <!-- </div> -->
         </div>
     {% endfor %}
-
-    <!-- sjy0621新增 -->
     <div class="clearfix"></div>
-    
-    <!-- pagenate -->
+
     <div class="pagenate">
         <ul>
             {% for l in companies.paginator.page_range %}
@@ -77,7 +68,6 @@
             {% endif %}
         </ul>
     </div>
-    <!-- pagenate -->
 
 </div>
 

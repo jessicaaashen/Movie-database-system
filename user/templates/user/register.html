@@ -1,3 +1,4 @@
+<!-- 注册界面 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="zh" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,15 +39,15 @@
 	<div class="avtar"><img src="{% static 'images/avtar.png' %}" /></div>
     <form class="form" action="{% url 'register' %}" method="post">
         {% csrf_token %}
-        <input type="text" name="username" class="text" value="User Name">
-        <input type="text" class="text" name="email" value="Mailbox">
+        <input type="text" name="username" class="text" value="用户名">
+        <input type="text" class="text" name="email" value="邮箱">
         <input type="password" class="text" name="password1">
         <input type="password" class="text" name="password2">
 {#        <button type="submit" class="btn btn-primary btn-block">注册</button>#}
 
 </br>
      <span class=" text fa fa-mail-forward" style="color: white;font-size: 20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已有账号？<a href="{% url 'login' %}">  点击此处登录 </a></span>
-	<div class="signin"><input type="submit" value="Register" ></div>
+	<div class="signin"><input type="submit" value="注册" ></div>
     </form>
 </div>
 </body>

@@ -13,9 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from django.db import connection
 
-# from als_model import als_recommend_by_user_id
 from cache_keys import USER_CACHE, ITEM_CACHE, ALS_CACHE
-from recommend_movies import update_item_movie_sim_matrix, user_cf
 from .forms import *
 
 logger = logging.getLogger()
@@ -64,12 +62,6 @@ def login(request):
                     request.session["login_in"] = True
                     request.session["user_id"] = user.id
                     request.session["name"] = user.username
-                    # 用户第一次注册，让他选标签
-                    new = request.session.get('new')
-                    if new:
-                        tags = Tags.objects.all()
-                        print('user is new', tags)
-                        return render(request, 'user/choose_tag.html', {'tags': tags})
                     return redirect(reverse("index"))
                 else:
                     return render(
@@ -313,8 +305,8 @@ def score(request, movie_id):
         cache.delete(item_cache)
         cache.delete(als_cache)
         print('cache deleted')
-        update_item_movie_sim_matrix(movie_id, user_id)
-        user_cf.update_all_user(user=user)
+        # update_item_movie_sim_matrix(movie_id, user_id)
+        # user_cf.update_all_user(user=user)
     return redirect(reverse("movie", args=(movie_id,)))
 
 

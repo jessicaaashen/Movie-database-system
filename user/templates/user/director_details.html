@@ -1,5 +1,4 @@
-
-<!-- cx0622修改，参照actor_details.html -->
+<!-- 导演详情界面 -->
 {% extends 'base.html' %}
 {% load grav_tag %}
 {% block content %}
@@ -17,10 +16,8 @@
         <img src="{{ MEDIA_URL }}{{ director.image_link }} " style="max-width: 100%;">
     </div>
     <div class="col-md-8 content-right" style="width: 80%;">
-        <!-- artical-single-page -->
         <div class="artical-details">
             <h2>{{ director.name }} </h2>
-            <!-- artical-details-info -->
             <div class="artical-details-info">
                 <div class="row">
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</strong> {{ director.gender }}</p>

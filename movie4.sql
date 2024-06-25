@@ -325,9 +325,9 @@ CREATE TABLE `user_comment`  (
 -- ----------------------------
 -- Records of user_comment
 -- ----------------------------
-INSERT INTO `user_comment` VALUES (1, 'very good', '2024-05-15 01:19:04', 18151, 401);
-INSERT INTO `user_comment` VALUES (2, 'nice movie', '2024-05-27 07:55:27', 18151, 402);
-INSERT INTO `user_comment` VALUES (3, '阿打发打发', '2024-05-30 09:29:01', 18151, 403);
+INSERT INTO `user_comment` VALUES (1, 'very good', '2024-05-15 01:19:04', 1, 401);
+INSERT INTO `user_comment` VALUES (2, 'nice movie', '2024-05-27 07:55:27', 1, 402);
+INSERT INTO `user_comment` VALUES (3, '阿打发打发', '2024-05-30 09:29:01', 1, 403);
 
 -- ----------------------------
 -- Table structure for user_likecomment
@@ -347,6 +347,44 @@ CREATE TABLE `user_likecomment`  (
 
 
 -- ----------------------------
+-- Table structure for user_rate
+-- ----------------------------
+DROP TABLE IF EXISTS `user_rate`;
+CREATE TABLE `user_rate`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `mark` tinyint NOT NULL,
+  `create_time` datetime NOT NULL CHECK(`create_time` BETWEEN '2024-01-01' AND '2074-12-31'),
+  `movie_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_rate_movie_id_6ccfed0c`(`movie_id` ASC) USING BTREE,
+  INDEX `user_rate_user_id_b85a90b9`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `user_rate_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `user_rate_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+
+
+DELIMITER //
+CREATE TRIGGER update_movie_rating AFTER INSERT ON user_rate
+FOR EACH ROW
+BEGIN
+    DECLARE avg_rating DECIMAL(3,1);
+    
+    -- 计算该电影的新平均评分
+    SELECT ROUND(AVG(mark), 1) INTO avg_rating
+    FROM user_rate
+    WHERE movie_id = NEW.movie_id;
+    
+    -- 更新user_movie表中的d_rate字段
+    UPDATE user_movie
+    SET d_rate = avg_rating
+    WHERE id = NEW.movie_id;
+END //
+
+DELIMITER ;
+
+
+-- ----------------------------
 -- Table structure for user_movie
 -- ----------------------------
 DROP TABLE IF EXISTS `user_movie`;
@@ -355,7 +393,7 @@ CREATE TABLE `user_movie`  (
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `country` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `years` date NOT NULL CHECK (`years` BETWEEN '1900-01-01' AND '2074-12-31'),			-- 这里应该是YEAR类型，但是DATE也没有问题
-  `d_rate` decimal(3,1) NOT NULL,
+  `d_rate` decimal(3,1) NULL,
   `intro` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `num` int NOT NULL,
   `image_link` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -371,52 +409,74 @@ CREATE TABLE `user_movie`  (
 -- ----------------------------
 -- Records of user_movie
 -- ----------------------------
-  INSERT INTO `user_movie` VALUES (1, '疯狂动物城 Zootopia', '美国', '2016-03-04', 9.2, 
+  INSERT INTO `user_movie` VALUES (1, '疯狂动物城 Zootopia', '美国', '2016-03-04', NULL, 
   '故事发生在一个所有哺乳类动物和谐共存的美好世界中，兔子朱迪（金妮弗·古德温 Ginnifer Goodwin 配音）从小就梦想着能够成为一名惩恶扬善的刑警，凭借着智慧和努力，朱迪成功的从警校中毕业进入了疯狂动物城警察局，殊不知这里是大型肉食类动物的领地，作为第一只，也是唯一的小型食草类动物，朱迪会遇到怎样的故事呢？', 
   0, 'movie_cover/p2315672647.jpg', 109, 1,'下线','英语');
-  INSERT INTO `user_movie` VALUES (2, '头脑特工队 Inside Out ', '美国', '2015-10-06', 8.8, 
+  INSERT INTO `user_movie` VALUES (2, '头脑特工队 Inside Out ', '美国', '2015-10-06', NULL, 
   '可爱的小女孩莱莉（凯特林·迪亚斯 Kaitlyn Dias 配音）出生在明尼苏达州一个平凡的家庭中，从小她在父母的呵护下长大，脑海中保存着无数美好甜蜜的回忆。当然这些记忆还与几个莱莉未曾谋面的伙伴息息相关，他们就是人类的五种主要情绪：乐乐（艾米·波勒 Amy Poehl er 配音）、忧忧（菲利丝·史密斯 Phyllis Smith 配音）、怕怕（比尔·哈德尔 Bill Hader 配音）、厌厌（敏迪·卡灵 Mindy Kaling 配音）和怒怒（刘易斯·布莱克 Lewis Black 配音）。乐乐作为团队的领导，她协同其他伙伴致力于为小主人营造更多美好的珍贵回忆。某天，莱莉随同父母搬到了旧金山，肮脏逼仄的公寓、陌生的校园环境、逐渐失落的友情都让莱莉无所适从，她的负面情绪逐渐累积，内心美好的世界渐次崩塌。', 
   0, 'movie_cover/p2266293606.jpg', 95, 1,'下线','英语');
-  INSERT INTO `user_movie` VALUES (3, '玩具总动员4 Toy Story 4 ', '美国', '2019-06-21', 8.5, 
+  INSERT INTO `user_movie` VALUES (3, '玩具总动员4 Toy Story 4 ', '美国', '2019-06-21', NULL, 
   '自从与小主人安迪告别后，胡迪（汤姆·汉克斯 Tom Hanks 配音）和他的伙伴们在小女孩邦妮家安顿下来，不仅成为了邦妮（玛德琳·麦格劳 Madeleine McGraw 配音）的心爱之物，还结识了一批新伙伴。转眼之间，邦妮也要进入幼儿园啦，她用灵巧的小手把一个餐叉做成了玩具带了回来，并且热爱有加。胡迪虽然稍感失落，却还能欣然接受。只不过叉叉（托尼·海尔 Tony Hale 配音）似乎认定自己只是垃圾，一次次逃走跳进垃圾桶里，这可给胡迪找了不少麻烦。不久，邦妮一家外出旅行。叉叉故技重施，想方设法逃走，结果在追逐他的过程中，胡迪和叉叉便与邦妮家失散了。在流浪途中，胡迪意外重逢久未谋面的牧羊女（安妮·波茨 Annie Potts 配音），与此同时，新的冒险也就此展开……', 
   0, 'movie_cover/p2557284230.jpg', 100, 1,'下线','英语');
-  INSERT INTO `user_movie` VALUES (4, '神偷奶爸3 Despicable Me 3 ', '美国', '2017-07-07', 6.8, 
+  INSERT INTO `user_movie` VALUES (4, '神偷奶爸3 Despicable Me 3 ', '美国', '2017-07-07', NULL, 
   '洗心革面之后，格鲁（史蒂夫·卡瑞尔 Steve Carell 配音）作为特工成绩斐然，却因未能打败坏小子巴萨扎·布莱德（崔·帕克Trey Parker 配音）而被新局长扫地出门。就在此时，他收到一封远方来信，这才得知自己原来还有一个双胞胎兄弟德鲁（史蒂夫·卡瑞尔 Steve Carell 配音）。在德鲁盛情邀请下，格鲁带着妻子露西•王尔德（克里斯汀·韦格 Kristen Wiig 配音）以及玛戈（米兰达·卡斯格拉夫 Miranda Cosgrove 配音）、伊迪丝（达娜·盖伊 Dana Gaier 配音）和阿格蕾丝（埃尔希·费舍 Elsie Fisher 配音）来到了他亲生父亲所居住的地方探亲。德鲁天真烂漫，却一心想和哥哥搭档成为坏蛋二人组。格鲁虽然暂时回归狂野，可正义之心并未泯灭。尤其当巴萨扎邪恶的计划和三个可爱的孩子牵扯到一起时，他再也无法坐视不理……', 
   0, 'movie_cover/p2469070974.jpg', 90, 2,'下线','英语');
-  INSERT INTO `user_movie` VALUES (5, '小黄人大眼萌：神偷奶爸前传 Minions: The Rise of Gru', '美国', '2022-08-19', 7.1, 
+  INSERT INTO `user_movie` VALUES (5, '小黄人大眼萌：神偷奶爸前传 Minions: The Rise of Gru', '美国', '2022-08-19', NULL, 
   '影片是2015年推出的小黄人独立电影《小黄人大眼萌》的直接前传。作为《神偷奶爸》的衍生作品，讲述了小黄人们在“前格鲁”时代为其他主人服务的经历，不过少年格鲁曾经出现在这部衍生电影里，续集将围绕他与小黄人们结缘的过程展开。', 
   0, 'movie_cover/p2877522569.jpg', 87, 2,'下线','英语');
-  INSERT INTO `user_movie` VALUES (6, '春娇与志明 春嬌與志明', '中国香港 / 中国大陆', '2012-03-30', 7.3, 
+  INSERT INTO `user_movie` VALUES (6, '春娇与志明 春嬌與志明', '中国香港 / 中国大陆', '2012-03-30', NULL, 
   '张志明（余文乐 饰）与余春娇（杨千嬅 饰）在一起后，恋情也不可避免由热烈转向平淡，几番龃龉过后，二人平平淡淡、不知不觉地分手了。在此之后，志明接受前老板的邀请，和公公前往北京发展，他很快结识了美丽温柔的空姐尚优优（杨幂 饰），一段新的恋情由此展开。另一方面，春娇的化妆品牌决定关掉香港分店，于是她也和娥姐转战北京。曾经的恋人相见自是几多尴尬，而原以为早已平淡和忘却的情感竟在见面的一刻复萌。虽然志明有优优陪伴，春娇也意外邂逅了体贴稳重的SAM（徐峥 饰），但是他们仍然瞒着另一半偷偷见面，他们小心地保持着距离，心又不由自主地向对方靠近。已是从香港转战北京的爱情，将如何收场……', 
   0, 'movie_cover/p1461642128.jpg', 111, 3,'下线','粤语/普通话');
-  INSERT INTO `user_movie` VALUES (7, '泰坦尼克号 Titanic', '美国', '1998-04-03', 9.5, 
+  INSERT INTO `user_movie` VALUES (7, '泰坦尼克号 Titanic', '美国', '1998-04-03', NULL, 
   '1912年4月10日，号称 “世界工业史上的奇迹”的豪华客轮泰坦尼克号开始了自己的处女航，从英国的南安普顿出发驶往美国纽约。富家少女罗丝（凯特•温丝莱特）与母亲及未婚夫卡尔坐上了头等舱；另一边，放荡不羁的少年画家杰克（莱昂纳多·迪卡普里奥）也在码头的一场赌博中赢得了下等舱的船票。罗丝厌倦了上流社会虚伪的生活，不愿嫁给卡尔，打算投海自尽，被杰克救起。很快，美丽活泼的罗丝与英俊开朗的杰克相爱，杰克带罗丝参加下等舱的舞会、为她画像，二人的感情逐渐升温。1912年4月14日，星期天晚上，一个风平浪静的夜晚。泰坦尼克号撞上了冰山，“永不沉没的”泰坦尼克号面临沉船的命运，罗丝和杰克刚萌芽的爱情也将经历生死的考验。', 
   0, 'movie_cover/p457760035.jpg', 194, 4,'下线','英语');
-  INSERT INTO `user_movie` VALUES (8, '爱乐之城 La La Land', '美国', '2017-02-14', 8.4, 
+  INSERT INTO `user_movie` VALUES (8, '爱乐之城 La La Land', '美国', '2017-02-14', NULL, 
   '米娅（艾玛·斯通 Emma Stone 饰）渴望成为一名演员，但至今她仍旧只是片场咖啡厅里的一名平凡的咖啡师，尽管不停的参加着大大小小的试镜，但米娅收获的只有失败。某日，在一场派对之中，米娅邂逅了名为塞巴斯汀（瑞恩·高斯林 Ryan Gosling 饰）的男子，起初两人之间产生了小小的矛盾，但很快，米娅便被塞巴斯汀身上闪耀的才华以及他对爵士乐的纯粹追求所吸引，最终两人走到了一起。在塞巴斯汀的鼓励下，米娅辞掉了咖啡厅的工作，专心为自己写起了剧本，与此同时，塞巴斯汀为了获得一份稳定的收入，加入了一支流行爵士乐队，开始演奏自己并不喜欢的现代爵士乐，没想到一炮而红。随着时间的推移，努力追求梦想的两人，彼此之间的距离却越来越远，在理想和感情之间，他们必须做出选择。', 
   0, 'movie_cover/p2565101499.jpg', 128, 5,'下线','英语');
-  INSERT INTO `user_movie` VALUES (9, '爱在午夜降临前 Before Midnight', '美国/希腊', '2013-06-14', 8.9, 
+  INSERT INTO `user_movie` VALUES (9, '爱在午夜降临前 Before Midnight', '美国/希腊', '2013-06-14', NULL, 
   '被影迷奉为爱情圭臬的《爱在黎明破晓前》、《爱在日落黄昏时》终于迎来了第三部《爱在午夜降临前》。第一部中美国青年杰西（伊桑·霍克 Ethan Hawke 饰）坐火车邂逅法国女孩赛琳（朱莉·德尔佩 Julie Delpy 饰），两人在维也纳度过难忘一晚；9 年后的第二部，杰西已成为作家，他的小说让他和赛琳在巴黎重逢，两人于日落前再续前缘。如今又一个 9 年过去了，杰西与赛琳已经一起生活并有了一对双胞胎女儿，对人生和爱情也有了更多感悟。《爱在午夜降临前》就是撷取他们在希腊伯罗奔尼撒南部小岛度假的最后一天。导演理查德·林克莱特和两位主演就像与影迷在赴一个每 9 年的约会，尽管三部曲的制作跨度长达 18 年，但故事情节几乎可以写在一张纸的背面。电影惯于只用人与人的对话讲述故事，两位主人公或行走在静谧的村落，或悠然坐在露台和餐桌前，不断的讨论着文学、爱情、生活、两性等话题...', 
   0, 'movie_cover/p2074715729.jpg', 109, 6,'下线','英语');
-  INSERT INTO `user_movie` VALUES (10, '爱在日落黄昏时 Before Sunset', '美国/法国', '2004-02-10', 8.9, 
+  INSERT INTO `user_movie` VALUES (10, '爱在日落黄昏时 Before Sunset', '美国/法国', '2004-02-10', NULL, 
   '九年前，杰西（伊桑·霍克 Ethan Hawke 饰）与席琳（朱莉·德尔佩 Julie Delpy 饰）在火车上不期而遇，怦然心动。在维也纳渡过疯狂而又浪漫的一夜后，他们在日出前分手，并相约在维也纳重逢。九年之后，杰西已成为畅销书作家，而席琳则是法国环保组织成员。杰西在新书里娓娓道来的，正是九年前的浪漫夜晚。在巴黎促销新书时，杰西与席琳在书店相遇，然而他们只有一下午的时光相处，日落之前，杰西要乘飞机赶回美国。两人在午后的巴黎街头散步，在美丽的护城河上泛舟，无所不谈，兴致勃勃。可是就像命运的捉弄，快乐的时光像烟花一样醉人却短暂。杰西对席琳一送再送，难以忘情；席琳用吉他和歌声，怀念着内心深处的爱恋。太阳就快落下去了，杰西就要误了飞机，又或许他更不想错过的，是命里注定的缘分.', 
   0, 'movie_cover/p2561542458.jpg', 80, 6,'下线','英语');
-  INSERT INTO `user_movie` VALUES (11, '加菲猫家族 The Garfield Movie', '美国', '2024-06-01', 6.9, 
+  INSERT INTO `user_movie` VALUES (11, '加菲猫家族 The Garfield Movie', '美国', '2024-06-01', NULL, 
   '加菲猫（克里斯·帕拉特 Chris Pratt 配音），这只全球闻名、厌恶星期一、对千层面情有独钟的宅猫，正准备开启一段疯狂的户外奇遇！在与他失散多年的亲生猫爸——不羁的流浪猫维克（塞缪尔·杰克逊 Samuel L. Jackson 配音）意外重聚后，加菲猫和他的狗狗伙伴欧迪被迫告别了安逸舒适的生活，卷入了一场搞笑又充满刺激的大冒险，而一直娇生惯养的加菲猫，将在这次冒险之旅中蜕变成为上天入地的“猫猫特工”，带着家族直面挑战、化解危机。', 
   0, 'movie_cover/p2908686677.jpg', 101, 7,'在映','英语');
-  INSERT INTO `user_movie` VALUES (12, '哆啦 A 梦：大雄的地球交响乐 映画ドラえもん のび太の地球交響楽', '日本', '2024-05-31', 6.7, 
+  INSERT INTO `user_movie` VALUES (12, '哆啦 A 梦：大雄的地球交响乐 映画ドラえもん のび太の地球交響楽', '日本', '2024-05-31', NULL, 
   '为了准备学校音乐会的演出，大雄埋头苦练他并不擅长的竖笛。这时，他的面前出现了一位神秘的外星少女米佳，她格外中意大雄吹出来的跑调的笛声，于是米佳引领哆啦 A 梦和伙伴们来到了以音乐为能量的外星球上的一座音乐殿堂。就在这时，一种能够令音乐从世界上消失的神秘生命体突然降临，地球陷入危机……！哆啦 A 梦和伙伴们究竟能否拯救音乐的未来和地球危机呢？', 
   0, 'movie_cover/p2906817350.jpg', 115, 8,'在映','日语');
-  INSERT INTO `user_movie` VALUES (13, '当幸福来敲门 The Pursuit of Happyness', '美国', '2008-01-17', 9.2, 
+  INSERT INTO `user_movie` VALUES (13, '当幸福来敲门 The Pursuit of Happyness', '美国', '2008-01-17', NULL, 
   '克里斯•加纳（威尔·史密斯 Will Smith 饰）用尽全部积蓄买下了高科技治疗仪，到处向医院推销，可是价格高昂，接受的人不多。就算他多努力都无法提供一个良好的生活环境给妻儿，妻子（桑迪·牛顿 Thandie Newton 饰）最终选择离开家。从此他带着儿子克里斯托夫（贾登·史密斯 Jaden Smith 饰）相依为命。克里斯好不容易争取回来一个股票投资公司实习的机会，就算没有报酬，成功机会只有百分之五，他仍努力奋斗，儿子是他的力量。他看尽白眼，与儿子躲在地铁站里的公共厕所里，住在教堂的收容所里…… 他坚信，幸福明天就会来临。', 
   0, 'movie_cover/p1312700628.jpg', 117, 7,'下线','英语');
-  INSERT INTO `user_movie` VALUES (14, '楚门的世界 The Truman Show ', '美国', '1998-06-05', 9.4, 
+  INSERT INTO `user_movie` VALUES (14, '楚门的世界 The Truman Show ', '美国', '1998-06-05', NULL, 
   '楚门（金•凯瑞 Jim Carrey 饰）是一个平凡得不能再平凡的人，除了一些有些稀奇的经历之外——初恋女友突然失踪、溺水身亡的父亲忽然似乎又出现在眼前，他和绝大多数 30 多岁的美国男人绝无异样。这令他倍感失落。他也曾试过离开自己生活了多年的地方，但总因种种理由而不能成行。直到有一天，他忽然发觉自己似乎一直在被人跟踪，无论他走到哪里，干什么事情。这种感觉愈来愈强烈。楚门决定不惜一切代价逃离这个他生活了 30 多年的地方，去寻找他的初恋女友。但他却发现自己怎样也逃不出去。真相其实很残忍。', 
   0, 'movie_cover/p479682972.jpg', 103, 4,'下线','英语');
-  -- INSERT INTO `user_movie` VALUES (15, '美丽人生 La vita è bella', '意大利', '1997-12-20', 9.5, 
-  -- '犹太青年圭多（罗伯托·贝尼尼）邂逅美丽的女教师多拉（尼可莱塔·布拉斯基），他彬彬有礼的向多拉鞠躬：“早安！公主！”。历经诸多令人啼笑皆非的周折后，天遂人愿，两人幸福美满的生活在一起。然而好景不长，法西斯政权下，圭多和儿子被强行送往犹太人集中营。多拉虽没有犹太血统，毅然同行，与丈夫儿子分开关押在一个集中营里。聪明乐天的圭多哄骗儿子这只是一场游戏，奖品就是一辆大坦克，儿子快乐、天真的生活在纳粹的阴霾之中。尽管集中营的生活艰苦寂寞，圭多仍然带给他人很多快乐，他还趁机在纳粹的广播里问候妻子：“早安！公主！”法西斯政权即将倾覆，纳粹的集中营很快就要接受最后的清理，圭多编给儿子的游戏该怎么结束？他们一家能否平安的度过这黑暗的年代呢？', 
-  -- 0, 'movie_cover/p510861873.jpg', 116, 9,'下线','英语');
 
+
+-- ----------------------------
+-- Records of user_rate
+-- ----------------------------
+INSERT INTO `user_rate` VALUES (1, 1, '2024-05-12 07:19:54', 1, 1);
+INSERT INTO `user_rate` VALUES (2, 9, '2024-05-12 07:19:54', 2, 1);
+INSERT INTO `user_rate` VALUES (3, 9, '2024-05-12 07:19:54', 3, 1);
+INSERT INTO `user_rate` VALUES (4, 9, '2024-05-12 07:19:54', 4, 1);
+INSERT INTO `user_rate` VALUES (5, 9, '2024-05-12 07:19:54', 5, 1);
+INSERT INTO `user_rate` VALUES (6, 9, '2024-05-12 07:19:54', 6, 1);
+INSERT INTO `user_rate` VALUES (7, 5, '2024-05-12 07:19:54', 7, 1);
+INSERT INTO `user_rate` VALUES (8, 2, '2024-05-12 07:19:54', 1, 2);
+INSERT INTO `user_rate` VALUES (9, 1, '2024-05-12 07:19:54', 2, 2);
+INSERT INTO `user_rate` VALUES (10, 3, '2024-05-12 07:19:54', 3, 2);
+INSERT INTO `user_rate` VALUES (11, 7, '2024-05-12 07:19:54', 4, 2);
+INSERT INTO `user_rate` VALUES (12, 9, '2024-05-12 07:19:54', 5, 2);
+INSERT INTO `user_rate` VALUES (13, 9, '2024-05-12 07:19:54', 6, 2);
+INSERT INTO `user_rate` VALUES (14, 9, '2024-05-12 07:19:54', 7, 2);
+INSERT INTO `user_rate` VALUES (15, 1, '2024-05-12 07:19:54', 1, 3);
+INSERT INTO `user_rate` VALUES (16, 9, '2024-05-12 07:19:54', 2, 3);
+INSERT INTO `user_rate` VALUES (17, 8, '2024-05-12 07:19:54', 3, 3);
+INSERT INTO `user_rate` VALUES (18, 6, '2024-05-12 07:19:54', 4, 3);
+INSERT INTO `user_rate` VALUES (19, 9, '2024-05-12 07:19:54', 5, 3);
+INSERT INTO `user_rate` VALUES (20, 9, '2024-05-12 07:19:54', 6, 3);
+INSERT INTO `user_rate` VALUES (21, 1, '2024-05-12 07:19:54', 7, 3);
   
   
 -- ----------------------------
@@ -510,27 +570,8 @@ INSERT INTO `user_movie_tags` VALUES (48, 15, 6);
 INSERT INTO `user_movie_tags` VALUES (49, 15, 7);
 
 
--- ----------------------------
--- Table structure for user_rate
--- ----------------------------
-DROP TABLE IF EXISTS `user_rate`;
-CREATE TABLE `user_rate`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `mark` tinyint NOT NULL,
-  `create_time` datetime NOT NULL CHECK(`create_time` BETWEEN '2024-01-01' AND '2074-12-31'),
-  `movie_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_rate_movie_id_6ccfed0c`(`movie_id` ASC) USING BTREE,
-  INDEX `user_rate_user_id_b85a90b9`(`user_id` ASC) USING BTREE,
-  CONSTRAINT `user_rate_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `user_movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `user_rate_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of user_rate
--- ----------------------------
-INSERT INTO `user_rate` VALUES (1, 9, '2024-05-12 07:19:54', 1, 1);
+
 
 -- ----------------------------
 -- Table structure for user_tags

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Avg
+from django.core.validators import MinValueValidator, MaxValueValidator
 
-# 改成了中文  cx
 
 class User(models.Model):
     username = models.CharField(max_length=255, unique=True, verbose_name="用户名")
@@ -27,24 +27,6 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class UserTagPrefer(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, verbose_name="用户id",
-    )
-    tag = models.ForeignKey(Tags, on_delete=models.CASCADE, verbose_name='电影标签')
-    score = models.FloatField(default=0)
-
-    class Meta:
-        db_table = 'user_usertagprefer'
-        verbose_name = "用户喜好"
-        verbose_name_plural = "喜好"
-        unique_together = (('user', 'tag'),)     # cx 0623，保证唯一性（一个用户对一个标签至多有一条记录）
-
-    def __str__(self):
-        return self.user.username + str(self.score)
-
 
 
 
@@ -208,7 +190,10 @@ class Rate(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True, verbose_name="用户名",
     )
-    mark = models.FloatField(verbose_name="评分")
+    mark = models.FloatField(verbose_name="评分", validators=[
+            MinValueValidator(1),  # 设置最小值为1
+            MaxValueValidator(10)   # 设置最大值为10
+        ])
     create_time = models.DateTimeField(verbose_name="评分时间", auto_now_add=True)
 
     @property

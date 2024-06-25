@@ -1,3 +1,4 @@
+<!-- 电影搜索结果 -->
 {% extends 'base.html' %}
 {% block right-panel-content %}
     <h3 style="text-align:center">Search Results</h3>
@@ -19,28 +20,25 @@
     {% endfor %}
     <div class="container-fluid">
         <ul class="pagination" id="pager">
-            {#上一页按钮开始#}
-            {# 如果当前页有上一页#}
+            {#上一页按钮#}
             {% if movie.has_previous %}
-                {#  当前页的上一页按钮正常使用#}
                 <li class="previous"><a href="/allmovie/?page={{ movie.previous_page_number }}">上一页</a></li>
             {% else %}
-                {# 当前页的不存在上一页时,上一页的按钮不可用#}
                 <li class="previous disabled"><a href="#">上一页</a></li>
             {% endif %}
-            {#上一页按钮结束#}
-            {# 页码开始#}
 
+            {# 页码 #}
             <li class="item active"><a href="/allmovie/?page={{ movie.number }}">{{ movie.number }}</a></li>
             <li class="item"><a href="/allmovie/?page={{ movie.number|add:1 }}">{{ movie.number|add:1 }}</a></li>
             <li class="item"><a href="/allmovie/?page={{ movie.number|add:2 }}">{{ movie.number|add:2 }}</a></li>
-            {#页码结束#}
-            {# 下一页按钮开始#}
+
+            {# 下一页按钮#}
             {% if movie.has_next %}
                 <li class="next"><a href="/allmovie/?page={{ movie.next_page_number }}">下一页</a></li>
             {% else %}
                 <li class="next disabled"><a href="#">下一页</a></li>
             {% endif %}
+
             <li class="item"><a href="#">
                 {{ movie.number }}/{{ movie.paginator.num_pages }}</a>
             </li>

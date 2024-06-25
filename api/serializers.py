@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from user.models import *
 
-from datetime import timedelta      # cx 0623 用来解决时间显示问题
+from datetime import timedelta
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,7 +25,7 @@ class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rate
 
-    def to_representation(self, instance):  # cx 0623 修改，时间改为东八区区时
+    def to_representation(self, instance):  # 显示时间为东八区区时
         adjusted_time = instance.create_time + timedelta(hours=8)
         formatted_time = adjusted_time.strftime('%Y-%m-%d %H:%M:%S')
         return {'电影名': instance.movie.name, '评分': instance.mark, '创建时间': formatted_time}
@@ -35,10 +35,10 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
 
-    def to_representation(self, instance):  # cx 0623 修改，时间改为东八区区时
+    def to_representation(self, instance):  # 显示时间为东八区区时
         adjusted_time = instance.create_time + timedelta(hours=8)
         formatted_time = adjusted_time.strftime('%Y-%m-%d %H:%M:%S')
-        return {'电影名': instance.movie.name, '评论内容': instance.content, '创建时间': formatted_time, '点赞数': instance.likecomment_set.count()}
+        return {'电影名': instance.movie.name, '评论内容': instance.content, '创建时间': formatted_time}
 
 
 class CollectSerializer(serializers.ModelSerializer):
