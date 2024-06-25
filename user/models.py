@@ -103,7 +103,7 @@ class Director(models.Model):
 
 class Movie(models.Model):
     tags = models.ManyToManyField(Tags, verbose_name='电影标签')      # 删掉了最后的 , blank = True cx0622
-    collect = models.ManyToManyField(User, verbose_name="收藏用户")   # 删掉了最后的 , blank = True cx0622
+    collect = models.ManyToManyField(User, verbose_name="收藏用户", null=True, blank=True)   # 删掉了最后的 , blank = True cx0622
     name = models.CharField(verbose_name="电影名称", max_length=255, unique = True)
     director = models.ManyToManyField(Director, through='MovieDirector', verbose_name="导演", max_length=255)         # cx 0622
     country = models.CharField(verbose_name="国家/地区", max_length=255)
@@ -112,7 +112,7 @@ class Movie(models.Model):
     d_rate = models.DecimalField(verbose_name="电影数据库评分", max_digits=3, decimal_places=1)          # cx 0622 0623
     intro = models.TextField(verbose_name="情节简介")
     num = models.IntegerField(verbose_name="浏览数量", default=0)
-    image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover',null=True, blank=True)
+    image_link = models.FileField(verbose_name="宣传图", max_length=255, upload_to='movie_cover', null=True, blank=True)
 
     duration = models.IntegerField(verbose_name='电影时长', null=True)
     state = models.CharField(verbose_name="上映状态",max_length=20)
