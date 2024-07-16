@@ -80,25 +80,31 @@ http://127.0.0.1:8000/admin
 5. user
 
    是本项目的主要代码文件夹，以下我们将详细介绍其组成架构：
-   ·user/templates/为前端页面模板文件夹，负责存放众多 HTML 文件；
+   
+   ·user/templates/为前端页面模板文件夹，负责存放众多 HTML 文件;
+   
    ·user/admins.py 为管理员后台代码（本项目的管理员后台采取了通过 Django 框架自动生成的动态页面）；
+   
    ·user/forms.py 为前端表单代码，定义了；
+   
    ·user/models.py 为数据库的 ORM 模型，和数据库的实体表一一对应；
+   
    ·user/urls 为路由注册文件，用户可以在页面输入访 URL，通过 URL 来匹配相应的视图函数；
+   
    ·user/views 为负责处理前端请求和与后端数据库交互的模块，是业务处理的核心模块。
 
    
-6. cache.py
+7. cache.py
    
    存放缓存的 key 值名称的文件。
 
    
-7. manage.py
+8. manage.py
 
    可以从这里启动来运行主程序。
 
    
-8. requirements.txt
+9. requirements.txt
 
    存放了所有所需要的依赖包
 
